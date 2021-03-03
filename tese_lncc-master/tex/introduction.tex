@@ -1,0 +1,53 @@
+\chapter[Introduction]{Introduction}\label{chap_intro}
+
+\section{Motivation}
+\label{Sec:Motivation}
+
+Recent works \cite{Ghanta022019, Crankshaw2017, Polyzotis2018}, highlight some of the challenges encountered in spatio-temporal predictive serving systems. In such systems, values of variables whose behavior vary in space-time are inferred by predictive models built over regions of the spatio-temporal domain. In this context,  we are interested in the problem arising in the presence of multiple competing predictive models, i.e. models that predict the same variable but built independently over potentially different regions of the domain. This may be the case in large companies in which autonomously developed models about the same phenomenon (a.k.a. competing models) are deployed and used to answer predictive queries. 
+%In this context, the training and validation processes used in building competing models may consider \fab{improve}different fragments of the modeled phenomenon domain leading to a variation on their predictive accuracy.
+
+A predictive serving system enables users to express predictive queries that specify: a spatio-temporal region; a predictive variable and a evaluation metric. The outcome of a predictive query present the values of the predictive variable on the specified region computed by predictive models that maximize the evaluation metric. 
+
+Identifying the predictive models to be used by the system to answer the predictive query is, however, a hard problem. This is due to the fact that competing predictive models present varying predictive behavior through regions of the domain. This maybe due to learners intrinsic learning capabilities and/or variations on spatio-temporal regions used during the construction of independently built models. In this context, our goal is to define a procedure that selects a set of models that computes the query answer and maximizes the evaluation metric, see Figure \ref{Fig:MotiPoster}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{../Figures/ModelManagementPS-VersionCompleta}
+	\caption{Predictive Serving System Models.}
+	\label{Fig:MotiPoster}
+	%	\Description{ML Model Lifecycle.}
+\end{figure}
+
+Our approach objective is quantify the predictive quality for auto-regressive models using a shape-based characterization of the domain. 
+%about the predictive variable domain data distribution. 
+In particular, we compute the data distribution on regions of the domain where the models have been trained and compare them against those within the query spatio-temporal region. The intuition is that models behavior in query regions with similar data distribution as the ones used to train the model, shall follow the one observed during training. Conversely, in spatio-temporal regions specified by the query and that have not been used for training the model would exhibit an error computed as a function of the distance between the query non seen data region and the model building data region.
+
+%prediction models used to answer queries must be informed with an approximation of the generalization error \cite{HastieTF2009, Mohri2012},  \fab{Moreover, in a spatio-temporal context, a given model may exhibit a varying behavior throughout regions of the space-time, which should be taken into account during a model selection process.} 
+%Thus, we focus on investigating the problem of selecting predictive machine learning (ML) competing models by analyzing properties of the query, the models and the corresponding regions involved. 
+
+%In order to better understand the challenge being tackled, we present a theoretical description of a prediction serving service. This formalization can then be used to describe the problem of attending a prediction query using several input scenarios, as well as our proposed approach to find the most adequate models. 
+
+\subsection{Problem Statement}
+\label{Sec:ProblemStatement}
+
+%For a phenomenon with spatio-temporal domain, it is possible to generate independent predictive models that are created on a generalization of a region of the domain, based on the temporal patterns present in this region.
+Given a phenomenon with a spatio-temporal domain, represented by univariate time series, where independent predictive models have been trained, select a model or a composition of models to answer a spatio--temporal predictive query that maximizes an evaluation metric.
+% From there, it is possible to perform predictive spatial-temporal queries, the values obtained for the prediction variable are calculated using a model selection or the composition of models that correspond to the standard patterns present in the consultation region.
+%		\begin{itemize}
+%			\item quantify the predictive quality of models, by characterizing patterns within the predictive variable domain data.
+%		
+%			\item identify some patterns on domain regions where the models have been trained, and compare them against patterns within the query spatio-temporal region
+%		\end{itemize}
+
+
+\section{Objective and Contribution}
+\label{Sec:ObjectiveContribution}
+
+(TODO) Our approach aims to quantify the predictive quality of models, by characterizing patterns within the predictive variable domain data. In particular, we identify some patterns on domain regions where the models have been trained, and compare them against patterns within the query spatio-temporal region. Our intuition is that, if a query region has similar data patterns as the regions used to train the model, then the behavior of the model on the query region should follow the one observed during training.
+Conversely, in spatio-temporal regions specified by the query, that have not been used for training, the model would exhibit an error computed as a function of the distance between the query non seen data region and the model building data region.
+
+
+
+
+\section{Thesis Outline}
+\label{Sec:ThesisOutline}

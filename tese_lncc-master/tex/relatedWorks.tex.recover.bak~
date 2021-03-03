@@ -1,0 +1,183 @@
+%% abtex2-modelo-include-comandos.tex, v-1.9.6 laurocesar
+%% Copyright 2012-2016 by abnTeX2 group at http://www.abntex.net.br/
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is the abnTeX2 team, led
+%% by Lauro César Araujo. Further information are available on
+%% http://www.abntex.net.br/
+%%
+%% This work consists of the files abntex2-modelo-include-comandos.tex
+%% and abntex2-modelo-img-marca.pdf
+%%
+
+% ---
+% Este capítulo, utilizado por diferentes exemplos do abnTeX2, ilustra o uso de
+% comandos do abnTeX2 e de LaTeX.
+% ---
+
+%Related Works
+%Spatio Temporal Modeling with emphasis in Univariate Time Series Analysis
+%Literature review for the main challenges 
+%Predictive Serving Systems (PSS)
+%Definitions, components and model selection techniques during the serving models process.         
+%Solving Spatio-Temporal Predictive Queries         
+%Challenges and applicability    
+
+
+\chapter{Related Works}\label{chapter_Related_Works}
+
+As described on the previous chapter, this work attends primarily to the study and analysis of model selection techniques implemented in the production of models for predictive serving systems, our emphasis are phenomena considering univariate time-series analysis. 
+
+We reviewed related studies for three main topics that are spatio--temporal modeling considering univariate time--series, model selection approaches considered in predictive serving system, and how to these techniques solve spatio--temporal predictive queries.
+
+This chapter concludes by discussing works on which constitute the most related research areas regarding this work.
+
+
+The classification, clustering, and searching through time series have important applications in many domains. In medicine EEG and ECG readings translate to time-series data collections with billions (even trillions) of points. In fact many research hospitals have trillions of points of EEG data. Other domains where large time series data collections are routine include gesture recognition \& user interface design, astronomy, robotics, geology, wildlife monitoring, security, and biometrics. 
+
+\section{Spatio--Temporal Modeling -- Uni-Variate Time Series Analysis}
+\label{Sec:STModeling}
+
+Nowadays, for Spatio--Temporal domains it is possible to access high volumes of data in the form of time--series, the analysis of this kind of data is still challenging and time consuming \cite{}.
+
+%The expansion of satellite technologies makes remote sensing data abundantly available. While the access to such data is no longer an issue, the analysis of this kind of data is still challenging and time consuming. In this paper, we present an object-oriented methodology designed to handle multi-annual Satellite Image Time Series (SITS). This method has the objective to automatically analyse a SITS to depict and characterize the dynamic of the areas (the way that the land cover of the areas evolve over time). First, it identifies the spatio-temporal entities (reference objects) to be tracked. Second, the evolution of such entities is described by means of a graph structure and finally it groups together spatio-temporal entities that evolve similarly. The analysis were performed on three study areas to highlight inter (among the study areas) and intra (inside a study area) similarity by following the evolution of the underlying phenomena. The analysis demonstrate the benefits of our methodology. Moreover, we also stress how an expert can exploit the extracted knowledge to pinpoint relevant landscape evolutions in the multi-annual time series and how to make connections among different study areas.
+
+
+In several domains, including climate science, neuroscience, social sciences, epidemiology, transportation, criminology, and Earth sciences, space and time are the main characteristic to consider in its observations. These aspects along with the technical advantages of nowadays, allow to domain specialists collect a vast amount of data in order to analyze and study certain phenomenon with great detail \cite{}.
+
+The real-world processes in these domains are spatio-temporal in nature, a number of data collection methodologies have been devised to record the spatial and temporal information of every measurement in the data, hereby referred to as spatio-temporal (ST) data \cite{}.
+
+The main aim of time series modeling is to carefully collect and rigorously study the past observations of a time series to develop an appropriate model which describes the inherent structure of the series. This model is then used to generate future values for the series, i.e. to make forecasts. Time series forecasting thus can be termed as the act of predicting the future by understanding the past [31].
+
+In the classical work of \cite{Valiant1984}, the author describe learning as the phenomenon of knowledge acquisition in the absence of explicit programming. He propose a methodology for studying the learning phenomenon from a computational viewpoint. Basically, it consists of: (i) select an appropriate information gathering mechanism, (ii) the learning protocol, and (iii) exploring the class of concepts that can be learned using it in a reasonable (polynomial) number of steps. 
+
+Then he argues that the problem is to discover good models that are interesting to study for their own sake and that promise to be relevant both to explaining human experience and to building devices that can learn.
+
+The models should also shed light on the limits of what can be learned, just as computability does on what can be computed.
+
+This paper is concerned with precise computational models of the learning phenomenon. We shall restrict ourselves to skills that consist of recognizing whether a concept (or predicate) is true or not for given data. We shall say that a concept $Q$ has been learned if a program for recognizing it has been deduced (i.e., by some method other than the acquisition from the outside of
+the explicit program).
+
+A learning machine consists of a learning protocol together with a deduction procedure. The former specifies the manner in which information is obtained from the outside. The latter is the mechanism by which a correct recognition algorithm for the concept to be learned is deduced. At the broadest level, the suggested methodology for studying learning is the following: Define a plausible learning protocol, and investigate the class of concepts for which recognition programs can be deduced in polynomial time using the protocol.
+
+% ---
+\section{Predictive Serving Systems} 
+\label{ch2:PSS}
+% ---
+%The training phase is dedicated to the iterative process of estimating a model from data, to later be deployed for user consumption. The inference phase is responsible for evaluate a deployed model to render predictions, in particular when a predictive query is proposed.
+There are three model characteristics that susceptible for optimization in both phases: throughput, accuracy, and latency. For the training phase is common to cover optimization techniques to acquire high throughput with good accuracy metrics. And the inference phase is focused in techniques to select or compose models that minimize the latency with maximum accuracy.
+
+\textbf{Predictive Spatio-Temporal Queries.} 
+%A predictive spatio-temporal query, in particular a predictive range query has a query region $R$ and a time $t$, and asks about the predictions expected to be inside $R$ after time $t$ based on historical data (or previous knowledge). 
+In \cite{Akdere2011} the authors discusses the integration or extension of a RDBMS with a predictive component able to support data-driven predictive analytics. A predictive query and spatio-temporal predictive query, is defined as a traditional query using a declarative language that also has a predictive capability \cite{Hendawi2012}. 
+%They common uses for predictive queries: the support for predictive analytics to answer complex questions involving missing or future values, correlations, and trends, which  can be used to identify opportunities or threats 
+The predictive functionality can help build introspective services that assist in various data and resource management and optimization tasks (off-line or on-line predictive techniques). 
+
+MauveDB \cite{Deshpande2006} is an initial effort to incorporate machine learning models into a traditional relational database while preserving the declarativitity of SQL-based query languages. This allows users to bring the model to the data, but is insufficient for integrating the model into a query optimizer or enabling the database to automatically maintain the model.
+
+The framework Pretzel \cite{Lee2018} casts prediction serving as a database problem and applies end-to-end and multi-query optimizations to maximize performance and resource utilization. Pretzel optimizes pipelines end-to-end using compiler optimizations such as operator fusion and vectorization. 
+%
+%MauveDB was focused on modeling sensor data and thus considers only two types of models -- regression models and interpolation models -- that are widely used in that context. Even for these two relatively simple models, the view definitions become complex to account for all of the available modeling choice. 
+%The key insight in this paper is that by finding and exposing the semantics of your model to the applications in which they are embedded, you can make your end-to-end machine learning applications both faster and easier to maintain. But this tight integration comes at the cost of generality and extensibility by making it much harder to change the modeling process or apply these techniques to new domains.
+%
+
+\textbf{Optimizations for training.} Several works adopt techniques 
+to efficiently perform feature extraction and feature selection with the purpose to generate models with high throughput and good accuracy \cite{Guyon2006}. 
+The Rafiki system \cite{Wang2018}, use distributed techniques for hyper-parameter tuning to select the best model parameters, store them along with the model architecture, task, dataset used and performance acquired. 
+%Each model is deployed for user inference.
+AutoGRD \cite{Cohen-Shapira2019} is a meta-learning method for ranking the performance of learning algorithms. The datasets are characterized using a graph embedding representation (based on distribution and correlation between instances), in order to infer dataset similarity with regard to algorithm performance. 
+In Willump \cite{Kraft2019} the authors use end-to end cascades approach to classify high permutation importance and low computational cost features to train models that achieves a desired accuracy target. Another work considering the cascade approach to optimize feature selection is Noscope \cite{Kang2017}, a framework application-driven that significantly reduce the cost of prediction serving for object detection in video streams.
+
+
+\textbf{Optimizations for Inference.}
+
+In LASER \cite{Agarwal2014}, the authors exploit a form of model decomposition to incorporate feedback but not in real-time. LASER Serving is focused predictions from a single model.
+
+Noscope \cite{Kang2017} implements a set of techniques for significantly reducing the cost of prediction serving for object detection in video streams. 
+
+The framework Clipper \cite{Crankshaw2017}, was designed to serve trained models at interactive latency. It implements two model selection policies based on multi-armed bandit algorithms, both span a trade-off between accuracy and computation overhead with adaptable batch sizes. 
+%The single model policy select the best model by assigning to each model a weight which is updated based on a loss function for the prediction and time response for a previous selection.  
+%The multiple model selection policy constructs a weighted combination of all base model predictions and updates weights based on the individual model prediction error.
+
+In Rafiki \cite{Wang2018}, the inference service provides real-time request serving by deploying the trained model. This system process the requests in the queue following FIFO, the objective is to maximize accuracy and minimize latency (exceeding time according to SLO). It supports two model selection approaches: single and multiple inference models based on ensemble techniques to ensure maximun accuracy.
+
+
+Willump \cite{Kraft2019}, improves ML inference performance by leveraging differing query modalities. Assuming ML models are used in higher-level end-to-end user queries in an ML application (compute the top-K predictions for a recommendation model) a query-aware adaptive parallelization.
+
+The last decades the Database (DB) research community made special attention to the inclusion of data analytics tools in Database Management System (DBMS), this due to the current trend of extract knowledge from historical data. The main task of DBMS is to collect data from different sources and to organize under a structure that allow users to make queries, views and perform some basics data analytics in order to aid the user to make a decision related to the user business. 
+
+With the introduction of Big Data, the DBMS frameworks are becoming more resilient in their ability to manage some of the dimensions present in big data such as volume (manage more size to store), velocity (speed to store and acquire data), veracity (mechanism to verify the data truthfulness), variety and value. 
+Is the interaction of these five elements, that leaded to the development of new techniques and methodologies to extract knowledge from these data. This due to the fact that with more data variety, volume and velocity is necessary mechanisms more complex to ensure veracity and value for the data. 
+
+In \cite{Akdere2011} the authors introduce the Predictive Database Management Systems (PDBMS), which are DBMS frameworks with an additional layer that perform predictive tasks over the stored data. 
+
+In \cite{Crankshaw2015}, the authors develop Velox, a data management 	system for facilitating the next steps in real-world, large-scale analytics pipelines: online model management, maintenance, and serving. Velox provides end-user applications and services with a low-latency, intuitive interface to models, transforming the raw statistical models currently trained using existing offline large-scale compute frameworks into full-blown, end-to-end data products capable of targeting advertisements, recommending products, and personalizing web content.
+
+In \cite{Polyzotis2018}, the authors give a data perspective to discuss some issues in the lifecycle production of machine learning models. They argue that the accuracy of a ML model is thoroughly related to the data where it is trained on,  
+
+attention to how the accuracy of the model is thoroughly related to the data used to train it. 
+
+
+However, the accuracy of a machine learned model is deeply tied to the data that it is trained on. Designing and building robust processes and tools that make it easier to analyze, validate, and transform data that is fed into large-scale machine learning systems poses data management challenges.
+
+Also, developing reliable, robust, and understandable ML models requires much more than a good training algorithm. Specifically, it is necessary to build the model using high-quality training data. 
+
+training data needs to be translated into a set of features that can expose the underlying signal to the training algorithm. And finally, the data fed to the model at serving time must be similar in distribution (and in features) to the training data, otherwise the model’s accuracy will decrease. Ensuring that each of these steps is done in a consistent manner becomes even more challenging in a setting where new training data arrives continuously and accordingly triggers the training and deployment of updated models
+
+Este articulo describe los desafios encontrados en un ambiente de produccion de modelos ml, usando un enfoque de datos. importante tener buenos datos para el entrenamiento, debido a que la precision del modelo esta ligada a los datos donde fue entrenado 
+
+
+
+In \cite{Crankshaw2017}, 
+
+Exists several works discussing the ML production environments, from a performance evaluation we discuss \cite{Ghanta022019}, the authors propose a framework called ML Health where Problema a resolver:
+Estudiar como el rendimiento de un modelo de ML en un ambiente de produccion cambia/decae en comparacion al rendimiento del mismo en un ambiente de entrenamiento. Proponen una estructura llamada ML Health, formada por un conjunto de metricas, la cual permite detectar la variacion de rendimiento en diversos escenarios y genera alertas para estudio adicional. 
+Como principales contribuciones presentan:
++ necesidad de metricas e indicadores de calidad de modelos para ambientes de produccion,
++ describe el indicador de similaridad y presentan una implementacion del mismo, este detecta la desviacion en las nuevas caracteristicas comparadas con las de entrenamiento.
+
+% ---
+\section{Solving Spatio-Temporal Predictive Queries}
+% ---
+Clipper
+
+%---
+
+The production of a ML model into a framework or interface (for user consumption), involves the deployment of a ML pipeline, in particular the following steps feature engineering, feature selection and the model itself. (It is important to include also the previous data analysis or preparation, we describe in more detail in the following).
+
+Metrics like accuracy, RMSE etc.(described in \ref{genError}), are used to track the performance of models in deployment. The Model Performance Predictor (MPP) \cite{Ghanta052019}, an algorithm developed to track the performance of the models in deployment. The authors argue that an ensemble of such metrics can be used to create a score representing the prediction quality in production. This in turn facilitates formulation and customization of ML alerts, that can be escalated by an operations team to the data science team. Such a score automates monitoring and enables ML deployments at scale.
+
+The model's performance in production depends on both the particular data it receives and the datasets originally used to train the model. Models perform optimally on different data distributions and vary in their capacities for generalization. Production datasets often vary with external factors [8, 14].
+
+MPP tracks the predictive performance metric of the model. For (a) 
+classification and (b) regression, we present an example that targets (a) accuracy and (b) RMSE respectively as the metric to track. The MPP algorithm goal is to predict the predictive performance of the deployed algorithm on a test dataset. 
+
+% ---
+%\section{Concept Drift, Dataset Shift and Transfer Learning}
+% ---
+
+The problem of Concept Drift is vastly studied since last decade, it deals with a property of non-stationary phenomenon. This means the data properties variation over time of the acquired data 
+
+In \cite{Widmer1996}, the authors describe some of the problems in the on-line learning scenario where the concept drift is associated to changes in the hidden context from which the learner is dependent.
+
+Effective learning in environments with hidden contexts and concept drift requires a learning algorithm that can detect context changes without being explicitly informed about them, can quickly recover from a context change and adjust its hypotheses to a new context, and can make use of previous experience in situations where old contexts and corresponding concepts reappear 
+
+Generally, a learning algorithm embodying these ideas needs (1) operators for the modication of the concept description in reaction to changes in the contents of the window; (2) the ability to decide when and how many old examples should be deleted from the window (`forgotten'); and (3) a strategy for maintaining such a store of current and old descriptions and the ability to assess the relative merits of concept hypotheses. Clearly, items (2) and (3) will require the system to make some guesses as to when a context change is occurring.
+
+
+In \cite{Quinhonero-Candela2009} 
+Book by Quinonero - Candela
+Paper Transfer Learning
+
+
+\section{Discussion}
+%---

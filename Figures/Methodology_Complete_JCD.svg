@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="Methodology_Complete_JCD.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg18532"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm">
+  <defs
+     id="defs18526">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker20874"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path20872"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#008000;stroke-width:1pt;stroke-opacity:1;fill:#008000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:collect="always"
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="Arrow1Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1;fill:#000080;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path19622" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker19885"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path19883" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#008000;stroke-width:1pt;stroke-opacity:1;fill:#008000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path19613" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     showguides="false"
+     inkscape:window-maximized="1"
+     inkscape:window-y="27"
+     inkscape:window-x="0"
+     inkscape:window-height="717"
+     inkscape:window-width="1366"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="2556.0844"
+     inkscape:cx="1217.1095"
+     inkscape:zoom="0.17860824"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata18529">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <text
+       id="text19256"
+       y="758.75525"
+       x="129.52376"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:17.3217px;stroke-width:0.499665"
+         y="758.75525"
+         x="129.52376"
+         id="tspan19254"
+         sodipodi:role="line" /></text>
+    <rect
+       style="fill:none;stroke:#000080;stroke-width:1.79383;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-3"
+       width="183.06372"
+       height="77.523132"
+       x="684.00366"
+       y="384.29895" />
+    <text
+       id="text19206"
+       y="416.71286"
+       x="775.74225"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="416.71286"
+         x="775.74225"
+         id="tspan19204"
+         sodipodi:role="line">4. ST Predictive  </tspan><tspan
+         id="tspan19208"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="437.87949"
+         x="775.74225"
+         sodipodi:role="line">Query Processing</tspan></text>
+    <path
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-0)"
+       d="m 597.32595,422.99092 84.51074,0.0822"
+       id="path19611-3"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path20352"
+       d="m 640.11939,333.32039 -0.0613,656.21283"
+       style="fill:none;stroke:#008000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       id="text20392"
+       y="360.50986"
+       x="229.90872"
+       style="font-size:21.3191px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3191px;font-family:arial;-inkscape-font-specification:'arial Bold';text-align:center;text-anchor:middle;fill:#008000;stroke-width:0.499665"
+         y="360.50986"
+         x="229.90872"
+         id="tspan20390"
+         sodipodi:role="line">OFF-LINE</tspan></text>
+    <text
+       id="text20396"
+       y="360.50986"
+       x="775.61359"
+       style="font-size:21.3191px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3191px;font-family:arial;-inkscape-font-specification:'arial Bold';text-align:center;text-anchor:middle;fill:#008000;stroke-width:0.499665"
+         y="360.50986"
+         x="775.61359"
+         id="tspan20394"
+         sodipodi:role="line">ON-LINE</tspan></text>
+    <path
+       id="path19480-6-8"
+       d="m 775.6655,461.51181 -0.26254,448.42197"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12, 12;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79383;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-5-7-3"
+       width="183.06371"
+       height="77.52314"
+       x="684.00366"
+       y="493.34061" />
+    <text
+       xml:space="preserve"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       x="775.44043"
+       y="515.41693"
+       id="text19268-6"><tspan
+         id="tspan21178"
+         sodipodi:role="line"
+         x="775.44043"
+         y="515.41693"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665">Apply Classifier</tspan><tspan
+         id="tspan131"
+         sodipodi:role="line"
+         x="775.44043"
+         y="536.58356"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665">for Model</tspan><tspan
+         id="tspan135"
+         sodipodi:role="line"
+         x="775.44043"
+         y="557.75018"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665">Composition</tspan><tspan
+         id="tspan21166"
+         sodipodi:role="line"
+         x="775.44043"
+         y="578.91681"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665" /></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.63644;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0-2"
+       width="183.22112"
+       height="64.461029"
+       x="683.92499"
+       y="817.0564" />
+    <text
+       id="text19577"
+       y="855.00177"
+       x="775.39496"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan19581"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="855.00177"
+         x="775.39496"
+         sodipodi:role="line">Model Composition</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12, 12;stroke-dashoffset:0;stroke-opacity:1"
+       d="m -42.336897,460.46418 -0.344996,454.57499"
+       id="path19480-3" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12, 12;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 502.1613,461.67712 0.0109,449.92192"
+       id="path19480-6" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path19480"
+       d="m 228.34507,471.41955 -0.12616,504.32197"
+       style="fill:none;stroke:#000000;stroke-width:1.99549;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:11.9729, 11.9729;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="384.2988"
+       x="-134.00185"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095"
+       style="fill:#ffffff;stroke:#000080;stroke-width:1.793;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19184"
+       y="416.71286"
+       x="-42.588066"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665"
+         y="416.71286"
+         x="-42.588062"
+         id="tspan19182"
+         sodipodi:role="line">1. Domain</tspan><tspan
+         id="tspan19186"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665"
+         y="437.87949"
+         x="-42.588066"
+         sodipodi:role="line">Partitioning</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000080;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-7"
+       width="182.99292"
+       height="77.523468"
+       x="136.78552"
+       y="384.2988" />
+    <text
+       id="text19190"
+       y="416.71286"
+       x="227.94299"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan20330"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="416.71286"
+         x="227.94299"
+         sodipodi:role="line">2. Models  for</tspan><tspan
+         id="tspan19192"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="437.87949"
+         x="227.94299"
+         sodipodi:role="line">Representatives</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000080;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-6"
+       width="182.99292"
+       height="77.523468"
+       x="410.67023"
+       y="384.2988" />
+    <text
+       id="text19196"
+       y="416.71286"
+       x="502.41058"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan19202"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="416.71286"
+         x="502.41058"
+         sodipodi:role="line">3. Selecting a Model</tspan><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         y="437.87949"
+         x="502.41058"
+         sodipodi:role="line"
+         id="tspan25667">Representative</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       id="path19611"
+       d="m 48.094334,422.99092 84.510746,0.0822"
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend)" />
+    <path
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-7)"
+       d="m 321.88184,422.99092 84.5108,0.0822"
+       id="path19611-2"
+       sodipodi:nodetypes="cc" />
+    <rect
+       y="708.9259"
+       x="136.78552"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-62-2"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19260"
+       y="743.40924"
+       x="228.1993"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="743.40924"
+         x="228.1993"
+         id="tspan19258"
+         sodipodi:role="line">Evaluate Generalization</tspan><tspan
+         id="tspan19264"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="764.57587"
+         x="228.1993"
+         sodipodi:role="line">Error</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.63644;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0-6"
+       width="183.2211"
+       height="64.461029"
+       x="-134.11594"
+       y="912.04596" />
+    <text
+       id="text19559"
+       y="938.41663"
+       x="-42.844379"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan21241"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="938.41663"
+         x="-42.844379"
+         sodipodi:role="line">Partition </tspan><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="959.58325"
+         x="-42.844379"
+         sodipodi:role="line"
+         id="tspan25671">Representatives</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.63644;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0-61"
+       width="183.2211"
+       height="64.461029"
+       x="136.67143"
+       y="912.04596" />
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79355;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-5"
+       width="183.00716"
+       height="77.523407"
+       x="-134.00897"
+       y="493.34048" />
+    <text
+       id="text19212"
+       y="515.21436"
+       x="-42.749298"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan19214"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="515.21436"
+         x="-42.749298"
+         sodipodi:role="line">Determine </tspan><tspan
+         id="tspan19218"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="536.38098"
+         x="-42.749294"
+         sodipodi:role="line">shape-based</tspan><tspan
+         id="tspan19220"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="557.54761"
+         x="-42.749298"
+         sodipodi:role="line">measure (DTW)</tspan></text>
+    <rect
+       y="493.34048"
+       x="136.77841"
+       height="77.523407"
+       width="183.00716"
+       id="rect19095-5-9"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79355;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19240"
+       y="517.00031"
+       x="227.97606"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="517.00031"
+         x="227.97606"
+         id="tspan19238"
+         sodipodi:role="line">Choose </tspan><tspan
+         id="tspan19242"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="538.16693"
+         x="227.97606"
+         sodipodi:role="line">TS Models for</tspan><tspan
+         id="tspan19244"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="559.33356"
+         x="227.97606"
+         sodipodi:role="line">Forecast</tspan></text>
+    <rect
+       y="493.34061"
+       x="410.63483"
+       height="77.523132"
+       width="183.06371"
+       id="rect19095-5-7"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79383;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19268"
+       y="515.41693"
+       x="502.12946"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan17722"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="515.41693"
+         x="502.12946"
+         sodipodi:role="line"> Similarity Relationship:</tspan><tspan
+         id="tspan17726"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="536.58356"
+         x="502.12946"
+         sodipodi:role="line">Domain Elements and</tspan><tspan
+         id="tspan19272"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="557.75018"
+         x="502.12946"
+         sodipodi:role="line">Representatives</tspan></text>
+    <rect
+       y="600.71686"
+       x="136.78552"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-35-1"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19248"
+       y="633.37665"
+       x="228.00087"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan20996"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="633.37665"
+         x="228.00087"
+         sodipodi:role="line">Generate Models</tspan><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="654.54327"
+         x="230.34904"
+         sodipodi:role="line"
+         id="tspan25661">on Representatives </tspan></text>
+    <rect
+       y="600.71686"
+       x="410.67023"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-35-0"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none" />
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.79348;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62"
+       width="182.99292"
+       height="77.523468"
+       x="-134.00185"
+       y="600.71686" />
+    <text
+       id="text19230"
+       y="633.17407"
+       x="-41.922478"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan19236"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9333px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="633.17407"
+         x="-41.922478"
+         sodipodi:role="line">Apply Partitioning</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9333px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="654.3407"
+         x="-41.922478"
+         sodipodi:role="line"
+         id="tspan15672">Algorithm</tspan></text>
+    <text
+       id="text20240"
+       y="633.37665"
+       x="501.60855"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         id="tspan21068"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="633.37665"
+         x="501.60855"
+         sodipodi:role="line">Generate Classifier for</tspan><tspan
+         id="tspan20254"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="654.54327"
+         x="503.95673"
+         sodipodi:role="line">Representatives </tspan></text>
+    <rect
+       y="912.04596"
+       x="410.55612"
+       height="64.461029"
+       width="183.2211"
+       id="rect19095-62-0-2-9"
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.63644;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="501.79971"
+       y="939.99817"
+       id="text19577-2"><tspan
+         id="tspan21176"
+         sodipodi:role="line"
+         x="501.79971"
+         y="939.99817"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">Classifier of</tspan><tspan
+         id="tspan139"
+         sodipodi:role="line"
+         x="501.79971"
+         y="961.16479"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">Model Labels</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.63644;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0-2-9-5"
+       width="183.2211"
+       height="64.461037"
+       x="683.92499"
+       y="908.60364" />
+    <text
+       id="text19577-2-0"
+       y="934.68207"
+       x="777.46204"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="934.68207"
+         x="777.46204"
+         sodipodi:role="line"
+         id="tspan20798-6">Compute Forecast </tspan><tspan
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="955.84869"
+         x="777.46204"
+         sodipodi:role="line"
+         id="tspan15702">for Query Region</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16.9333px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499666"
+       x="227.94298"
+       y="938.17456"
+       id="text19190-4"><tspan
+         sodipodi:role="line"
+         x="227.94298"
+         y="938.17456"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499666"
+         id="tspan20330-3">Model</tspan><tspan
+         sodipodi:role="line"
+         x="227.94298"
+         y="959.34119"
+         style="font-size:16.9333px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499666"
+         id="tspan19192-7">Representative</tspan></text>
+  </g>
+</svg>

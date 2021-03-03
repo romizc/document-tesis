@@ -1,0 +1,18 @@
+\chapter{Conclusions and Future Works}\label{chapter_Conclusions}
+
+This final chapter contains the closing remarks of this work. Here, the most important contributions and findings are highlighted, with some additional discussion about the methodology, the analysis and the experiments. The chapter concludes with possible research lines that this work can open in the future.
+
+\section{Results Summary}
+
+Considerando el caso de estudio prediccion de temperatura, fue posible validar la metodologia propuesta. Los experiementos 
+
+\section{Main Contributions}
+
+
+El objetivo principal de los experimentos realizados consiste en validar la metodologia propuesta, con eso es posible afirmar que podemos agrupar el dominio de acuerdo a alguna medida de similaridad entre los elementos, y que estos grupos pueden ser representados por algun elemento principal que generaliza el comportamiento del grupo. 
+
+Ese elemento generico a su vez, nos sirve para encontrar modelos predictivos. Los analisis realizados para asegurar la  que pueden ser usados para predicciones 
+I
+
+
+\section{Future Works}

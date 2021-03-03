@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="Methodology_Simplified.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg2957"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm">
+  <defs
+     id="defs2951">
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path1862"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Mend-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path19622-2" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Mend-7"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path19622-9" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-5"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-2-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7-4"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-9-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-9"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-2-1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7-2"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19622-9-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#382f2d;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="27"
+     inkscape:window-x="0"
+     inkscape:window-height="717"
+     inkscape:window-width="1366"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="-1028.5572"
+     inkscape:cx="-522.21358"
+     inkscape:zoom="0.175"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata2954">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:34.5251px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';stroke-width:0.995914"
+       x="-468.1358"
+       y="163.08293"
+       id="text19256"><tspan
+         sodipodi:role="line"
+         id="tspan19254"
+         x="-468.1358"
+         y="163.08293"
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:34.5251px;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';stroke-width:0.995914" /></text>
+    <rect
+       y="-486.60083"
+       x="450.75601"
+       height="154.51643"
+       width="364.87628"
+       id="rect19095-3"
+       style="fill:none;stroke:#382f2d;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.25" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:34.5251px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';text-align:center;text-anchor:middle;fill:#382f2d;stroke-width:0.995914;fill-opacity:1;"
+       x="633.49762"
+       y="-422.4248"
+       id="text19206"><tspan
+         sodipodi:role="line"
+         id="tspan19204"
+         x="633.49762"
+         y="-422.4248"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;stroke-width:0.995914;fill-opacity:1;">4. ST Predictive </tspan><tspan
+         sodipodi:role="line"
+         x="633.49762"
+         y="-378.40781"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;stroke-width:0.995914;fill-opacity:1;"
+         id="tspan19208">Query Processing</tspan></text>
+    <rect
+       style="fill:none;stroke:#382f2d;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:0.25;stroke-opacity:1"
+       id="rect19095"
+       width="364.73517"
+       height="154.51711"
+       x="-1102.1711"
+       y="-486.60117" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;stroke:none;stroke-width:0.995914;fill-opacity:1;"
+       x="-920.09857"
+       y="-421.99451"
+       id="text19184"><tspan
+         sodipodi:role="line"
+         id="tspan19182"
+         x="-920.09857"
+         y="-421.99451"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;stroke:none;stroke-width:0.995914;fill-opacity:1;">1. Domain</tspan><tspan
+         sodipodi:role="line"
+         x="-920.09857"
+         y="-378.83813"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;stroke:none;stroke-width:0.995914;fill-opacity:1;"
+         id="tspan19186">Partitioning</tspan></text>
+    <rect
+       y="-486.60117"
+       x="-583.86987"
+       height="154.51711"
+       width="364.73517"
+       id="rect19095-7"
+       style="fill:none;stroke:#382f2d;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.25" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:34.5251px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+       x="-402.14291"
+       y="-422.4248"
+       id="text19190"><tspan
+         sodipodi:role="line"
+         x="-402.14291"
+         y="-422.4248"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+         id="tspan20330">2. Models for</tspan><tspan
+         sodipodi:role="line"
+         x="-402.14291"
+         y="-378.40781"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+         id="tspan19192">Representatives</tspan></text>
+    <rect
+       y="-486.60117"
+       x="-66.103241"
+       height="154.51711"
+       width="364.73517"
+       id="rect19095-6"
+       style="fill:none;stroke:#382f2d;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:0.25" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:34.5251px;line-height:1.25;font-family:Raleway;-inkscape-font-specification:'Raleway Semi-Bold';text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:0.995914"
+       x="115.97775"
+       y="-422.4248"
+       id="text19196"><tspan
+         sodipodi:role="line"
+         x="115.97775"
+         y="-422.4248"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:0.995914"
+         id="tspan19198">3. Selecting a</tspan><tspan
+         sodipodi:role="line"
+         x="115.97775"
+         y="-378.40781"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5251px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#382f2d;fill-opacity:1;stroke-width:0.995914"
+         id="tspan19202">Model Representative</tspan></text>
+    <path
+       style="fill:#000080;stroke:#382f2d;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:url(#Arrow1Mend-0);marker-end:url(#Arrow1Mend-7)"
+       d="m -736.42756,-409.38124 146.4896,0.0438"
+       id="path358" />
+    <path
+       id="path358-4"
+       d="m -217.82453,-409.38124 146.489614,0.0438"
+       style="fill:#000080;stroke:#382f2d;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:url(#Arrow1Mend-0-5);marker-end:url(#Arrow1Mend-7-4)" />
+    <path
+       id="path358-1"
+       d="m 297.94064,-409.38124 146.48964,0.0438"
+       style="fill:#000080;stroke:#382f2d;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:url(#Arrow1Mend-0-9);marker-end:url(#Arrow1Mend-7-2)" />
+  </g>
+</svg>

@@ -1,0 +1,206 @@
+%% abntex2lncc.sty
+%%
+%% Customizações do abnTeX2 (http://abnTeX2.googlecode.com) para o Laboratório
+%%   Nacional de Computação Científica (LNCC)
+%%
+%% A última versão deste modelo está em
+%%   https://github.com/equipe-customizacao-tese-lncc/tese_lncc
+%%
+%% Criado por:
+%% Weslley da Silva Pereira
+%% Lucas dos Santos Fernandez
+%% Fortià Vila Verges
+%%
+%% Modificado por:
+%% Equipe de customização - Fortià Vila Verges,
+%%   Lucas dos Santos Fernandez, Weslley da Silva Pereira
+%% Diego Tavares Volpatto
+%%
+
+% ---
+% INICIO DAS CUSTOMIZACOES PARA O LNCC
+% ---
+
+%\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{abntex2lncc}[2016/04/26 Estilo abntex2 para o LNCC]
+
+% ---
+% NOVAS EXPRESSÕES
+% ---
+
+\providecommand{\grauM}{Mestre }
+\providecommand{\tipoTrabalhoM}{Dissertação }
+\providecommand{\grauAbrevM}{M.Sc.}
+\providecommand{\grauD}{Doutor }
+\providecommand{\tipoTrabalhoD}{Tese }
+\providecommand{\grauAbrevD}{D.Sc.}
+\providecommand{\pagColoridas}{}
+\providecommand{\labelTitulo}{Título }
+\providecommand{\aprovadaPor}{Aprovada por: }
+\providecommand{\palavrasChave}{Palavras-chave}
+\providecommand{\presidenteDaBanca}{(Presidente)}
+%% ajusta nomes padroes do babel
+\newcommand{\listfigurenameNOVA}{Lista de figuras}
+
+\addto\captionsenglish{% ingles
+	\renewcommand{\grauM}{Master }
+	\renewcommand{\tipoTrabalhoM}{Dissertation }
+	\renewcommand{\grauAbrevM}{M.Sc.}
+	\renewcommand{\grauD}{Doctor }
+	\renewcommand{\tipoTrabalhoD}{Thesis }
+	\renewcommand{\grauAbrevD}{D.Sc.}
+	\renewcommand{\pagColoridas}{}
+	\renewcommand{\labelTitulo}{Title }
+	\renewcommand{\aprovadaPor}{Approved by: }
+	\renewcommand{\palavrasChave}{Keywords}
+	\renewcommand{\presidenteDaBanca}{(Chair of the Committee)}
+	\renewcommand{\listfigurenameNOVA}{List of figures}
+}
+\addto\captionsbrazil{% portugues-brasil
+	%% ajusta nomes padroes do babel
+	\renewcommand\listfigurename{Lista de figuras}
+}
+
+% ---
+% TIPO DO TRABALHO
+% ---
+
+\providecommand{\grau}{}
+\providecommand{\tipoTrabalho}{}
+\providecommand{\grauAbrev}{}
+
+\providecommand{\dissertacaoMestrado}{%
+	\renewcommand{\grau}{\grauM}
+	\renewcommand{\tipoTrabalho}{\tipoTrabalhoM}
+	\renewcommand{\grauAbrev}{\grauAbrevM}
+	\renewcommand{\imprimirtipotrabalho}{\tipoTrabalho (\grauAbrev)}
+}
+
+\providecommand{\teseDoutorado}{%
+	\renewcommand{\grau}{\grauD}
+	\renewcommand{\tipoTrabalho}{\tipoTrabalhoD}
+	\renewcommand{\grauAbrev}{\grauAbrevD}
+	\renewcommand{\imprimirtipotrabalho}{\tipoTrabalho (\grauAbrev)}
+}
+
+% ---
+% AUTORES E ORIENTADORES
+% ---
+
+% Para criar a abstração nome e sobrenome
+% Usado na ficha catalográfica
+
+\providecommand{\imprimirNomeAutor}{}
+\providecommand{\imprimirUltimoSobrenome}{}
+
+\newcommand{\nomeAutor}[2]{
+	\renewcommand{\imprimirNomeAutor}{#1}
+	\renewcommand{\imprimirUltimoSobrenome}{#2}
+	\autor{#1{ }#2}
+}
+
+% Orientador
+
+% Para imprimir rótulo "orientadores"
+\providecommand{\imprimirOrientadoresRotulo}{Orientador{(}es{)}:}
+\addto\captionsenglish{% ingles
+	\renewcommand{\imprimirOrientadoresRotulo}{Advisor{(}s{)}:}
+}
+
+\providecommand{\imprimirNomeOrientador}{}
+\providecommand{\imprimirUltimoSobrenomeOrientador}{}
+
+\newcommand{\nomeOrientador}[2]{
+	\renewcommand{\imprimirNomeOrientador}{#1} 
+	\renewcommand{\imprimirUltimoSobrenomeOrientador}{#2}
+	\orientador{#1{ }#2}
+}
+
+\newcommand{\coorientadores}[1][\coorientadorname]
+	{\large{e} \imprimircoorientador}
+\addto\captionsenglish{% ingles
+	\renewcommand{\coorientadores}[1][\coorientadorname]
+		{\large{and} \imprimircoorientador}
+}
+
+% ---
+% FICHA CATALOGRÁFICA
+% ---
+
+\providecommand{\imprimirCodeBib}{XXX.XXX}
+\newcommand{\codebib}[1]{\renewcommand{\imprimirCodeBib}{#1}}
+\providecommand{\imprimirCodeTese}{XXXX}
+\newcommand{\codetese}[1]{\renewcommand{\imprimirCodeTese}{#1}}
+
+% ---
+% IMPRESSÃO DA CAPA
+% ---
+
+\providecommand\pathlogoLNCC{}
+\newcommand{\logoLNCC}[1]{ \renewcommand{\pathlogoLNCC}{#1} }
+
+\renewcommand{\imprimircapa}{%
+  \begin{capa}%
+    \center
+    	\includegraphics[height=2cm]{\pathlogoLNCC}
+    
+    \imprimirinstituicao
+
+    \vfill
+    \begin{center}
+    \ABNTEXchapterfont\bfseries\LARGE\imprimirtitulo
+    \end{center}
+    \vfill
+
+    \ABNTEXchapterfont\large\imprimirautor
+    \vfill
+
+    \large\imprimirlocal
+
+    \large\imprimirdata
+
+    \vspace*{1cm}
+  \end{capa}
+}
+
+% ---
+% FOLHA DE ROSTO
+% ---
+\makeatletter
+\renewcommand{\folhaderostocontent}{
+  \begin{center}
+
+    %\vspace*{1cm}
+    {\ABNTEXchapterfont\large\imprimirautor}
+	
+    \vspace*{\fill}\vspace*{\fill}
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\Large\imprimirtitulo
+    \end{center}
+    \vspace*{\fill}
+	
+    \abntex@ifnotempty{\imprimirpreambulo}{%
+      \hspace{.45\textwidth}
+      \begin{minipage}{.5\textwidth}
+      	\SingleSpacing
+         \imprimirpreambulo
+       \end{minipage}%
+       \vspace*{\fill}
+    }%
+
+    {\abntex@ifnotempty{\imprimirinstituicao}{\imprimirinstituicao\vspace*{\fill}}}
+
+    {\large\imprimirOrientadoresRotulo~\imprimirorientador}
+    \abntex@ifnotempty{\imprimircoorientador}{%
+      {\coorientadores}%
+    }%
+    \vspace*{\fill}
+
+    {\large\imprimirlocal}
+    \par
+    {\large\imprimirdata}
+    \vspace*{1cm}
+
+  \end{center}
+}
+\makeatother

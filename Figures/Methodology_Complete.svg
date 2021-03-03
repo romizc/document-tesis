@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg18532"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="Methodology_Complete.svg">
+  <defs
+     id="defs18526">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker20874"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#008000;stroke-width:1pt;stroke-opacity:1;fill:#008000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path20872" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path19622"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1;fill:#000080;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker19885"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19883"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path19613"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#008000;stroke-width:1pt;stroke-opacity:1;fill:#008000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Mend-7"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path19622-9" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="Arrow1Mend-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:#000080;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path19622-2" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     showguides="false"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.2525902"
+     inkscape:cx="526.61966"
+     inkscape:cy="1517.2318"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1333"
+     inkscape:window-height="741"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata18529">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12,12;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 775.56383,461.92972 -0.0704,531.77071"
+       id="path19480-6-8" />
+    <rect
+       y="384.29895"
+       x="684.00372"
+       height="77.523132"
+       width="183.06372"
+       id="rect19095-3"
+       style="fill:none;stroke:#000080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       x="775.74701"
+       y="416.71713"
+       id="text19206"><tspan
+         sodipodi:role="line"
+         id="tspan19204"
+         x="775.74701"
+         y="416.71713"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665">4. ST Predictive  </tspan><tspan
+         sodipodi:role="line"
+         x="775.74701"
+         y="438.36926"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         id="tspan19208">Query Processing</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       x="129.52376"
+       y="758.75525"
+       id="text19256"><tspan
+         sodipodi:role="line"
+         id="tspan19254"
+         x="129.52376"
+         y="758.75525"
+         style="font-size:17.3217px;stroke-width:0.499665" /></text>
+    <path
+       sodipodi:nodetypes="cc"
+       id="path19611-3"
+       d="m 597.32595,422.99087 84.51074,0.0822"
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-0)" />
+    <rect
+       y="881.82745"
+       x="683.92499"
+       height="64.461029"
+       width="183.22112"
+       id="rect19095-62-0-2"
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="775.49652"
+       y="918.28949"
+       id="text19577"><tspan
+         sodipodi:role="line"
+         x="775.49652"
+         y="918.28949"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         id="tspan19581">Model Composition</tspan></text>
+    <path
+       style="fill:none;stroke:#008000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 641.43703,351.86831 -0.0349,732.08269"
+       id="path20352"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:21.3191px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       x="232.81329"
+       y="367.38913"
+       id="text20392"><tspan
+         sodipodi:role="line"
+         id="tspan20390"
+         x="232.81329"
+         y="367.38913"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3191px;font-family:arial;-inkscape-font-specification:'arial Bold';text-align:center;text-anchor:middle;fill:#008000;stroke-width:0.499665">OFF-LINE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.3191px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       x="775.61365"
+       y="367.38913"
+       id="text20396"><tspan
+         sodipodi:role="line"
+         id="tspan20394"
+         x="775.61365"
+         y="367.38913"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3191px;font-family:arial;-inkscape-font-specification:'arial Bold';text-align:center;text-anchor:middle;fill:#008000;stroke-width:0.499665">ON-LINE</tspan></text>
+    <path
+       id="path19480-3"
+       d="m -39.583439,461.22095 -0.04576,532.36313"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12,12;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path19480-6"
+       d="m 505.09358,461.10759 -0.0475,532.5271"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12,12;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:12,12;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 231.24813,460.72619 -0.12614,533.11849"
+       id="path19480"
+       sodipodi:nodetypes="cc" />
+    <rect
+       y="633.10236"
+       x="-131.10277"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-35"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="-39.684387"
+       y="666.10229"
+       id="text19224"><tspan
+         sodipodi:role="line"
+         id="tspan19222"
+         x="-39.684391"
+         y="666.10229"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665">Define Partitioning</tspan><tspan
+         sodipodi:role="line"
+         x="-39.684387"
+         y="686.08893"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19226">Techniques</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-35-1"
+       width="182.99292"
+       height="77.523468"
+       x="139.68939"
+       y="633.10236" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="230.92041"
+       y="666.10229"
+       id="text19248"><tspan
+         sodipodi:role="line"
+         x="230.92041"
+         y="666.10229"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan20996">Generate Models</tspan><tspan
+         id="tspan25661"
+         sodipodi:role="line"
+         x="233.13768"
+         y="686.08893"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665">on Representatives </tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-35-0"
+       width="182.99292"
+       height="77.523468"
+       x="413.58029"
+       y="633.10236" />
+    <rect
+       y="757.50415"
+       x="-131.10277"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-62"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="-39.700001"
+       y="791.90161"
+       id="text19230"><tspan
+         sodipodi:role="line"
+         x="-39.700005"
+         y="791.90161"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19232">Evaluate Partitioning</tspan><tspan
+         sodipodi:role="line"
+         x="-39.700001"
+         y="811.88824"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19236">Robustness</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-2"
+       width="182.99292"
+       height="77.523468"
+       x="139.68939"
+       y="757.50415" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="230.65886"
+       y="791.89771"
+       id="text19260"><tspan
+         sodipodi:role="line"
+         x="230.65886"
+         y="791.89771"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19264">Evaluate</tspan><tspan
+         id="tspan1707"
+         sodipodi:role="line"
+         x="230.65886"
+         y="811.88434"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665">Generalization Error</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-9"
+       width="182.99292"
+       height="77.523468"
+       x="413.58029"
+       y="757.50415" />
+    <rect
+       style="fill:#ffffff;stroke:#000080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095"
+       width="182.99292"
+       height="77.523468"
+       x="-131.10277"
+       y="384.29877" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665"
+       x="-39.690895"
+       y="416.63678"
+       id="text19184"><tspan
+         sodipodi:role="line"
+         id="tspan19182"
+         x="-39.690895"
+         y="416.63678"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665">1. Domain</tspan><tspan
+         sodipodi:role="line"
+         x="-39.690895"
+         y="438.28891"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499665"
+         id="tspan19186">Partitioning</tspan></text>
+    <rect
+       y="384.29877"
+       x="139.68939"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-7"
+       style="fill:#ffffff;stroke:#000080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       x="230.83908"
+       y="416.8186"
+       id="text19190"><tspan
+         sodipodi:role="line"
+         x="230.83908"
+         y="416.8186"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         id="tspan20330">2. Models  for</tspan><tspan
+         sodipodi:role="line"
+         x="230.83908"
+         y="438.47073"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         id="tspan19192">Representatives</tspan></text>
+    <rect
+       y="384.29877"
+       x="413.58029"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-6"
+       style="fill:#ffffff;stroke:#000080;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.3217px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+       x="505.32623"
+       y="416.8186"
+       id="text19196"><tspan
+         sodipodi:role="line"
+         x="505.32623"
+         y="416.8186"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665"
+         id="tspan19202">3. Selecting a Model</tspan><tspan
+         id="tspan25667"
+         sodipodi:role="line"
+         x="505.32623"
+         y="438.47073"
+         style="font-size:17.3217px;text-align:center;text-anchor:middle;fill:#000080;stroke-width:0.499665">Representative</tspan></text>
+    <rect
+       y="508.70062"
+       x="-131.10989"
+       height="77.523407"
+       width="183.00716"
+       id="rect19095-5"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="-39.836628"
+       y="531.51599"
+       id="text19212"><tspan
+         sodipodi:role="line"
+         x="-39.836628"
+         y="531.51599"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19214">Determine </tspan><tspan
+         sodipodi:role="line"
+         x="-39.836632"
+         y="551.50262"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19218">shape-based</tspan><tspan
+         sodipodi:role="line"
+         x="-39.836628"
+         y="571.48926"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19220">measure (DTW)</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-5-9"
+       width="183.00716"
+       height="77.523407"
+       x="139.68227"
+       y="508.70062" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="230.89697"
+       y="533.20233"
+       id="text19240"><tspan
+         sodipodi:role="line"
+         id="tspan19238"
+         x="230.89697"
+         y="533.20233"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665">Choose </tspan><tspan
+         sodipodi:role="line"
+         x="230.89697"
+         y="553.18896"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19242">TS Models for</tspan><tspan
+         sodipodi:role="line"
+         x="230.89697"
+         y="573.1756"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19244">Forecast</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-5-7"
+       width="183.06371"
+       height="77.523132"
+       x="413.54489"
+       y="508.70074" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       x="505.0416"
+       y="531.70721"
+       id="text19268"><tspan
+         sodipodi:role="line"
+         x="505.0416"
+         y="531.70721"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19270">Measure Similarity: </tspan><tspan
+         sodipodi:role="line"
+         x="505.0416"
+         y="551.69385"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19276">Domain Elements and</tspan><tspan
+         sodipodi:role="line"
+         x="505.0416"
+         y="571.68048"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan19272">Representatives</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0"
+       width="183.2211"
+       height="64.461029"
+       x="-131.21686"
+       y="881.82745" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="-40.164536"
+       y="919.68701"
+       id="text19555"><tspan
+         sodipodi:role="line"
+         id="tspan19553"
+         x="-40.164536"
+         y="919.68701"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">DTW Matrix</tspan></text>
+    <rect
+       y="993.0097"
+       x="-131.21686"
+       height="64.461029"
+       width="183.2211"
+       id="rect19095-62-0-6"
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="-39.926411"
+       y="1019.3809"
+       id="text19559"><tspan
+         sodipodi:role="line"
+         x="-39.926411"
+         y="1019.3809"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         id="tspan21241">Partition </tspan><tspan
+         id="tspan25671"
+         sodipodi:role="line"
+         x="-39.926411"
+         y="1039.3676"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">Representatives</tspan></text>
+    <rect
+       y="993.0097"
+       x="139.5753"
+       height="64.461029"
+       width="183.2211"
+       id="rect19095-62-0-61"
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 50.997405,422.99087 84.510745,0.0822"
+       id="path19611"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path19611-2"
+       d="m 324.78491,422.99087 84.5108,0.0822"
+       style="fill:#000080;stroke:#000080;stroke-width:1.86605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-7)" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="504.54974"
+       y="656.10901"
+       id="text20240"><tspan
+         sodipodi:role="line"
+         x="504.54974"
+         y="656.10901"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan21068">Generate Classifier for</tspan><tspan
+         sodipodi:role="line"
+         x="504.54974"
+         y="676.09564"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan20244">Representatives in </tspan><tspan
+         sodipodi:role="line"
+         x="506.767"
+         y="696.08228"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan20254">Model Composition </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       x="504.49899"
+       y="791.90161"
+       id="text20248"><tspan
+         sodipodi:role="line"
+         id="tspan20246"
+         x="504.49899"
+         y="791.90161"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665">Evaluate Forecast</tspan><tspan
+         sodipodi:role="line"
+         x="506.71625"
+         y="811.88824"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         id="tspan20250">Error </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="230.86575"
+       y="1019.4785"
+       id="text19569"><tspan
+         sodipodi:role="line"
+         x="230.86575"
+         y="1019.4785"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         id="tspan19573">Models for</tspan><tspan
+         id="tspan1711"
+         sodipodi:role="line"
+         x="230.86575"
+         y="1039.4651"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">Representatives</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect19095-62-0-2-9"
+       width="183.2211"
+       height="64.461029"
+       x="413.46619"
+       y="993.0097" />
+    <text
+       id="text19577-2"
+       y="1020.9736"
+       x="504.79959"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="1020.9736"
+         x="504.79959"
+         sodipodi:role="line"
+         id="tspan21176">Classifier of</tspan><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         y="1040.9602"
+         x="504.79959"
+         sodipodi:role="line"
+         id="tspan139">Label for Models</tspan></text>
+    <rect
+       y="633.10236"
+       x="684.03912"
+       height="77.523468"
+       width="182.99292"
+       id="rect19095-62-9-7"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <rect
+       y="508.70074"
+       x="684.00372"
+       height="77.52314"
+       width="183.06371"
+       id="rect19095-5-7-3"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       id="text19268-6"
+       y="531.70721"
+       x="774.84851"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="531.70721"
+         x="774.84851"
+         sodipodi:role="line"
+         id="tspan21178">Load Classifier</tspan><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="551.69385"
+         x="774.84851"
+         sodipodi:role="line"
+         id="tspan131">for Model</tspan><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="571.68048"
+         x="774.84851"
+         sodipodi:role="line"
+         id="tspan135">Composition</tspan><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="591.66711"
+         x="774.84851"
+         sodipodi:role="line"
+         id="tspan21166" /></text>
+    <text
+       id="text20248-7"
+       y="667.49982"
+       x="774.95782"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;stroke-width:0.499665"
+       xml:space="preserve"><tspan
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="667.49982"
+         x="774.95782"
+         id="tspan20246-8"
+         sodipodi:role="line">Evaluate Forecast</tspan><tspan
+         id="tspan20250-4"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;stroke-width:0.499665"
+         y="687.48645"
+         x="777.17511"
+         sodipodi:role="line">Error </tspan></text>
+    <rect
+       y="993.0097"
+       x="683.92499"
+       height="64.461037"
+       width="183.2211"
+       id="rect19095-62-0-2-9-5"
+       style="fill:#ffffff;stroke:#ff0000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none" />
+    <text
+       xml:space="preserve"
+       style="font-size:15.9893px;line-height:1.25;font-family:arial;-inkscape-font-specification:arial;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+       x="775.19202"
+       y="1019.3848"
+       id="text19577-2-0"><tspan
+         sodipodi:role="line"
+         x="775.19202"
+         y="1019.3848"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665"
+         id="tspan19581-2-3">Compute Forecast</tspan><tspan
+         id="tspan20798-6"
+         sodipodi:role="line"
+         x="775.19202"
+         y="1039.3715"
+         style="font-size:15.9893px;text-align:center;text-anchor:middle;fill:#ff0000;stroke-width:0.499665">for Query Region</tspan></text>
+  </g>
+</svg>
