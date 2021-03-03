@@ -10,7 +10,6 @@ Several aspects of the methodology have been implemented in the form of a softwa
 %In Chapter \label{}, Figure \label{} shows the workflow of the methodology proposed. 
 
 \section{Spatio Temporal Framework for Time Series Analysis}       
-
 We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous Chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
 
 %In this Section we describe the development and implementation of a computational solution to execute the proposed methodology. 
@@ -65,7 +64,7 @@ A brief description of each class is provided:
 	%\Fab{esclareça melhor o objetivo dessa classe. Vc diz que ela implementa uma função a cada ponto da região, mas o objeto é um por Região...}
 	A special type of \texttt{DomainRegion} used to transform \texttt{DomainRegion} instances, by accepting a \texttt{DomainRegion} instance as input and producing another \texttt{DomainRegion} instance as output, potentially of a different type. It serves as a common class for \texttt{FunctionRegionScalar} (produces a \texttt{SpatialRegion} instance as output) and \texttt{FunctionRegionSeries} (produces a \texttt{SpatioTemporalRegion} instance as output). The transformation of the input is achieved by storing a Python function at each point of the function region, and applying each function to the corresponding element in the operand region. To represent this application, consider a spatial region $S_{(m,n)}$ and a function region $F_{(m,n)}$, we then have $F(S) = \left\{ f_{ij}(s_{ij}); (i, j) \in [0, m]\times[0, n] \right\}$. See \texttt{FunctionRegionScalar} for practical examples.
 	%a Python function at each point of the region. These functions are stored in a similar way as a \texttt{SpatialRegion} but using a \texttt{numpy.dtype} of value `object' in its internal 2D array.
-	
+
 	The implementation uses the Visitor pattern, where the \texttt{DomainRegion} is the visitor that `visits' the function region to retrieve the corresponding function during an iteration of points. The benefit of the visitor approach is that the same \texttt{FunctionRegion} can be applied to different subclasses of \texttt{SpatialRegion} and \texttt{SpatioTemporalRegion} without knowledge of the particular subclasses, while still producing different and expected outputs. A limitation of this approach is that only one function region can be applied to a given region at the same time, otherwise the iterator of the region will be used twice and become corrupted.
 	
 	%of region. stores a Python function at each point of its region.  %\Fab{ou Region?}. It leverages a \texttt{numpy.ndarray} that has a \texttt{numpy.dtype} of value `object'. The generic implementation allows for different functions at each point, but additional subclasses simplify usage by assuming the same function in every point. 
@@ -138,6 +137,7 @@ In this section we describe the experiments and discuss the results obtained.
 
 \subsection{Case Study: Temperature Forecasting}
 
+% Complete dataset
 The case study considered is the forecast of surface temperature, and for that we consider the CFSR (Climate Forecast System Reanalysis) dataset. It is described extensively in \cite{Saha2010}, here we provide a summary. It is a third generation reanalysis product; it consists of a high-resolution, global surface system, of the coupled ocean-atmosphere-terrestrial surface-sea ice system, covering the period from January 1979 to November 2015. The CFSR includes: (1) coupling of atmosphere and ocean during the generation of kick-off fields every 6 hours; (2) an interactive model of sea ice and; (3) assimilation of satellite radiance from the statistical interpolation scheme by grid points throughout the period. The resolution of the CFSR's global atmosphere is $\sim 38$ km. The global ocean is $0.25$\textdegree at the equator, extending to $0.5$\textdegree, in the tropics. %A more detailed description of the data can be found in cite{Saha2010}. 
 
 % Use case and Temperature dataset
@@ -161,10 +161,10 @@ To further pre-process the data, all the time-series are scaled so the values ar
 In Section \ref{Sec:DomainPartitioning}, we argue for the choice of DTW as the shape-based similarity measure for the partitioning schemes. Here, we describe the computation of the DTW matrix for our entire region of interest, as part of the off-line process. This compute-intensive process needs to be performed only once for each region of interest (bounded not only by the Brazilian territory but also by the chosen temporal slice). It can be performed in parallel using a multi-core machine with satisfactory speedup gain. To achieve parallelism, we leveraged the $multiprocessing$ library from Python to split the tasks of calculating the DTW for each pair points. To optimize speedup, the dataset was loaded into shared readable memory between processes, while allowing a shared writeable memory for writing the DTW distance. The time used to compute the DTW matrix for 8100 univariate time-series with 365 temperature readings was approximately 90000 seconds (25 hours).
 %\Fab{Update}$xxxx $ seconds. 
 
-%\Fab{Lembrete: discutir DTW na parte de Referencia teorico}
+%\Fab{Lembrete: discutir DTW na parte de Referencia teorico} OK
 Once the DTW matrix is computed, it is saved to persistent storage for later retrieval. Afterwards, we are ready to apply a clustering algorithm to find groups based on the measure similarity. 
 %\Fab{A frase a seguir pode ser melhor escrita: the retrieval of distance values between points...} OK
-The retrieval of distance values between points is simplified to finding rows or columns in the DTW matrix, thereby significantly reducing the computational cost of algorithms such as $k$-medoids.
+The retrieval of distance values between points is simplified to finding rows or columns in the DTW matrix, thereby significantly reducing the computational cost of algorithms such as $k$--medoids.
 
 Here, we provide a couple of examples that highlight the need for computing the DTW matrix for efficiency, by comparing execution times on the same reference hardware. Running our implementation of $k$--medoids without the DTW matrix involves calculating pair-wise DTW distances between candidate medoids and other points until the algorithm converges. Let's first consider a subset of the spatio-temporal region described in the previous section, with only 70 time-series ($7 \times 10$ spatial region). If the DTW matrix is used, running $k$--medoids with $k=8$ on this smaller region takes less than one second to execute three iterations with a total of 25 swaps in the candidate medoids; as opposed to 292 seconds when the DTW matrix is not used. The difference is more dramatic when running $k$--medoids with $k=24$ over the entire region of interest with 8100 time-series: with the DTW matrix, it  takes 72.5 seconds to execute six iterations with a total of 271 swaps; without the DTW matrix only the first swap took over 4400 seconds. We need not only to execute $k-$-medoids once but many times with different partitioning schemes, this would be unfeasible without the DTW matrix calculated beforehand.
 
@@ -172,7 +172,7 @@ In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW dista
 
 %it is possible to observe variations in DTW distances from all the time-series to the point $(0,0)$ (left image) and to the center of the domain (right image); darker colors represent smaller values of the DTW distance.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
 	
 	\centering
 	\subfloat{%[DTW distance from the point $(0,0)$ to the other elements.]{\label{Fig:DTW-Distance0}
@@ -191,10 +191,10 @@ In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW dista
 	\label{Fig:DTW-Distance}
 \end{figure}
 
-\subsection{Analyzing the Domain Partitioning}
+\subsection{Analyzing the Domain Partitioning Techniques}
 \label{Sec:AnalyzeDomainPartitioning}
 
-In this Section we describe the experiments performed to validate the strategies adopted for the domain partitioning. We consider two partitioning techniques: $k$--medoids based and regular partitioning; the first groups elements of the domain according to the DTW similarity measure, whereas the second is a partitioning technique based on the geometry of the domain (see Section \ref{Sec:DomainPartitioning} for details). In both approaches, we consider the existence of representative elements for each group in the partition, medoid and centroid respectively. 
+In this Section we describe the experiments performed to validate the strategies adopted for the domain partitioning. We consider two partitioning techniques: $k$--medoids based and regular partitioning; the first groups elements of the domain according to the DTW similarity measure, whereas the second is a partitioning technique based on the geometry of the domain (see Section \ref{Sec:DomainPartitioning} for details). In both approaches, we consider the existence of representative elements for each group, medoid and centroid respectively. 
 
 %TODO when this hypothesis is validated, refer to Section \ref{Sec:AnalyzeDomainPartitioning}
 A hypothesis we want to highlight is that it should be preferable to use a partitioning technique that considers grouping domain elements based on the similarity of their temporal evolution, rather than creating groups just according to a regular division of the domain geometry. To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.
@@ -206,14 +206,14 @@ Another important aspect to evaluate in $k$--medoids is the choice of the number
 \label{Sec:EvaluatingPP}
 
 % Considering two types of partition profiles based on the domain geometry and shape based 
-For the two partition techniques, $k$--medoids based and regular partitioning, we vary the number of groups from 2 to 150. As mentioned in Section \ref{Sec:DomainPartitioning}, the clustering algorithm $k$--medoids involves a similarity measure. We are using the DTW distance, due to its much improved alignment based on shape. And the regular partitioning is a method based on the domain geometry, i.e. divide in regions of the same size and shape.
+In Sections \ref{Sec:DomainPartitioning} and \ref{sub:domain_number_groups}, we discussed how we can evaluate the robustness of the $k$--medoids clustering, by comparing its performance with the regular partitioning when varying the number of groups $k$. Here, we describe the experiments used to assess quality of the generated partitions, and analyze the different techniques used to find useful values for $k$.  %As mentioned in Section \ref{Sec:DomainPartitioning}, the clustering algorithm $k$--medoids involves a similarity measure. We are using the DTW distance, due to its much improved alignment based on shape. And the regular partitioning is a method based on the domain geometry, i.e. divide in regions of the same size and shape.
 
 % Considering varying k partitions
 % TODO seed based? cita?
 % TODO without penalty?
 The $k$--medoids approach is a seed based algorithm, this means that the performance is dependent on initial cluster center selection and the optimal number of clusters. The convergence of this algorithm primarily depends on the initialization phase. It produces different clustering results for different values of $k$. In addition, increasing $k$ without penalty will always reduce the error in the resulting clustering, to the extreme case of zero error if each data point is considered its own cluster (i.e., when $k$ equals the number of data points) \cite{HastieTF2009}. 
 
-In Table \ref{Table:TotalSumRegularkMedoids}, we show the Total Sum of Intra-Cluster distances for both domain partitioning techniques, with $k$ vaying from 2 to 150, graphically represented in Figure \ref{Fig:TotalSum-RegularKmedoids}. 
+For the two partition techniques, we vary the number of groups from $k=2$ up to $k=150$ with a stride of 2. In Table \ref{Table:TotalSumRegularkMedoids}, we show the Total Sum of Intra-Cluster distances for both domain partitioning techniques, with $k$ vaying from two to 150, graphically represented in Figure \ref{Fig:TotalSum-RegularKmedoids}. 
 \begin{table}[h]
 	\centering
 	\tiny
@@ -260,6 +260,9 @@ In Table \ref{Table:TotalSumRegularkMedoids}, we show the Total Sum of Intra-Clu
 	%	\end{minipage}
 \end{figure}
 
+%TODO say something about the graph
+%TODO Add consider ten seeds and 
+
 \subsubsection{Selecting $k$}
 \label{Sec:Selectk}
 
@@ -270,7 +273,7 @@ In Table \ref{Table:TotalSumRegularkMedoids}, we show the Total Sum of Intra-Clu
 The performance of the $k$--Medoids algorithm is dependent on the optimal value of $k$. The automatic detection of $k$ is very challenging for time-series data set. The choice of $k$ is often ambiguous, with interpretations depending on the shape and scale of the distribution of the time--series in a dataset \cite{Liao2005}. An optimal choice of $k$ should strike a balance between maximizing the compression of the data using a single cluster, while maximizing the accuracy when assigning each data point to its own cluster. 
 
 % TODO Elbow Method and Results
-One common method of choosing the appropriate cluster solution is to compare the Within-Sum-of-Squares (WSS) for a number of cluster solutions. Thus, WSS can be seen as a global measure of error. In general, as the number of clusters increases, the WSS should decrease because clusters are, by definition, smaller. A plot of the WSS against a series of sequential cluster levels can provide a useful graphical way to choose an appropriate cluster level. An appropriate cluster solution could be defined as the solution at which the reduction in WSS slows dramatically. This produces an ``elbow'' in the plot of WSS against cluster solutions. For our dataset we find an ``elbow'' at the 4 cluster solution suggesting that solutions $> 4$ do not have a substantial impact on the total SSE, Figure \ref{Fig:SSE-kMedoids} shows this result.
+One common method of choosing the appropriate cluster solution is to compare the Within-Sum-of-Squares (WSS) for a number of cluster solutions. Thus, WSS can be seen as a global measure of error. In general, as the number of clusters increases, the WSS should decrease because clusters are consequently smaller. A plot of the WSS against a series of sequential cluster levels can provide a useful graphical way to choose an appropriate cluster level. An appropriate cluster solution could be defined as the solution at which the reduction in WSS slows dramatically. This produces an ``elbow'' in the plot of WSS against cluster solutions. For our dataset we find an ``elbow'' at the 4 cluster solution suggesting that solutions $> 4$ do not have a substantial impact on the total SSE, Figure \ref{Fig:SSE-kMedoids} shows this result.
 
 % TODO bigger fonts
 \begin{figure}[h]
@@ -317,10 +320,10 @@ The following table is a summary of the optimal values for $k$ found in each met
 		Silhouette & 8	\\
 		Smooth Spline for SSE & 66\\ \hline
 	\end{tabular}
-	\caption{Methods to find the optimal value for $k$.}
-	\label{Table:ValidationIndex}
+\caption{Methods to find the optimal value for $k$.}
+\label{Table:ValidationIndex}
 \end{table}
-
+		
 \begin{figure}[htb]
 	
 	\centering
@@ -376,7 +379,7 @@ Figure \ref{Fig:Time-SeriesModel} shows the division of time units on the time-s
 Let's consider a particular representative $r \in \mathcal{R}$ and its associated temperature series $s_r$. To evaluate an ARIMA model $g_{s_r}$ and its predictive power, the series is then split into three parts. The first part is used for training the model ($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesModel}), here we determine the tuple $(p_{s_r}, d_{s_r}, q_{s_r})$ that corresponds to the model $g_{s_r}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the validation series $s^v_t[349:357]$. The purpose of this subset is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{s_r}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
 
 To enable forecasting, the model is retrained using the same $(p, d, q)$ model parameters found with $s^t_r$, but now using a longer series $s[0:357]$. In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $s[357:364]$ is actually available from the dataset, we are evaluate to calculate the forecast error, allowing us to perform forecast error analysis on different representatives from different domain partitioning schemes, as well as other predictive models used as baseline ($k$NN).
-
+ 
 %TODO describe figure (each component) in text
 \begin{figure}[h]
 	\centering
@@ -394,11 +397,11 @@ To enable forecasting, the model is retrained using the same $(p, d, q)$ model p
 % Forecast Error of predictor over representative compare with the 
 %TODO rephrase "almost impossible", e.g. "not feasible" or "cannot find a significant correlation..."
 Given that the confidence intervals of the generalization error for the model built for the representative element is a varying value between the forecast error of the model composition listed, we need to analyze the intra cluster variability. When applying $k$--medoids to the domain, the number of elements on each cluster are different and it is almost impossible to find a correlation between the model composition forecast error and the DTW distance from the medoid.
-% Compute the confidence intervals for representatives, explain the process and show at least two representatives
+
 %DTW distance between representatives
 
 % DTW distance and generalization error 
-Analyze the generalization error for the predictor in each representative, considering that the 
+Analyze the generalization error for the predictor in each representative 
 
 \begin{figure}[h]
 	\centering
@@ -466,20 +469,12 @@ For the $k$--medoids partitioning we compute the same values:
 	\caption{Model Composition In-Sample Error for Partitioning Technique  $k$--Medoids with $k=8$ and \texttt{seed 0}.}
 	\label{Table:ForecastErrorkMedoidsk10}
 \end{table}
-
 % Analyze the prediction error for solvers in a region 10x10 when varying k
-
 Experimentally we can see that when considering the prediction of the medoid as the prediction for the points of its group, there is a balance in the final prediction value in the analyzed region. This ensures that we can use the medoids and their respective predictive models to predict the time evolution of the entire domain.
 
-%Experimentalmente podemos ver que al considerar la prediccion del medoide como la prediccion para los puntos de su grupo, existe un balance en el valor final de prediccion en la region analizada. Esto garantiza que podamos usar los medoides y sus respectivos modelos predictivos para predecir la evolucion temporal del dominio completo.
-
-For each considered $k$, it is possible to observe that the predictions made by the models in the medoids are lower, this is due to the fact that the points in each group are increasingly similar. There are exceptions since the models considered are built on historical data from a point in the region, and the variations may be the product of an unexpected change in the behavior of the temperature at that point.
-
-%Para cada $k$ considerado es posible observar que las predicciones realizadas por los modelos en los medoides son mas bajos, esto es debido a que los puntos en cada grupo son cada vez mas similares. Existen excepciones dado que los modelos considerados estan construidos sobre datos historicos de un punto en la region, y las variaciones pueden ser producto de un cambio inesperado en el comportamiento de la temperatura en ese punto. 
+For each $k$ considered, it is possible to observe that the predictions made by the models in the medoids are lower, this is due to the fact that the points in each group are increasingly similar. There are exceptions since the models considered are built on historical data from a point in the region, and the variations may be the product of an unexpected change in the behavior of the temperature at that point.
 
 The advantage of an off-line process is the ability to maintain various domain division schemes (consequently various predictive models), in such a way that their representatives are shown as generalizations of various regions in the domain. The next step is to develop a mechanism that considers the composition of models for the prediction of temperature in a region of interest, considering the total set of representatives generated by more than one $ k $. 
-
-%La ventaja de un proceso off-line es la capacidad de mantener varios esquemas de division del dominio (en consecuencia varios modelos predictivos), de tal forma que sus representantes se muestren como generalizaciones de diversas regiones en el dominio. El siguiente paso consiste en desarrollar un mecanismo que considere la composicion de modelos para la prediccion de temperatura en una region de interes, considerando el conjunto total de representantes generados por mas de un $k$.
 
 \subsection{Building a Classifier}
 \label{Sec:ExperimentsTrainingClassifier}
@@ -491,13 +486,13 @@ In the Methodology, Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifie
 	\small
 	\begin{tabular}[h]{|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-		& s0    & s1    & s2    & s3    & s4    &	s5    & $\ldots$ & s364  &   label \\ \hline
+		  & s0    & s1    & s2    & s3    & s4    &	s5    & $\ldots$ & s364  &   label \\ \hline
 		0 & 0.484 & 0.563 & 0.443 & 0.386 & 0.326 &	0.391 & $\ldots$ & 0.359 &   8-3 \\
 		1 &	0.482 &	0.508 &	0.520 &	0.477 &	0.354 &	0.444 & $\ldots$ & 0.361 & 132-69 \\
 		2 &	0.639 & 0.618 &	0.549 &	0.609 &	0.433 & 0.476 & $\ldots$ & 0.421 &	66-26 \\ 
 		$\vdots$  & &     &       &       &       &       &          &       & $\vdots$ \\ \hline
 	\end{tabular}
-	\caption{Dataset with 3000 instances for Time Series Classification.}
+	\caption{Dataset }
 	\label{Table:DatasetTSC}
 \end{table}
 
@@ -567,8 +562,7 @@ n_length =  15
 input_shape = (None, n_length, num_features)
 \end{lstlisting}
 
-We implement the architectures in \texttt{keras} (\cite{Chollet2015}), 
-
+We implement the architectures in \texttt{keras} (\cite{Chollet2015}),  considering the following CNN1D-LSTM, a 10 layer neural network formed by 2 CNN1D layers, 2 LSTM layers and 1 Dense layer:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -576,11 +570,11 @@ We implement the architectures in \texttt{keras} (\cite{Chollet2015}),
 \lstset{label={lst:code_direct}}
 \lstset{basicstyle=\footnotesize}
 \begin{lstlisting}
-# CNN1D-LSTM Model
+# CNN-LSTM Model
 model = Sequential()
 model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu'), 
 			input_shape=(None, n_length, num_features)))
-,model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu')))
+model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu')))
 model.add(TimeDistributed(Dropout(0.4)))
 model.add(TimeDistributed(MaxPooling1D(1)))
 model.add(TimeDistributed(Flatten()))
@@ -599,7 +593,6 @@ model.compile(optimizer=optimizer, loss='categorical_crossentropy',
 
 print(model.summary())
 \end{lstlisting}
-
 % Results: Accuracy and Validation Loss for each model
 
 The resultant accuracy of the first two models was very low, which means that the model was not able to predict the label for a new time-series. As a result both models learnt only one class.
@@ -619,9 +612,7 @@ The resultant accuracy of the first two models was very low, which means that th
 \label{Table:DLModels}
 \end{table}
 
-
 \subsubsection{Discussion}
-
 In the third model, a CNN1D-LSTM, we obtain higher accuracy. Performing a set of parameters tuning (considering several values for the learning rate and batch size). The variation of these parameters affects the training time and how fast we achieve convergence in the validation loss function, the following table shows the results obtained:
 
 The key element in these experiments is to find a sweet spot between the window size, learning rate and the batch size. By lowering the learning rate we take smaller steps in order to find the best possible weights for the model and considering a greater batch size we speed-up the training of the model and reduce the noise added to the dataset, which is desirable for time-series data.
@@ -635,7 +626,7 @@ Having a sufficiently large time delay window is important for a time series pre
 
 In this Section we show the results and discussion for the on--line procedure implemented to execute a query in order to obtain a prediction (Section \ref{Sec:SpatioTemporalQueryProcessing}). A spatio-temporal predictive query is defined in Section \ref{Sec:ProblemFormalization}  as the tuple:
 
-\begin{equation*}
+\begin{equation*} 
 Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle,
 \end{equation*}
 where:
@@ -761,13 +752,9 @@ The following figures are heat maps of the computed forecast errors for the cons
 	\label{Fig:query_10x10_kmedoids_regular_k132}
 \end{figure}
 
-%Los experimentos realizados en las Secciones \ref{Sec:AnalyzeDomainPartitioning} y \ref{Sec:AnalyzePredictorRepresentatives} permitieron evaluar la calidad de agrupamiento en cada tecnica, asi como la calidad predictiva de modelos generados en los puntos representantes respectivamente. Con estos resultados evaluamos la calidad predictiva de los modelos generados en los puntos representantes cuando son usados en la composicion de modelos para la ejecucion de una consulta predictiva espacio-temporal. Observamos que es preferible usar una estrategia de comparacion de elementos (en la dimension temporal) y agrupamiento de los mas similares entre si, para lograr generalizar un grupo de puntos por medio de un punto. Este representante generaliza la evolucion temporal y su modelo predictivo esta dentro de un limite de prediccion para valores futuros.
-
 The experiments carried out in Sections \ref{Sec:AnalyzeDomainPartitioning} and \ref{Sec:AnalyzePredictorRepresentatives} enable the evaluation and analysis of the grouping quality for each partitioning technique, as well as the predictive quality of the models generated in the representative points, respectively. With these results we evaluate the predictive quality of the models generated in the representative points when they are used in the composition of models for the execution of a spatio-temporal predictive query. 
-%We observe that it is preferable to use a grouping strategy based on the comparison of elements (in the temporal dimension) and grouping of the most similar to each other, in order to generalize a group of points by means of a point. 
 This representative generalizes the temporal evolution and its predictive model is within a prediction limit for future values.
 
-%Experimentalmente observamos que para diferentes valores de $k$, la composicion de modelos tambien presenta variaciones en los valores de prediccion, producto de las propiedades en datos espacio--temporales. Cuando consideramos la presencia de varios esquemas de particion de dominio, usamos el clasificador de modelos para series temporales, que corresponde a la propuesta de este trabajo.
 Experimentally we observe that for different values of $k$, the composition of models also presents variations in the prediction values, this is due to the properties of spatio--temporal data. When we consider the presence of several domain partitioning schemes, we use the model classifier for time series, which corresponds to our proposal.
 
 Next we show the results of model composition using the classifier of predictive models for univariate time--series, and also the results when the model composition is the point model generation.
@@ -779,13 +766,12 @@ Next we show the results of model composition using the classifier of predictive
 		\hline
 		Model Composition & Model Classifier & Model Each Point (ARIMA)\\
 		\hline
-		Forecast Error ($t_{f}=8$) & $1.07 (s = 1.59)$ & $0.38 (s = 0.61)$ \\
+		Forecast Error ($t_{f}=8$) & $1.07 \pm 1.59$ & $0.38 \pm 0.61$ \\
 		\hline
 	\end{tabular}
 	\caption{Forecast Error Summary.}
 	\label{Table:Query10x10_Classfier_Point_Each_StatSummary}
 \end{table}
-
 In the following Figure we show the heat map for the prediction values computed during the query execution.
 
 \begin{figure}[h!]
@@ -806,7 +792,9 @@ In the following Figure we show the heat map for the prediction values computed 
 	\label{Fig:query_10x10_classifier_each}
 \end{figure}
 
-Next we consider different sizes for the region of interest, and the next table shows the region size and the total number of queries considered to compute its predictions:
+
+
+The next table shows the region size and the total number of queries considered to compute its predictions:
 
 \begin{table}[h]	\centering
 	\tiny
@@ -832,68 +820,7 @@ Next we consider different sizes for the region of interest, and the next table 
 	\caption{MSE Forecast Error for Spatio-Temporal Queries in the domain $\mathcal{D}$.}
 	\label{Table:MSEForecasError}
 \end{table}
-%
-%
-%\begin{table}[h]	\centering
-%	\tiny
-%	\begin{tabular}{|c|c|r|r|r|r|r|r|}
-%		\hline
-%		Query Size     & Query Region               & $k=8$  & $k = 66$  & $k = 132$ & CNN1D-LSTM & $kNN$     & ARIMA \\ \hline % & DJEnsemble \\ \hline
-%		$20 \times 20$ & $[ 0, 20] \times [ 0, 20]$ &   2.193 &   6.864   &   4.529  &   6.391        &   8.276 &   \\ % &  935.748\\ %30.590 \\
-%		$20 \times 20$ & $[20, 40] \times [35, 55]$ &  21.633 &  17.726   &  13.227  &  35.679        &  21.206 &  \\ % &  993.826\\ %31.525 \\
-%		$20 \times 20$ & $[50, 70] \times [60, 80]$ &  31.521 &  17.116   &  14.880  &  29.974        &  15.028 & \\ % & 6572.021\\ %81.068 \\
-%		$20 \times 20$ & $[15, 35] \times [65, 85]$ &   1.359 &   0.891   &   0.677  &   4.609        &   2.429 &  \\ % & 4641.424\\%68.128 \\
-%		$30 \times 30$ & $[20, 50] \times [50, 80]$ &   9.663 &   7.159   &   6.681  &  14.220        &  11.494 & \\ % & 1410.378\\%37.555 \\
-%		$30 \times 30$ & $[15, 45] \times [20, 50]$ &  14.345 &   8.971   &   7.394  &  28.748        &  13.333 & \\ %  & 1205.687\\%34.723 \\
-%		$15 \times 20$ & $[40, 55] \times [20, 40]$ & 118.048 &  54.065   &  67.697  &  69.305        & 172.645 & \\ % &  905.829\\%30.097 \\
-%		$15 \times 20$ & $[65, 80] \times [50, 70]$ &  26.438 &  17.143   &  15.875  &  25.243        &  30.781 & \\ %& 6382.732\\%79.892 \\
-%		$30 \times 15$ & $[30, 60] \times [ 5, 20]$ &  36.496 &  11.322   &   9.305  &  60.515        &  20.782 & \\ % &  950.797\\%30.835 \\
-%		$30 \times 15$ & $[10, 40] \times [55, 70]$ &   5.514 &   3.280   &   3.355  &   7.650        &   8.225 & \\ %& 4546.940\\ \hline% 67.431 \\ 
-%		\hline
-%	\end{tabular}
-%	\caption{MSE Forecast Error for Spatio-Temporal Queries in the domain $\mathcal{D}$.}
-%	\label{Table:MSEForecasError}
-%\end{table}
-		
-%Query Sizes: 10 $\times$ 10
-%Covering all the domain
-%Query size 20 x 20
-%Uno
-%Lat : 0 - 20 
-%Long: 0 - 20
-%Dos
-%Lat : 20 - 40
-%Lon : 35 - 55
-%Tres (Cobre RJ)
-%Lat : 50 - 70
-%Lon : 60 - 80
-%Cuatro
-%Lat : 15 - 35
-%Lon : 65 - 85
-%Query Size 30 x 30
-%Cinco
-%Lat : 20 - 50
-%Lon : 50 - 80
-%Seis
-%Lat : 15 - 45
-%Lon : 20 - 50
-%Query Size 15 x 20
-%Siete
-%Lat : 40 - 55
-%Lon : 20 - 40
-%Ocho
-%Lat : 65 - 80
-%Lon : 50 - 70 
-%
-%Query Size 30 x 15
-%Nueve 
-%Lat : 30 - 60
-%Lon : 5 - 20 
-%
-%Diez
-%Lat : 10 - 40
-%Lon : 55 - 70
-%
+
 The latitude and longitude for the queries are:
 
 %Query size 20 x 20
@@ -939,63 +866,6 @@ The latitude and longitude for the queries are:
 %Diez
 %Lat : (2.5) - (-12.5)
 %Lon : (319) - (326.5)
-
-%In order to analyze the relationship that exists between the forecast error and the number of clusters in the two partition approaches, we scan the number of $k$ groups, thus generating different domain partitions. Then, we evaluated the resulting prediction error, for a region of interest $R$. The collected data are shown in Table \ref{Table:ErrorQuery}, in which the number of clusters at the intersection of the region (\# Groups) with the domain is shown, as well as the error of resulting forecast for region $R$.
-%Com o objetivo de analisar a relação que existe entre o erro de previsão e o n\'umero de \textit{clusters} nas duas abordagens de partição, realizamos uma varredura do n\'umero de grupos $k$, gerando assim diferentes parti\c c\~oes do dom\'inio. Depois, avaliamos o erro de predi\c c\~ao resultante, para uma regi\~ao de interesse $R$. Os dados coletados s\~ao mostrados na tabela \ref{Table:ErrorQuery}, na qual \'e mostrada a quantidade de \textit{clusters} na interseção da região (\#Groups) com o domínio, bem como o erro de previsão resultante para a região $R$.
-%\begin{table}
-%	\centering
-%	\tiny
-%	\begin{tabular}{|c|c|c|c|c|}
-%		\hline
-%		& \multicolumn{2}{c|}{\textbf{Regular}} & 
-%		\multicolumn{2}{c|}{\textbf{$k$--Medoids}} \\
-%		\hline
-%		$k$ & $\#$ Groups & sMAPE($R$)& $\#$ Groups & sMAPE($R$) \\
-%		\hline
-%		6	&	2	&	1.7949	&	6	&	0.9064	\\ \hline
-%		8	&	4	&	1.8813	&	7	&	0.3887	\\ \hline
-%		10	&	4	&	2.5577	&	7	&	0.3470	\\ \hline
-%		12	&	2	&	1.9259	&	8	&	0.3575	\\ \hline
-%		14	&	6	&	3.3218	&	11	&	0.3157	\\ \hline
-%		16	&	4	&	1.6646	&	12	&	0.3404	\\ \hline
-%		18	&	2	&	1.8541	&	11	&	0.2701	\\ \hline
-%		20	&	4	&	1.9673	&	11	&	0.2623	\\ \hline
-%		22	&	8	&	2.2890	&	12	&	0.2592	\\ \hline
-%		24	&	4	&	2.3108	&	13	&	0.2550	\\ \hline
-%		26	&	10	&	2.0771	&	13	&	0.2646	\\ \hline
-%		28	&	6	&	2.2680	&	12	&	0.2622	\\ \hline
-%		30	&	6	&	1.7552	&	13	&	0.2464	\\ \hline
-%		32	&	6	&	2.0677	&	13	&	0.2384	\\ \hline
-%		34	&	12	&	2.5048	&	14	&	0.2323	\\ \hline
-%		36	&	4	&	1.7819	&	15	&	0.2185	\\ \hline
-%		38	&	12	&	2.5048	&	15	&	0.2150	\\ \hline
-%		40	&	9	&	1.6037	&	18	&	0.2134	\\ \hline
-%		42	&	6	&	1.7679	&	18	&	0.2370	\\ \hline
-%		44	&	8	&	1.7978	&	19	&	0.2113	\\ \hline
-%		46	&	16	&	2.1264	&	18	&	0.2042	\\ \hline
-%		48	&	6	&	1.6131	&	19	&	0.2334	\\ \hline
-%		50	&	9	&	1.4307	&	20	&	0.2193	\\ 
-%		\hline
-%	\end{tabular}
-%	\caption{Forecast Error for Spatio--Temporal Predictive Query with region size $10 \times 10$.}
-%	\label{Table:ErrorQuery}
-%\end{table}
-%
-%
-%In the figure \ref{Fig:Forecast_Error_Query} the comparison of the prediction error between the two domain partitioning approaches is represented, with the same data as in Table \ref{Table:ErrorQuery}. It is concluded from the results that the domain partitioning approach by $k$--medoids consistently presents a predictive quality higher than regular partitioning. It is also observed that the prediction error begins to decrease as the value of $k$ increases for the $k$--medoid partitioning, but reaches a plateau.
-%Na Figura  \'e representada a comparação do erro de previsão entre as duas abordagens de particionamento do domínio, com os mesmos dados da Tabela . Conclui-se dos resultados que a abordagem de caracterização do domínio por $k$--medóides apresenta, de maneira consistente, uma qualidade preditiva superior em comparação ao particionamento regular. Tamb\'em \'e observado que o erro de predi\c c\~ao come\c ca a diminuir conforme aumenta o valor de $k$ para o particionamento $k$--med\'oides, mas atinge um plat\^o.
-
-%\begin{center}
-%	\begin{figure}[h!]
-%		%\begin{minipage}[b]{0.8\textwidth}
-%		\centering
-%		%			\vskip-20pt
-%		\includegraphics[scale=0.40]{fig/Forecast_Error_sMAPE_Query_Region_35-55-0-30}
-%		\caption{$k$--Medoids and Regular Forecast Error for $R$.}
-%		\label{Fig:Forecast_Error_Query}
-%		%\end{minipage}
-%	\end{figure}
-%\end{center}	
 
 \section{Results and Discussion} 
 
