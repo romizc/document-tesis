@@ -416,10 +416,10 @@ Analyze the generalization error for the predictor in each representative
 As explained in the methodology we are interested in evaluate the generalization error for a model composition, a model composition is formed by one or more predictors which will be used to perform a prediction on a domain region. Recalling from Section \ref{Sec:ModelRepresentatives}, the model composition of interest are:
 
 \begin{itemize}%[noitemsep,nolistsep]
-	\item Model Composition with Minimal Error: for each group, we find the time series for which its predictive model, when applied to all elements of its corresponding group, minimizes the accumulated forecast error. This can be considered the `best' choice for representatives that can only be found with an exhaustive approach.
-	\item Model Composition with Minimal Local Error: for each time series in each group, we find its own predictor and calculate the corresponding forecast error. We can say that this would be the forecast error of a naive approach, because it generates as many predictors as there are time series in the region.
-	\item Model Composition formed by the Medoids: For the time series representatives in each group, we find the corresponding predictors and calculate the forecast error in all elements of each group. This corresponds to the proposed methodology.
-	\item Model Composition with Maximum Error: for each group, we find the time series for which its predictive model, when applied to all elements of its correspond
+	\item Model Composition with Minimal Error: for each group, we find the time series for which its predictive model, when applied to all points of its corresponding group, minimizes the accumulated forecast error. This can be considered the `best' choice for representatives that can only be found through an exhaustive approach.
+	\item Model Composition with Minimal Local Error: for each time series $ts_j$ in each group, we train its own model $g_j$ and calculate the corresponding forecast error. We can say that this would be the forecast error of a naive approach, because it generates as many models as there are time series in the region. This approach should offer the least accumulated forecast error but at a high computational cost, and is the scenario we want to improve on with our methodology.
+	\item Model Composition at the Medoids: given the time series of the representatives in each group, we find the corresponding model for each representative, and use it to predict future values of the other time series in their corresponding groups. We then calculate, for each group, the accumulated forecast error when using the model in the representative for all elements in the group. This corresponds to the proposed methodology, and its forecast estimate and generalization error will be evaluated experimentally.
+	\item Model Composition with Maximum Error: for each group, we find the time series for which its predictive model, when applied to all poins of its corresponding group, maximizes the accumulated forecast error. This can be considered the `worst' choice for representatives. Together with the Minimal Error, it provides an interval that helps to quantify the appropriateness of the choice of representatives when using the Model Composition at the Medoids.
 \end{itemize}
 
 By comparing qualitatively the in-sample error for these model compositions we guarantee the validity of using the model for the representative as a good generalization of the group. At the same time we reduce the number of predictive models generated for a spatio--temporal domain. As a part of the off--line process we store the resultant predictive models, this will allow us to speed--up the task of compute a forecast for a time-series.
@@ -447,7 +447,7 @@ In the previous step we consider maintain several domain partitioning schemes. C
 	\label{Table:ForecastErrorRegulark10}
 \end{table}
 
-In the table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC corresponds to the ARIMA predictor for the time-series representative. T.F is the elapsed forecast time for 8 time units and T.T is the total time used for training and forecast. 
+In the table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC corresponds to the ARIMA predictor for the time-series representative. T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
 
 For the $k$--medoids partitioning we compute the same values:
 \begin{table}[h]
@@ -474,7 +474,7 @@ Experimentally we can see that when considering the prediction of the medoid as 
 
 For each $k$ considered, it is possible to observe that the predictions made by the models in the medoids are lower, this is due to the fact that the points in each group are increasingly similar. There are exceptions since the models considered are built on historical data from a point in the region, and the variations may be the product of an unexpected change in the behavior of the temperature at that point.
 
-The advantage of an off-line process is the ability to maintain various domain division schemes (consequently various predictive models), in such a way that their representatives are shown as generalizations of various regions in the domain. The next step is to develop a mechanism that considers the composition of models for the prediction of temperature in a region of interest, considering the total set of representatives generated by more than one $ k $. 
+The advantage of an off-line process is the ability to maintain various domain division schemes (consequently various predictive models), in such a way that their representatives are shown as generalizations of various regions in the domain. The next step is to develop a mechanism that considers the composition of models for the prediction of temperature in a region of interest, considering the total set of representatives generated by more than one $k$. 
 
 \subsection{Building a Classifier}
 \label{Sec:ExperimentsTrainingClassifier}
@@ -497,9 +497,9 @@ In the Methodology, Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifie
 \end{table}
 
 % Architectures considered
-We consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN-LSTM. The architecture hyperparameters and optimization parameters are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN we consider the MaxPooling option and we regularization dropout (0.4).
+We consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN1D--LSTM. The architecture hyperparameters and optimization parameters are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN architecture we consider a downsample option by using the MaxPooling for 1D temporal data, and regularization dropout hidden layers with value $(0.4)$.
 
-All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}), and the batch size that defines the number of samples to work through before updating the internal model parameters. For the fourth model we consider a lower learning rate which require more training epochs given the smaller changes made to the weights each update \cite{}.
+All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}), and several batch sizes that defines the number of samples to work through before updating the internal model parameters. For the fourth model we consider two learning rates which require more training epochs given the smaller changes made to the weights each update \cite{}.
 
 \begin{table}[h]
 	\centering
@@ -548,7 +548,7 @@ All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}
 
 % Dataset transformation
 % Sliding Window
-For both architectures we need to reshape the dataset which originally is \texttt{(3000, 366)}, representing number of samples and dataset (365 instances of an univariate time series and the label). A way to look at it is, interpret a time-series as 2 dimensional data, where the first dimension is time-steps and other is the values of the  temperature in 1 axe. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with 1 data points in each time step. These 1 data points are the temperature in 1 axe. The transformation of the dataset is the following:
+For both architectures we need to reshape the dataset which originally is \texttt{(3000, 366)}, representing number of samples and dataset (365 instances of an univariate time series and the label). A way to look at it is, interpret a time-series as two dimensional data, where the first dimension is time-steps and other is the values of the  temperature in one axe. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with one data points in each time step. These 1 data points are the temperature in 1 axe. The transformation of the dataset is the following:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -562,7 +562,7 @@ n_length =  15
 input_shape = (None, n_length, num_features)
 \end{lstlisting}
 
-We implement the architectures in \texttt{keras} (\cite{Chollet2015}),  considering the following CNN1D-LSTM, a 10 layer neural network formed by 2 CNN1D layers, 2 LSTM layers and 1 Dense layer:
+We implement the architectures in \texttt{keras} (\cite{Chollet2015}),  considering the following CNN1D-LSTM, a ten layer neural network formed by two CNN1D layers, two LSTM layers and one Dense layer:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -582,7 +582,8 @@ model.add(BatchNormalization())
 model.add(LSTM(1024))
 model.add(Dropout(0.4))
 model.add(BatchNormalization())
-model.add(Dense(1024, activation='relu'))
+model.add(LSTM(1024))
+model.add(Dropout(0.4))
 model.add(BatchNormalization())
 model.add(Dense(number_labels, activation='softmax'))
 
