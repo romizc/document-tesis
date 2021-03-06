@@ -1,25 +1,73 @@
 \chapter{Using SPTA-TSA for Spatio-Temporal Temperature Dataset}
 \label{apendiceA}
 
+In this apendix we 
+
+\section{Code and Files Structure}
+
+\dirtree{%
+	.1 spta-tsa.
+	.2 docs.
+	.3 source.
+	.2 experiments.
+	.3 arima.
+	.3 auto\_arima.
+	.3 baseline.
+	.3 classifier.
+	.3 clustering.
+	.3 metadata.
+	.3 region.
+	.2 lstm.
+	.2 other.
+	.2 outputs.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd.
+	.4 dtw.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd\_scaled.
+	.4 dtw.
+    .5 regular\_k2.
+	.6 auto-arima-start\_p1-start\_q1-max\_p3-max\_q3-dNone-stepwiseTrue.
+	.5 regular\_k100.
+	.2 pickle.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd\_scaled.
+	.4 dtw.
+	.5 kmedoids\_k100\_seed0\_lite.
+	.2 raw.
+	.2 scripts.
+	.2 spta.
+	.3 arima.
+	.3 classifier.
+	.3 clustering.
+	.3 dataset.
+	.3 dba.
+	.3 distance.
+	.3 kmedoids.
+	.3 model.
+	.3 region.
+	.3 solver.
+	.3 tests.
+	.4 arima.
+	.4 classifier.
+	.4 clustering.
+	.4 model.
+	.4 region.
+	.4 resources.
+	.4 stub.
+	.4 util.
+	.3 util.
+}
+
 \section{Dataset Extraction}
 
 
 
 
-\section{Domain Characterization}
+\section{Domain Partitioning}
 
-\section{Generating Predictors on Representatives}
+\section{Generating Representative Predictive Models}
 
-\section{Solvers Execution}
+\section{Model Composition on Domain Partitioning}
 
-\section{Query Processing}
+\section{Generating Representative Predictive Model Classifier}
 
-\section{Título da seção}
+\section{Spatio--Temporal Predictive Query Execution}
 
-\begin{figure}
-    \begin{center}
-        \includegraphics[width=12cm]{abntex2-modelo-livro-bandeirinha}
-        \caption{Legenda para a figura.}
-        \label{rotulo1}
-    \end{center}
-\end{figure}
