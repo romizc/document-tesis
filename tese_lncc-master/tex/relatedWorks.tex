@@ -8,27 +8,21 @@ We reviewed related studies for three main topics that are spatio--temporal mode
 
 The classification, clustering, and searching through time series have important applications in many domains. In medicine EEG and ECG readings translate to time-series data collections with billions (even trillions) of points. In fact many research hospitals have trillions of points of EEG data. Other domains where large time series data collections are routine include gesture recognition \& user interface design, astronomy, robotics, geology, wildlife monitoring, security, and biometrics. 
 
-
-
 This chapter concludes by discussing works on which constitute the most related research areas regarding this work.
 
-
-
 \section{Time-Series Clustering and Classification}
+\label{Sec:ClusteringRelatedWorks}
 
 % Time series clustering review 
-
 During several decades the data mining community focused on time-series data (univariate and multivariate) clustering, which is a solution for classifying enormous data when there is not any early knowledge about classes, have developed techniques considering several different approaches to group them; partitioning-based, density-based, model-based, among others \cite{}. 
 
 In accordance with the purpose of grouping the data, it is necessary to consider a measure of similarity between the time series. The traditional measure is the Euclidean distance, but for time series the focus is on the similarity of shape between them. Dynamic Time Warping (DTW) was originally used for speech re cognition and later introduced to other sequential data for similarity measurement. DTW has long been accepted as a good and efficient similarity measure for time series data \cite{}.
 
-
-
-
-
-
 % Success Cases using DTW as a similarity measure
 
+
+% Time Series Classification
+Classification is a traditional data mining task. In the time series domain, special treatment must be considered due to the nature of the data. Geurts (2001) proposes to classify time series data based on combining local properties or patterns in the time series. Zhang et al. (2004) develop a representation method using wavelet decomposition that can automatically select the parameters for the classification task. They propose a nearest neighbor classification algorithm, using the derived appropriate scale. Kadous and Sammut (2005) use metafeature approach (i.e. recurring substructure) like local maxima in time series to generate classifiers. Similarly, Yang et al. (2005) focus on feature subset selection (FSS) based on common principal components, which is called CleVer, to retain the correlation information among original features. Classification is employed to evaluate the effectiveness of the selected subset of features. 
 
 
 
