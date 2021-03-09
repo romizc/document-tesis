@@ -1,32 +1,26 @@
-\chapter{Related Works}\label{chapter_Related_Works}
+\chapter{Related Works}
+\label{chapter_Related_Works}
 
-As described on the previous chapter, this work attends primarily to the study and analysis of model selection techniques implemented in the production of models for predictive serving systems, our emphasis are phenomena considering univariate time-series analysis. 
+In the previous chapter we described the context and purpose of this work, the proposal of a methodology to process spatio--temporal predictive queries in a spatio--temporal domain with massive data (represented by univariate time series). This methodology considers the use of various techniques and algorithms for this type of data, we can consider three clear objectives: cluster, classify and predict the data trend. 
 
-Two main difficulties when modeling spatio--temporal data come from their size and from the complexity of the data generation process. \cite{}
-
-We reviewed related studies for three main topics that are spatio--temporal modeling considering univariate time--series, model selection approaches considered in predictive serving system, and how to these techniques solve spatio--temporal predictive queries.
-
-The classification, clustering, and searching through time series have important applications in many domains. In medicine EEG and ECG readings translate to time-series data collections with billions (even trillions) of points. In fact many research hospitals have trillions of points of EEG data. Other domains where large time series data collections are routine include gesture recognition \& user interface design, astronomy, robotics, geology, wildlife monitoring, security, and biometrics. 
-
-This chapter concludes by discussing works on which constitute the most related research areas regarding this work.
+This chapter thus reviews related studies, by presenting current efforts of efficient techniques for time-series clustering and classification. Also, we review works for prediction methods in particular those focused on the temporal modeling for spatio-temporal domain. We conclude by discussing works on methods for predictive models and 
+% metodos y tecnicas para procesar consultas
 
 \section{Time-Series Clustering and Classification}
 \label{Sec:ClusteringRelatedWorks}
 
-% Time series clustering review 
-During several decades the data mining community focused on time-series data (univariate and multivariate) clustering, which is a solution for classifying enormous data when there is not any early knowledge about classes, have developed techniques considering several different approaches to group them; partitioning-based, density-based, model-based, among others \cite{}. 
+% Time series clustering basics review 
+During several decades the data mining community focused on time-series data (univariate and multivariate) clustering, which is a solution for classifying enormous data when there is not any early knowledge about classes. Were developed algorithms, criteria for evaluating the performance of the clustering results, and the measures to determine the similarity/dissimilarity between two time series being compared, either in the forms of raw data, extracted features, or some model parameters \cite{Liao2005, Aghabozorgi2015}.
+% Integrar parrafos anteriores: 
+% 
 
-In accordance with the purpose of grouping the data, it is necessary to consider a measure of similarity between the time series. The traditional measure is the Euclidean distance, but for time series the focus is on the similarity of shape between them. Dynamic Time Warping (DTW) was originally used for speech re cognition and later introduced to other sequential data for similarity measurement. DTW has long been accepted as a good and efficient similarity measure for time series data \cite{}.
+In accordance with the purpose of grouping the data, it is necessary to consider two characteristics for the partitioning method, [density- hierarchical-etc] and the similarity measure to compare the time series. Traditionally, the Euclidean distance is used to measure the , but for time series the focus is on the similarity of shape between them. Dynamic Time Warping (DTW) was originally used for speech re cognition and later introduced to other sequential data for similarity measurement. DTW has long been accepted as a good and efficient similarity measure for time series data \cite{}.
 
 % Success Cases using DTW as a similarity measure
 
 
 % Time Series Classification
-Classification is a traditional data mining task. In the time series domain, special treatment must be considered due to the nature of the data. Geurts (2001) proposes to classify time series data based on combining local properties or patterns in the time series. Zhang et al. (2004) develop a representation method using wavelet decomposition that can automatically select the parameters for the classification task. They propose a nearest neighbor classification algorithm, using the derived appropriate scale. Kadous and Sammut (2005) use metafeature approach (i.e. recurring substructure) like local maxima in time series to generate classifiers. Similarly, Yang et al. (2005) focus on feature subset selection (FSS) based on common principal components, which is called CleVer, to retain the correlation information among original features. Classification is employed to evaluate the effectiveness of the selected subset of features. 
-
-
-
-
+Classification is a traditional data mining task. For the univariate time series domain, special treatment must be considered due to the nature of the data. Geurts (2001) proposes to classify time series data based on combining local properties or patterns in the time series. Zhang et al. (2004) develop a representation method using wavelet decomposition that can automatically select the parameters for the classification task. They propose a nearest neighbor classification algorithm, using the derived appropriate scale. Kadous and Sammut (2005) use metafeature approach (i.e. recurring substructure) like local maxima in time series to generate classifiers. Similarly, Yang et al. (2005) focus on feature subset selection (FSS) based on common principal components, which is called CleVer, to retain the correlation information among original features. Classification is employed to evaluate the effectiveness of the selected subset of features. 
 
 \section{Spatio--Temporal Modeling -- Uni-Variate Time Series Analysis}
 \label{Sec:STModeling}
@@ -38,15 +32,16 @@ In several domains, including climate science, neuroscience, social sciences, ep
 The field of Spatio--Temporal modeling recently have 
 
 \subsection{Model Selection}
+\label{Sec:STModelSelection}
 
+In the context of spatio--temporal modeling 
 
-
-\section{Methods for Predicting Spatio--Temporal Queries}
+\section{Methods for Executing Spatio--Temporal Predictive Queries}
 \label{Sec:RelatedWorksQueries}
 
 A predictive spatio-temporal query, in particular a predictive range query has a query region $R$ and a time $t$, and asks about the predictions expected to be inside $R$ after time $t$ based on historical data (or previous knowledge).  In \cite{Akdere2011} the authors discusses the integration or extension of a RDBMS with a predictive component able to support data-driven predictive analytics. A predictive query and spatio-temporal predictive query, is defined as a traditional query using a declarative language that also has a predictive capability \cite{Hendawi2012}. 
 
-They common uses for predictive queries: the support for predictive analytics to answer complex questions involving missing or future values, correlations, and trends, which  can be used to identify opportunities or threats 
+They common uses for predictive queries: the support for predictive analytics to answer complex questions involving missing or future values, correlations, and trends, which  can be used to identify opportunities or threats
 The predictive functionality can help build introspective services that assist in various data and resource management and optimization tasks (off-line or on-line predictive techniques). 
 The  scope  of  this  production requires  more  efficient  querying development to  retrieve more accurate  information (better results)  within  the  shortest time  frame.
 
