@@ -490,7 +490,10 @@ The advantage of an off-line process is the ability to maintain various domain d
 \subsection{Building a Classifier}
 \label{Sec:ExperimentsTrainingClassifier}
 
-In the Methodology, Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifier}, we describe the implementation of a Neural Network Model for the Time-Series Multiclass Classification task. First we extract the dataset, each sample is formed by a time-series $\mathcal{S}$, and a label $y$. The label is a tuple that represents domain partitioning scheme and the group in a partitioning technique (Section \ref{Sec:KnowledgExtraction}). Considering maintaining domain partitioning schemes for $k = \{8, 66, 132\}$, and its corresponding predictive models on representatives. The following table represent the dataset extracted (described on Table \ref{Tab:TSClassificationDataset}) to generate a NN Model:
+In Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifier} of our proposed methodology, we describe the implementation of a Neural Network Model for the Time-Series Multiclass Classification task. Here, we show how we build a classifier using the extracted dataset and known domain partitioning schemes as input. We want to leverage the three partitioning schemes for $k = \{8, 66, 132\}$, obtained in Section \ref{Sec:Selectk} through selection techniques, and their corresponding predictive models on representatives. The goal is to obtain a new model composition similar to the `Model Composition at the Medoids' (see Section \ref{Sec:KnowledgExtraction}), but where the representatives are dictated by the classifier instead of just the group that a given sample belongs to. 
+
+First, we process the dataset so that each sample is formed by a time-series $\mathcal{S}$, and a label $y$. The label is a tuple that represents both the domain partitioning scheme and one of the $k$ groups in the resulting partition (and thus uniquely identifies a representative model) in a partitioning technique.  %Considering maintaining domain partitioning schemes for $k = \{8, 66, 132\}$, and its corresponding predictive models on representatives. 
+The following table represent the dataset extracted (described on Table \ref{Tab:TSClassificationDataset}) to generate a NN Model:
 
 \begin{table}[h]
 	\centering
@@ -508,7 +511,8 @@ In the Methodology, Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifie
 \end{table}
 
 % Architectures considered
-We consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN1D--LSTM. The architecture hyperparameters and optimization parameters are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN architecture we consider a downsample option by using the MaxPooling for 1D temporal data, and regularization dropout hidden layers with value $(0.4)$.
+% TODO confirm "variants"
+To build the classifier, we consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN1D--LSTM. The architecture hyperparameters and the optimization parameters for these two architectures and their variants are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}, respectively. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN architecture we consider a downsample option by using the MaxPooling for 1D temporal data, and regularization dropout hidden layers with value $(0.4)$.
 
 All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}), and several batch sizes that defines the number of samples to work through before updating the internal model parameters. For the fourth model we consider two learning rates which require more training epochs given the smaller changes made to the weights each update \cite{}.
 
@@ -559,7 +563,7 @@ All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}
 
 % Dataset transformation
 % Sliding Window
-For both architectures we need to reshape the dataset which originally is \texttt{(3000, 366)}, representing number of samples and dataset (365 instances of an univariate time series and the label). A way to look at it is, interpret a time-series as two dimensional data, where the first dimension is time-steps and other is the values of the  temperature in one axe. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with one data points in each time step. These 1 data points are the temperature in 1 axe. The transformation of the dataset is the following:
+For both architectures, we need to pre-process the dataset so that it represents a valid input. This is done by reshaping the dataset, which originally has the shape \texttt{(3000, 366)}, representing number of samples and vector length (365 instances of an univariate time series and the label). A way to look at it is, interpret a time-series as two dimensional data, where the first dimension is time-steps and other is the values of the  temperature in one axis. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with one data points in each time step. These 1 data points are the temperature in 1 axe. The transformation of the dataset is the following:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -653,7 +657,9 @@ where:
 The data processing step consist in extract elements from the domain corresponding to the query region with the $t_p$ instances, we denote this as $[R \times t_{p}]$. Next to compute the forecast value for the query, we use one of the following approaches to perform the model composition:
 
 \begin{itemize}
+%Model Composition with Minimal Local Error?
 	\item Composition of Point Predictive Models (ARIMA and $k$NN).
+%Model Composition at the Medoids?
 	\item Composition of Representative Predictive Models.
 	\item Composition of Classifier for Predictive Models.	
 \end{itemize}
@@ -663,8 +669,10 @@ In the following section we describe the results of the experiments considering 
 \subsubsection{Evaluating Spatio--Temporal Predictive Queries}
 \label{Sec:ExperimentsQueries}
 
-We define a spatio--temporal predictive query as the tuple $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$, for the experiments performed here we have considered $t_{p} = 8$ and $t_{f} = 8$. For the model composition we consider the following type of models:
+%We define a spatio--temporal predictive query as the tuple $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$,
+For the experiments performed here, we have considered $t_{p} = 8$ and $t_{f} = 8$. For the model composition we consider the following type of models:
 
+% how does this relate to the model compositions?
 \begin{enumerate}
 	\item Representatives from $k$--Medoids Domain Partitioning.
 	\item Representatives from Regular Domain Partitioning.
