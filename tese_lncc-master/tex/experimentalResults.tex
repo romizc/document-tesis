@@ -5,22 +5,16 @@ This Chapter is dedicated to describe the experimental validation of the methodo
 
 Several aspects of the methodology have been implemented in the form of a software called ``Spatio-Temporal Tool for Time Series Analysis'' or SPT-TSA. This software is the subject of the next section.
 %\Fab{Me parece que a seção 5.1 trata do Design da solução e não de Results e Analysis. Acho que vc poderia mudar o Titlo do Capitulo para "Implementation and results". E dividir 5.1 Implementation, 5.2 Results}
-%This Chapter is dedicated to describe the architectural design of a package called ``Spatio-Temporal Tool for Time Series Analysis'' or SPT-TSA, the package was implemented in Python 3 and its purpose is to perform the computational elements involved in the methodology to acquire data in order to validate our hypothesis. 
-
-%In Chapter \label{}, Figure \label{} shows the workflow of the methodology proposed. 
 
 \section{Spatio Temporal Framework for Time Series Analysis}       
-We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous Chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
 
-%In this Section we describe the development and implementation of a computational solution to execute the proposed methodology. 
+We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous Chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
 
 \subsection{SPTA-TSA Workflow}
 
 When dealing with spatio-temporal data and in particular time-series data, it is possible to find libraries and packages to perform operations for data manipulation, and for time-series analysis, particularly in the Python and R programming languages. Our software SPTA-TSA was designed to leverage widely known libraries and packages developed for Python 3, such as Pandas, Scikit-Learn, DTW, Keras, TensorFlow, Pickle, Numpy, MatplotLib, among others.
 
 Figure \ref{Fig:Steps-Data-Transformation} shows the tasks included on each step, as well as the libraries and packages responsible for the manipulation and analysis of spatio-temporal data.
-
-%The application was implemented using Python 3.6, to perform several operations we rely on 
 
 \begin{figure}[tp]
 	%\begin{minipage}[b]{0.8\textwidth}
@@ -69,8 +63,7 @@ A brief description of each class is provided:
 	
 	%of region. stores a Python function at each point of its region.  %\Fab{ou Region?}. It leverages a \texttt{numpy.ndarray} that has a \texttt{numpy.dtype} of value `object'. The generic implementation allows for different functions at each point, but additional subclasses simplify usage by assuming the same function in every point. 
 	
-	\item \texttt{FunctionRegionScalar}%\Fab{Scalar?}
-	: A subclass of \texttt{FunctionRegion} that produces a subclass of \texttt{SpatialRegion} when applied to a \texttt{DomainRegion}, regardless of the input domain being spatial or spatio-temporal. The implementation will call the \texttt{new\_sp\_region} method of the operand polymorphically to produce the desired output.
+	\item \texttt{FunctionRegionScalar}: A subclass of \texttt{FunctionRegion} that produces a subclass of \texttt{SpatialRegion} when applied to a \texttt{DomainRegion}, regardless of the input domain being spatial or spatio-temporal. The implementation will call the \texttt{new\_sp\_region} method of the operand polymorphically to produce the desired output.
 	
 	As a simple example, consider the problem of averaging each series in a spatio-temporal region, by using the function \texttt{numpy.mean} to the series at each point of the region. This can be achieved by creating an instance of \texttt{FunctionRegionScalar} so that each point of its internal 2D array contains the function \texttt{numpy.mean} itself, and applying this function region to the spatio-temporal region. A more complicated example involves having a special \texttt{FunctionRegionScalar} instance that applies training functions to spatio-temporal regions in order to produce, as output, a region with predictive models at each point.
 	
@@ -122,15 +115,6 @@ The main focus is now the analysis of the forecast error. Here we find classes r
 	\item \texttt{ForecastAnalysis}: Provides several strategies for training predictive models and evaluating their associated forecasts. It supports the training strategies described in the methodology, such as training a model at every point (naive approach), or training a model only at the representatives of each group. The second approach is designed so that each group is treated independently using \texttt{SpatioTemporalCluster}, so that the actual implementation remains unaware of clusters: it uses the model of a single given point (meant to be the representative) and repeats it over the entire region using point iteration (will iterate only over the members of the group). This class also provides additional methods to calculate several associated errors, including the errors obtained when the forecast of every single model is repeated independently over the entire region. This is what allows the calculation of the `Model Composition with Minimal Local Error' and `Model Composition with Maximum Error' described in Section \ref{Sec:ModelRepresentatives}, they are found by exhausting every point in the region. Since the models at every point can be analyzed independently, this calculation has been parallelized to improve efficiency.
 \end{itemize}
 
-% The two main components of the package are two classes: Region and Model. The Region Class is responsible for the following tasks:
-% \begin{itemize}
-% 	\item Load dataset, we 
-% 	\item Crop data selection, the dataset 
-% 	\item DTW Matrix 
-% 	\item Compute Partition profile 
-% 	\item Store Pickle templates
-% \end{itemize} 
-
 \section{Experiments and Results}
 
 In this section we describe the experiments and discuss the results obtained.
@@ -152,7 +136,7 @@ In total there are 8100 time-series representing the temperature variation for o
 To further pre-process the data, all the time-series are scaled so the values are bounded in the $[0, 1]$ interval. This scaling process is done independently for each point: we find the minimum and maximum values, then apply a simple scaling function $ t_{scaled} = \frac{t - t_{min}}{t_{max} - t_{min}}$. There are many reasons to apply this scaling function, most importantly is to allow for offsets when comparing similar temporal trends. This will be specially useful when using a predictor to estimate the future values of a predictive variable: this way the same predictor can produce different predicted values for each point in the region after applying the inverse scaling function corresponding to each point, even though all the predictions come from the same scaled output.
 
 \subsection{Calculating the DTW matrix}
-%TODO time in seconds for DTW!
+
 In Section \ref{Sec:DomainPartitioning}, we argue for the choice of DTW as the shape-based similarity measure for the partitioning schemes. Here, we describe the computation of the DTW matrix for our entire region of interest, as part of the off-line process. This compute-intensive process needs to be performed only once for each region of interest (bounded not only by the Brazilian territory but also by the chosen temporal slice). It can be performed in parallel using a multi-core machine with satisfactory speedup gain. To achieve parallelism, we leveraged the $multiprocessing$ library from Python to split the tasks of calculating the DTW for each pair points. To optimize speedup, the dataset was loaded into shared readable memory between processes, while allowing a shared writeable memory for writing the DTW distance. The time used to compute the DTW matrix for 8100 univariate time-series with 365 temperature readings was approximately 90000 seconds (25 hours).
 
 Once the DTW matrix is computed, it is saved to persistent storage for later retrieval. Afterwards, we are ready to apply a clustering algorithm to find groups based on the measure similarity. The retrieval of distance values between points is simplified to finding rows or columns in the DTW matrix, thereby significantly reducing the computational cost of algorithms such as $k$--medoids.
@@ -162,7 +146,6 @@ Here, we provide a couple of examples that highlight the need for computing the 
 In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix, and arrange the data to fit into a 2D grid that represents the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} colormap from the \texttt{matplotlib} Python package. With this colormap, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time-series.
 
 \begin{figure}[htb]
-	
 	\centering
 	\subfloat{%[DTW distance from the point $(0,0)$ to the other elements.]{\label{Fig:DTW-Distance0}
 		\centering
@@ -175,7 +158,6 @@ In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW dista
 		
 		\includegraphics[width=0.45\linewidth]{../Figures/distances_center_whole_real_brazil.pdf}
 	}
-	
 	\caption{DTW Distance of the time-series in the Brazilian region: axes represent spatial indices of the time series, color represents the value of the distance.}
 	\label{Fig:DTW-Distance}
 \end{figure}
@@ -317,7 +299,6 @@ The following table is a summary of the optimal values for $k$ found in each met
 \end{table}
 		
 \begin{figure}[htb]
-	
 	\centering
 	\subfloat{%[DTW distance from the point $(0,0)$ to the other elements.]{\label{Fig:DTW-Distance0}
 		\centering
@@ -327,7 +308,6 @@ The following table is a summary of the optimal values for $k$ found in each met
 	\hfill
 	\subfloat{%[DTW distance from the center to the other elements.]{\label{Fig:DTW-DistanceCenter}
 		\centering
-		
 		\includegraphics[width=0.45\linewidth]{../Figures/query-kmedoids_k66_seed0_lite__region-0-1-0-1}
 	}
 	
@@ -339,12 +319,11 @@ The following table is a summary of the optimal values for $k$ found in each met
 \label{Sec:DomainPartitioningDiscussion}
 
 % Justification and Summarization
-Spatial-temporal data are heterogeneous and autocorrelated, consequently the data are consistent and smoothly variable. The division of the domain into $k$ parts by a method that considers the similarity in the temporal evolution of its elements is indeed superior to a method that does not consider any similarity. Furthermore, there is more than one $k$ that, based on temporal similarity, expresses better different regions of the domain. 
+Spatial-temporal data are heterogeneous and autocorrelated, consequently the data are consistent and smoothly variable. The division of the domain into $k$ parts by a method that considers the similarity in the temporal evolution of its elements is indeed superior to a method that does not consider any similarity. Furthermore, there is more than one $k$ that, based on temporal similarity, expresses better different regions of the domain.
 
 The evaluation of this part of the methodology allowed us to establish the $k$--medoids algorithm as a significantly superior partitioning solution, compared to the naive approach of a regular partitioning used as baseline. This was demonstrated even when increasing the number of groups: while both partitioning algorithms exhibit a decreasing trend in the sum of intra-cluster distances (partitioning cost), the cost of the $k$--medoids algorithm was consistently smaller than the baseline. Also, the trend was monotonous for $k$--medoids, while it showed variability for the regular partitioning (the latter variability can be explained by the arithmetic of dividing the region in equal rectangles). 
 
-The monotonous trend of $k$--medoids allowed for the calculation of the inflection point, which effectively calculated a high value for $k$ to represent a suitable partitioning scheme ($k = 66$). This value gives us a reasonable number of representatives that we can use in the next phases of the methodology. Also, since we applied two other validation methods for selecting $k$ that produced two other domain partitioning schemes, we can also consider these groups and their representatives when evaluating a model composition.  %sizes for the domain partitioning, for example those that are targeted by the validation methods of $k$ in the $k$--medoids algorithm. 
-
+The monotonous trend of $k$--medoids allowed for the calculation of the inflection point, which effectively calculated a high value for $k$ to represent a suitable partitioning scheme ($k = 66$). This value gives us a reasonable number of representatives that we can use in the next phases of the methodology. Also, since we applied two other validation methods for selecting $k$ that produced two other domain partitioning schemes, we can also consider these groups and their representatives when evaluating a model composition. 
 %TODO hypothesis validated?
 
 % DBSCAN
@@ -382,16 +361,14 @@ To enable forecasting, the model is retrained using the same $(p, d, q)$ model p
 \end{figure}
 
 \subsubsection{Analyzing Forecast Errors}
+\label{Sec:AnalyzeForecastErrors}
 
-%consider a predictive model generated over a set of representatives of the spatio--temporal domain, taking into consideration that some representatives can be more suitable than others for a particular element in the domain, in terms of the generalization error obtained when using the model of a representative to create a forecast for the time series in another element. 
 % TODO no free lunch, etc
 % Forecast Error vs. DTW distance intra-cluster
 % The forecast values for models 
 % Forecast Error of predictor over representative compare with the 
 Given that the confidence intervals of the generalization error for the model built for the representative element is a varying value between the forecast error of the model composition listed, we need to analyze the intra cluster variability. When applying $k$--medoids to the domain, the number of elements on each cluster are different and it is not feasible to find a significant correlation between the model composition forecast error and the DTW distance from the medoid.
-
 %DTW distance between representatives
-
 % DTW distance and generalization error 
 %TODO
 Analyze the generalization error for the predictor in each representative 
@@ -422,7 +399,7 @@ By comparing qualitatively the in-sample error for these model compositions we g
 
 % Forecast Error in a group
 In the previous step we consider maintain several domain partitioning schemes. Considering the values for $k = \{4, 8, 66\}$, we compute the forecast error of the model compositions listed above, applied over its group generated in the partitioning technique. %In the following tables we 
-
+%TODO Add time to compare
 \begin{table}[h]
 	\centering
 	\tiny
@@ -444,7 +421,7 @@ In the previous step we consider maintain several domain partitioning schemes. C
 \end{table}
 
 In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC correspond to the ARIMA predictor for the time-series representative. Here, we use the code for each model composition described above; T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
-
+%TODO Add time to compare
 \begin{table}[h]
 	\centering
 	\tiny
@@ -464,6 +441,7 @@ In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AI
 	\caption{Model Composition In-Sample Error for Partitioning Technique  $k$--Medoids with $k=8$ and \texttt{seed = 0}.}
 	\label{Table:ForecastErrorkMedoidsk8}
 \end{table}
+
 % Analyze the prediction error for solvers in a region 10x10 when varying k
 For the $k$--medoids partitioning we compute the same values for $k=8$, shown in Table \ref{Table:ForecastErrorkMedoidsk8}. Experimentally, we can see that when considering the prediction of the medoid as the prediction for the points of its group, there is a balance in the final prediction value in the analyzed region. This ensures that we can use the medoids and their respective predictive models to predict the time evolution of the entire domain.
 
