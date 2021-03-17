@@ -171,12 +171,12 @@ In this Section we describe the experiments performed to validate the strategies
 A hypothesis we want to highlight is that it should be preferable to use a partitioning technique that considers grouping domain elements based on the similarity of their temporal evolution, rather than creating groups just according to a regular division of the domain geometry. To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.
 
 %TODO cleanup
-Another important aspect to evaluate in $k$--medoids is the choice of the number of partitions ($k$), for this we use three approaches: elbow method, silhouette index and the inflection point using a smooth spline (see Section \ref{sub:domain_number_groups} for a description of these methods).
+Another important aspect to evaluate in $k$--medoids is the choice of the number of partitions ($k$), for this we use three approaches: elbow method, silhouette index and the inflection point using a smooth spline (see Section \ref{Sec:domain_number_groups} for a description of these methods).
 
 \subsubsection{Evaluating Partitioning Quality}
 \label{Sec:EvaluatingPP}
 
-In Sections \ref{Sec:DomainPartitioning} and \ref{sub:domain_number_groups}, we discussed how we can evaluate the robustness of the $k$--medoids clustering, by comparing its performance with the regular partitioning when varying the number of groups $k$. Here, we describe the experiments used to assess quality of the generated partitions, and analyze the different techniques used to find useful values for $k$.  
+In Sections \ref{Sec:DomainPartitioning} and \ref{Sec:domain_number_groups}, we discussed how we can evaluate the robustness of the $k$--medoids clustering, by comparing its performance with the regular partitioning when varying the number of groups $k$. Here, we describe the experiments used to assess quality of the generated partitions, and analyze the different techniques used to find useful values for $k$.  
 
 % Considering varying k partitions
 % TODO seed based? cita?
@@ -231,13 +231,15 @@ For the two partition techniques, we vary the number of groups from $k=2$ up to 
 \end{figure}
 
 %TODO say something about the graph
+% In the previous figure it is possible to observe the decreasing behavior of the Total Sum of Intra-Cluster Distances,  
+
 %TODO Add consider ten seeds and 
 
 \subsubsection{Selecting $k$}
 \label{Sec:Selectk}
 
 % Methods to select k
-The $k$--medoids algorithm requires the user to specify $k$, the number of clusters to be generated. When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups. This is particularly important for our problem, where there is low variation in the spatial data distribution of the different time-series. In Section \ref{sub:domain_number_groups}, some methods for determining suitable values for $k$ were discussed. Here, we show the results of applying these methods to our case study as part of the Step 1 of our methodology (Section \ref{Sec:DomainPartitioning}) in order to determine the partioning schemes that will be used in the later steps.
+The $k$--medoids algorithm requires the user to specify $k$, the number of clusters to be generated. When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups. This is particularly important for our problem, where there is low variation in the spatial data distribution of the different time-series. In Section \ref{Sec:domain_number_groups}, some methods for determining suitable values for $k$ were discussed. Here, we show the results of applying these methods to our case study as part of the Step 1 of our methodology (Section \ref{Sec:DomainPartitioning}) in order to determine the partioning schemes that will be used in the later steps.
 
 One common method of choosing the appropriate cluster solution is to compare the Within-Sum-of-Squares (WSS) for a number of cluster solutions. Thus, WSS can be seen as a global measure of error. In general, as the number of clusters increases, the WSS should decrease because clusters are consequently smaller. A plot of the WSS against a series of sequential cluster levels can provide a useful graphical way to choose an appropriate cluster level. An appropriate cluster solution could be defined as the solution at which the reduction in WSS slows dramatically. This produces an ``elbow'' in the plot of WSS against cluster solutions. 
 
@@ -773,8 +775,6 @@ In the following Figure we show the heat map for the prediction values computed 
 	\caption{Model Composition by Models Representatives in a Domain Partitioning Technique ($k=132$.)}
 	\label{Fig:query_10x10_classifier_each}
 \end{figure}
-
-
 
 The next table shows the region size and the total number of queries considered to compute its predictions:
 

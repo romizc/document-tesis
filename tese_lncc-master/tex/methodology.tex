@@ -71,7 +71,7 @@ where for any $i\neq j$ we have that $\mathbf{S}_{i} \cap \mathbf{S}_{j} = \empt
 Then we validate the performance of a time series clustering method, i.e. evaluate the goodness of clustering results. This has been recognized as one of the vital issues essential to the success of clustering applications \cite{Aggarwal2013}. Unfortunately, despite the vast amount of expert efforts spent on this issue, there is no consistent and conclusive solution to cluster validation. 
 
 \subsection{Determining the number of groups}
-\label{sub:domain_number_groups}
+\label{Sec:domain_number_groups}
 
 The performance of the $k$--Medoids algorithm is dependent on the optimal value of $k$, the number of clusters to be generated. The $k$--medoids algorithm requires the user to specify the value of $k$, and finding a suitable value automatically is very challenging for time-series data set. The choice is often ambiguous, with interpretations depending on the shape and scale of the distribution of the time--series in a dataset \cite{Liao2005}. An optimal choice of $k$ should strike a balance between maximizing the compression of the data using a single cluster, while maximizing the accuracy when assigning each data point to its own cluster. Here, we explore some of the available methods for finding a suitable value for $k$.
 
