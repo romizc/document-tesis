@@ -458,19 +458,18 @@ Gracias totales.
 % resumo em inglês
 \begin{resumo}[Abstract]
  \begin{otherlanguage*}{english}
- 
  %Context
- A Spatio--Temporal Predictive Serving System enables users to express Predictive Queries that specify: a spatio--temporal region; a predictive variable and a evaluation metric. The outcome of a predictive query presents the values of the predictive variable on the specified region computed by predictive models that maximize the evaluation metric.    
+ A Spatio--Temporal Predictive Serving System enables users to express Predictive Queries. Predictive Queries encompasses a spatio--temporal region; a predictive variable, and an evaluation metric. The outcome of a predictive query presents the values of the predictive variable on the specified region computed by predictive models, while striving to maximize the evaluation metric.
  
  % Motivation
  In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing and time--series analysis approaches to generate predictive models are costly in time and computational resources, although they present good predictive performance. 
  
  % Proposal
- In this work we propose a consistent methodology for spatio--temporal query processing, which aims to reduce the computational workload and time that would be consumed if we were to train a model on each element of a spatio–temporal domain, without losing performance of the models that attend the query. The focus of our methodology begins with the domain characterization to find groups represented by an element that generalize their temporal evolution, then using temporal auto-regressive models for these representative elements we analyze their predictive power to process spatio--temporal predictive queries.  
- 
- %Results
- The computational experiments performed and a case study developed demonstrates the applicability of this methodology to generate predictive models in a spatio--temporal domain for query processing. We indicate that optimal predictive performance can be found when we evaluate a spatio-temporal query with a combination of shape-based domain discretization and temporal models.
+ In this work we propose a consistent methodology for spatio--temporal predictive query [evaluation], which aims to reduce the computational workload and time that would be consumed if we were to train a model on each element of a spatio–temporal domain, while maintaining comparable performance of the models that attend the query. Our methodology has the following steps (1) the domain characterization process, based on clustering partition techniques to find representative elements; (2) the generation of predictive models for the representatives; (3) a knowledge extraction process for the underlying relationship between the representative models and domain characterization; and (4) a mechanism to compute a spatio--temporal predictive query.  
 
+ %Results
+ In order to evaluate the applicability of this methodology to generate predictive models in a spatio--temporal domain for query processing, we use a case study for weather forecasting. Results from computational experiments show that we can achieve comparable predictive performance using models trained with the representatives selected by the knowledge extraction mechanism, with a fraction of the computational cost. 
+ 
    \textbf{Keywords}: Spatio--Temporal, Univariate Time--Series, Dynamic Time Warping (DTW), Auto--Regressive models.
  \end{otherlanguage*}
 \end{resumo}

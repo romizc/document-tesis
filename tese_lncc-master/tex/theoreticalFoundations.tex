@@ -64,7 +64,7 @@ Shape-based distance algorithms are usually employed in conventional clustering 
 
 Given two time series, $\mathcal{S}_{1} =\{s_{11}, s_{12}, \ldots, s_{1n}\}$ and $\mathcal{S}_{2} = \{s_{21}, s_{22}, \ldots, s_{2m}\}$, DTW aligns the two series so that their difference is minimized. To this end, an $n \times m$ matrix where the $(i, j)$ element of the matrix contains the distance $d(s_{1i}, s_{2j})$ between two points $s_{1i}$, and $s_{2j}$. The Euclidean distance is normally used. 
 
-A warping path, $W = w_{1} , w_{2}, \ldots w_{k}, \ldots, w_{K}$ where $\max(m, n) \leq K \leq m + n-1$, is a set of matrix elements that satisfies three constraints: boundary condition, continuity, and monotonicity. 
+Once the local cost matrix built, the algorithm finds the alignment path which runs through the low-cost area, The alignment path or warping path (See Figure \ref{Fig:DTW_warp_path}), $W = w_{1} , w_{2}, \ldots w_{k}, \ldots, w_{K}$ where $\max(m, n) \leq K \leq m + n-1$, is a set of matrix elements that satisfies three constraints: boundary condition, continuity, and monotonicity. 
 
 \begin{figure}[htb]
 	%\begin{minipage}[b]{0.8\textwidth}
@@ -75,7 +75,9 @@ A warping path, $W = w_{1} , w_{2}, \ldots w_{k}, \ldots, w_{K}$ where $\max(m, 
 	%\end{minipage}
 \end{figure}
 
-The boundary condition constraint requires the warping path to start and finish in diagonally opposite corner cells of the matrix. That is $w_{1} = (1, 1)$ and $w_{K} = (m, n)$. The continuity constraint restricts the allowable steps to adjacent cells. The monotonicity constraint forces the points in the warping path (See Figure \ref{Fig:DTW_warp_path}) to be monotonically spaced in time. The warping path that has the minimum distance between the two series is of interest. Mathematically, 
+The boundary condition constraint requires the warping path to start and finish in diagonally opposite corner cells of the matrix. That is $w_{1} = (1, 1)$ and $w_{K} = (m, n)$. The continuity constraint restricts the allowable steps to adjacent cells. The monotonicity constraint forces the points in the warping path to be monotonically spaced in time. 
+
+The warping path that has the minimum distance between the two series is of interest. Mathematically, 
 \begin{equation}
 d_{DTW} = \min \frac{\sum_{k=1}^{K} w_{k}}{K}
 \end{equation}
@@ -90,6 +92,8 @@ d_{cum}(i,j) = d(s_{1i}, s_{2j}) + \min\left\{\begin{array}{l}
                                                 \end{array}
                                                 \right.
 \end{equation}
+
+%TODO DTW Algorithm and Variants
 
 \subsection{$k$--Medoids Clustering }
 \label{Sec:kMedoidsClustering}

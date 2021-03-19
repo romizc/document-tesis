@@ -1,22 +1,11 @@
 \chapter[Methodology]{Methodology}
 \label{Chapter:Methodology}
-%\Rocio{Comecar a revisao aqui.}
-%
-%\Fab{Exemplo 1}
-%
-%\Edu{Exemplo 2}
-%Considering the production phase in a Predictive Serving System, the existing models already passed the training, testing and validating process, part of the Machine Learning Life Cycle \ref{chapter_Theoretical_Foundations}. These models maintain certain qualitative and quantitative metrics, to ensure their predictive performance they enter into a four-step cycle that is formed by techniques that continuously analyses these metrics. We are interested in process queries posed by users, 
 
 % Work Objective 
-In this work we propose a methodology focused on domain partitioning, that aims to reduce the computational workload and time that would be consumed if we were to train a model on each point of a spatio--temporal domain. We argue that, by considering a number of models generated over representative elements of the domain, which generalize the temporal dimension of other elements, it is possible to preserve a predictive quality comparable to the naive approach of using a model for every element. As a result of applying the proposed methodology, we could process a spatio--temporal predictive query effectively while maintaining a low error margin in the prediction.
-
-% Describe the spatio-temporal domain considered (univariate time--series)
-%Spatio--temporal domains are characterized by the we focus our work on problems which data are represented by univariate time--series the theoretical tools and methods considered in our methodology are the following time--series clustering, time--series classification and statistical methods for time--series forecasting.
+In this work we propose a methodology focused on domain partitioning, that aims to reduce the computational workload and time that would be consumed if we were to train a model on each point of a spatio--temporal domain. We argue that, by considering a number of models generated over representative elements of the domain, which generalize the temporal dimension of other elements, it is possible to preserve a predictive quality comparable to the baseline approach of using a model for every element. As a result of applying the proposed methodology, we could process a spatio--temporal predictive query effectively while maintaining a low error margin in the prediction.
 
 % Methodology description
-The process described by the methodology is divided in two phases, off-line and on-line. The off-line phase comprises three steps: (1) the domain partitioning process, based on clustering partition techniques to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region.
-%a knowledge extraction process for the underlying relationship between the representative models and domain characterization. 
-The on-line phase consists of (4) a mechanism to compute a spatio--temporal predictive query. Figure \ref{Fig:OverviewMethodology} describes the methodology: the two main phases are represented in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black and finally the corresponding expected products and outputs are shown in red. 
+The process described by the methodology is divided in two phases, off-line and on-line. The off-line phase comprises three steps: (1) the domain partitioning process, based on clustering partition techniques to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region. The on-line phase consists of (4) a mechanism to compute a spatio--temporal predictive query. Figure \ref{Fig:OverviewMethodology} describes the methodology: the two main phases are represented in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black and finally the corresponding expected products and outputs are shown in red. 
 
 \begin{figure}[h]
 	\centering
@@ -35,7 +24,6 @@ The purpose of the domain partitioning is to i) find groups with high similarity
 
 % Consider a representative element
 We consider two methods for grouping elements that involve obtaining a representative element (which also exists on the domain) for each group. A representative is then said to generalize the temporal dimension of the other elements in the group. It is important to remember that in a clustering algorithm, the number of clusters, the size of clusters, the definition for outliers, and the definition of the similarity among the univariate time--series are all the concepts which depend on the problem (case study) at hand \cite{Aghabozorgi2015}.
-%The adjustment and parametrization of the whole clustering task is complex and subject to uncertainties. The similarity metric is then one of the first decisions to be made in order to establish how the distance between two independent vectors must be measured.
 
 %TODO move DTW details to theoretical?
 For univariate time--series data, several clustering techniques exist (See Section \ref{Sec:TimeSeriesClustering}). Since we are interested in leveraging the temporal behavior of the spatio--temporal domain, we adopt a shape--based similarity measure, i.e. we analyze the similarity of time--series based on the evolution of its shape over time. The similarity metric known as Dynamic Time Warping (DTW) \cite{Sakoe1978} is based on dynamic programming, it calculates an optimal match between two sequences of feature vectors by allowing for stretching and compression of sections of the sequences. 
@@ -43,7 +31,6 @@ For univariate time--series data, several clustering techniques exist (See Secti
 % What are the products
 As part of the off-line process we calculate the distance matrix that quantifies the DTW similarity between any two time series on the domain. This process can demand considerable computational power but it can be efficiently parallelized and it only needs to be executed once per domain dataset. 
 
-%\subsection{Partition Profiles}
 %TODO
 % The objective is identify structures in an unlabelled dataset by objectively organizing data into similar groups.
 % Clustering maximize similarity of elements intra groups, minimize similarity with objects in other groups.
@@ -64,10 +51,6 @@ Considering our formal representation in Section \ref{Sec:ProblemFormalization},
 \end{equation}
 where for any $i\neq j$ we have that $\mathbf{S}_{i} \cap \mathbf{S}_{j} = \emptyset$, due to the crisp clustering algorithm. And for $\mathbf{S}_{i}$, we admit that a $\mathcal{S}_{i}^{*} \in \mathbf{S}_{i}$ exists (the representative of the group) such that generalizes the temporal dependence of all the elements in $\mathbf{S}_{i}$. 
 
-% Proceso de evaluacion de tipos de particion
-% 1. Comparacion de sumas costo total de distancias de sus elementos al representante
-% 2. Variabilidad de elementos intracluster
-% Consecuencia de 2: Dados elementos aleatorios cual de los dos tipos de particion representa mejor cada elemento
 Then we validate the performance of a time series clustering method, i.e. evaluate the goodness of clustering results. This has been recognized as one of the vital issues essential to the success of clustering applications \cite{Aggarwal2013}. Unfortunately, despite the vast amount of expert efforts spent on this issue, there is no consistent and conclusive solution to cluster validation. 
 
 \subsection{Determining the number of groups}
@@ -75,40 +58,27 @@ Then we validate the performance of a time series clustering method, i.e. evalua
 
 The performance of the $k$--Medoids algorithm is dependent on the optimal value of $k$, the number of clusters to be generated. The $k$--medoids algorithm requires the user to specify the value of $k$, and finding a suitable value automatically is very challenging for time-series data set. The choice is often ambiguous, with interpretations depending on the shape and scale of the distribution of the time--series in a dataset \cite{Liao2005}. An optimal choice of $k$ should strike a balance between maximizing the compression of the data using a single cluster, while maximizing the accuracy when assigning each data point to its own cluster. Here, we explore some of the available methods for finding a suitable value for $k$.
 
-
 When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups ($k$). This is particularly important for our problem, where there is low variation in the spatial data distribution of the different time-series. 
 To identify a cluster in a dataset, we try to minimize the distance between points in a cluster, and the Within-Sum-of-Squares (WSS) method, also know as the Elbow method, measures exactly that. The WSS score is the sum of the squares of the distances of all points within a cluster. Given that the WSS score converges towards zero as the number of groups $k$ goes up to the number of points in the dataset, this method aims to choose a small value of $k$ that still has a low SSE. This is achieved by finding the maximum numerical second derivative for each point, using its two neighboring points (we take into account that the $k$ values are not equidistant when calculating the numerical second derivative). In practice, the elbow represents a point beyond which there are diminishing returns by increasing $k$ \cite{Han2011}.
 
-The average silhouette is another method that assesses the quality of a clustering, by measuring how similar a member is to its own group compared to other groups. The silhouette index is a way to measure how close each point in a cluster is to the points in its neighboring clusters. %We expect to find the optimum value for $k$ during $k$-means clustering.
+The average silhouette is another method that assesses the quality of a clustering, by measuring how similar a member is to its own group compared to other groups. The silhouette index is a way to measure how close each point in a cluster is to the points in its neighboring clusters. 
 Silhouette values lies in the range of $[-1, 1]$. A value close to $+1$ indicates that the sample is far away from its neighboring cluster and very close to the cluster to which it is assigned, meaning it is `well-clustered'. In contrast, a value of $-1$ indicates that the sample is closer to a neighboring cluster than to the cluster to which it is assigned, meaning that it is `misclassified'. A value of $0$ means that it is not clear to which cluster the point should be assigned. %Value of $+1$ is ideal and $-1$ is least preferred. Hence, higher the value better is the cluster configuration \cite{Rousseeuw1987}.
 
 In this work we also consider a more refined procedure to find an optimal value for $k$ by means of the inflection point (zero second derivative). But before calculating the second derivative, we apply a cubic smoothing spline to interpolate the values, to reduce the noise in the WSS scores. Splines are a smooth and flexible way of fitting Non linear Models and learning the Non linear interactions from the data. This approach will give us another suitable value for $k$.
-%In this case, techniques to determine a suitable value for $k$, such as the Elbow Method, may not present convergence to a local minimum for the total cost of dissimilarity for a specific $k$. 
 
 Comparing partitions approaches, either with each other or with data, is a common requirement in cluster validation. For example, one might hope that different sub-samples of the same data set, or different methods applied to the data, would give similar results. This can also be considered as an aspect of robustness.
 
 % Comparison of the total sum 
 We compare these domain partitioning techniques against each other to assess the robustness of the $k$--medoids clustering over the regular partitioning. Since we try to optimize the cost function for $k$--medoids, we argue that for larger values of $k$ the cost function for both partition techniques present a significant difference between them. %TODO argumento? hipotesis? sera mostrado? 
 
-%The outputs of the process adopted for the domain characterization are the DTW matrix for the dataset considered and a set of representative elements for each group. 
-
 In the next Section we describe the methods adopted to built a predictive model for the representative element for every group.
-
-%From the computational point of view, although DTW distance is of order $\mathcal{O}$
-%\begin{figure}[h]
-%	%\begin{minipage}[b]{0.8\textwidth}
-%	\centering
-%	\includegraphics[scale=0.15]{Figures/Domain_kMedoids_Regular_k10}
-%	\caption{$k$--Medoids and Regular partition profiles for $k=10$.}	
-%	\label{Fig:Kmedoides_Regular10}	 		
-%\end{figure}
-%A Figura \ref{Fig:Kmedoides_Regular10} mostra as duas abordagens de particionamento para $k=10$, a posição do medóide para cada grupo esta sinalizado pelo simbolo $\times$. 
 
 \section{Step 2: Identifying Models for Representatives}
 \label{Sec:ModelRepresentatives}
 
 % Summary: Consider a predictive model generated over representatives of the spatio--temporal domain, we consider that some representatives can be more suitable than others for a particular element in the domain. We want to analyze the generalization error obtained when using the model of a representative to compute a forecast for the time series in another element. 
-The main objective in this step is to generate predictive models for the representative elements in a domain partitioning; using these models we have the ability to compose and/or select those that correspond to a region of interest. %TODO Verify the validity of the NFT for time series forecast methods
+The main objective in this step is to generate predictive models for the representative elements in a domain partitioning; using these models we have the ability to compose and/or select those that correspond to a region of interest. 
+%TODO Verify the validity of the NFT for time series forecast methods
 
 We generate predictive models when we apply a forecast method over a time-series in a spatio-temporal domain. In this work, we consider the following forecast methods: Auto-Regressive Integrated Moving Average (ARIMA) and $k$--Nearest Neighbor ($k$NN) models. Working with ARIMA model can offer a good trade-off between the predictive accuracy and computational resources to train and predict. The simpler $k$--Nearest Neighbor model is used as a baseline for comparing predictive accuracy.   
 
@@ -170,7 +140,7 @@ In order to assess the predictive quality of model for the representative elemen
 
 \begin{itemize}%[noitemsep,nolistsep]
 	\item Model Composition with Minimal Error: for each group, we find the time series for which its predictive model, when applied to all points of its corresponding group, minimizes the accumulated forecast error. This can be considered the `best' choice for representatives that can only be found through an exhaustive approach.
-	\item Model Composition with Minimal Local Error: for each time series $ts_j$ in each group, we train its own model $g_j$ and calculate the corresponding forecast error. We can say that this would be the forecast error of a naive approach, because it generates as many models as there are time series in the region. This approach should offer the least accumulated forecast error but at a high computational cost, and is the scenario we want to improve on with our methodology.
+	\item Model Composition with Minimal Local Error: for each time series $ts_j$ in each group, we train its own model $g_j$ and calculate the corresponding forecast error. We can say that this would be the forecast error of a baseline approach, because it generates as many models as there are time series in the region. This approach should offer the least accumulated forecast error but at a high computational cost, and is the scenario we want to improve on with our methodology.
 	\item Model Composition at the Medoids: given the time series of the representatives in each group, we find the corresponding model for each representative, and use it to predict future values of the other time series in their corresponding groups. We then calculate, for each group, the accumulated forecast error when using the model in the representative for all elements in the group. This corresponds to the proposed methodology, and its forecast estimate and generalization error will be evaluated experimentally.
 	\item Model Composition with Maximum Error: for each group, we find the time series for which its predictive model, when applied to all poins of its corresponding group, maximizes the accumulated forecast error. This can be considered the `worst' choice for representatives. Together with the Minimal Error, it provides an interval that helps to quantify the appropriateness of the choice of representatives when using the Model Composition at the Medoids.
 \end{itemize}
@@ -188,7 +158,7 @@ As discussed in the previous Section, in our problem we are not considering a un
 
 \subsection{Preparing a Classifier for Representative Models}
 \label{Sec:Classifier}
-In the next two sections, we seek to implement a process that is able to select predictive models using some kind of intelligence, with the aim of finding a composition of models to predict a region of interest with increased accuracy. Here, it is  necessary to recall that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest. 
+In the next two sections, we seek to implement a process that is able to select predictive models using some kind of intelligence, with the aim of finding a composition of models to predict a region of interest with increased accuracy. Here, it is  necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest. 
 
 We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. For our problem the classes are defined by the identifier of a predictive model on the representative, label composed with the value $k$ and the group index \texttt{cluster\_index} (c.i) where $0 \leq c.i <k$. 
 
@@ -200,10 +170,7 @@ We formulate this step as a univariate time series multi-class classification pr
 %	\label{Fig:ModelComposition}
 %\end{figure}
 
-%TODO Mejorar esta descripcion
-% Basicamente tengo tres perfiles de particion de tamanhos m, n y l
-%We start the automatic selection for representative models process by considering more than partition profile. The justification for this is that different partition profiles may offer representatives for which their forecast produces smaller forecast errors, but the most suitable representatives are not tied to any particular partition profile (the intra-cluster distance is minimized to find representatives, not the forecast error).
-
+% TODO Revisar la notacion de los 3 perfiles:
 In order to show how we can leverage domain partitioning schemes and their respective representatives, we use the formal representation of the problem (see Section \ref{Sec:ProblemFormalization}), with three different domain partitioning schemes as an example: Given three domain partitioning schemes for a spatio--temporal domain of sizes $m, n$ and $l$ and their respective representative sets, we have:
 \begin{eqnarray} 
 \nonumber
@@ -214,7 +181,6 @@ In order to show how we can leverage domain partitioning schemes and their respe
 %TODO:change notation for the predictors on representatives.
 where $m + n +l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}^{m}, \ldots, \mathcal{P}_{m}^{m}, \mathcal{Q}_{1}^{n}, \ldots, \mathcal{Q}_{n}^{n}, \mathcal{T}_{1}^{l}, \ldots \mathcal{T}_{l}^{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set or their correspondent models. Now, for each element in the domain, we want to find some representative $\mathcal{S} \in \mathbf{R}$ that is the representative of some group in a partitioning scheme $\mathbf{P}$, so that the representative satisfies some optimization condition. Here, we choose the representative $\hat{S}$ whose model $g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}$ has the minimum forecast error for the corresponding time series among the other models:
 
-%among th For the relationship between elements of the domain and representatives we build the following dataset, consider any $\mathcal{S} \in \mathcal{D}$ such that we can find a representative element in $\mathbf{R}$ whose predictor has the minimum forecast error:
 %TODO describir en texto lo que se esta minimizando
 \begin{equation}\label{eq:timeseries-representative}
 \exists\, \mathcal{\hat{S}} \in \mathbf{R}, \,\, \textrm{such that}, \,\, \argminA_{\substack{\mathcal{\hat{S}} \in \mathbf{R}\\g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}}} E (g_{\mathcal{\hat{S}}}(\mathcal{S})).
@@ -222,8 +188,8 @@ where $m + n +l < \textrm{card}(\mathcal{D})$. The set of representatives on the
 % Find the label for any time--series
 % TODO seed para el label?
 \Fab{na Eq. 4.5, $S^^ \in R$ ja aparece na antecedente da formula.}
-In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the model with a label \texttt{[number\_of\_clusters, cluster\_index]}, that corresponds to the representative label of the partitioning schemes considered. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a dataset similar to Table \ref{Tab:TSClassificationDataset}. %Then the extracted dataset is represented by:
-% TODO agregar mas filas para que se entienda... tal vez usar \mathcal{S_1}, \mathcal{S_2}, ...?
+In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the model with a label \texttt{[number\_of\_clusters, cluster\_index]}, that corresponds to the representative label of the partitioning schemes considered. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a dataset similar to Table \ref{Tab:TSClassificationDataset}.
+
 \begin{table}[h]
 	\centering
 	%	\tiny
@@ -279,16 +245,12 @@ In this Section we describe the on--line process implemented to compute a spatio
     Here we implement three types of model composition for analysis:
 
    \begin{itemize}
-
-	\item Composition of Point Predictive Models: For every point in the region of interest $R$ we use a naive approach to train a predictive model on each point. This is based on the Model Composition with Minimal Local Error described in Section \ref{Sec:KnowledgExtraction}, but limited to the subset region $R$. To compute the forecast and associated forecast error, we simply use the model on each point.
+	\item Composition of Point Predictive Models: For every point in the region of interest $R$ we use a baseline approach to train a predictive model on each point. This is based on the Model Composition with Minimal Local Error described in Section \ref{Sec:KnowledgExtraction}, but limited to the subset region $R$. To compute the forecast and associated forecast error, we simply use the model on each point.
 
 	\item Composition of Representative Predictive Models: This approach uses the stored information corresponding to the domain partitioning schemes and their respective models. In this type of composition, we require that a domain partitioning scheme (size $k$) is specified as input of the query. Then, we identify the representatives for every point in the query region to load the predictive models that have been previously trained at the representatives. For each point in $R$, the model associated to its representative will be used to compute the forecast and associated forecast error.
 	
 	\item Composition of Classifier for Predictive Models: A solver that calculates the result of a prediction query using the outcome of an external classifier (e.g. Neural Network). The classifier is a function that, given an input series of size $t_p$, a predetermined suite of partitioning schemes and a region, returns one of the representatives from any of the partitioning schemes that are available in the suite. Once the representative is determined, we follow a similar procedure as the previous model composition, also using the stored information from the domain partitioning scheme and their respective models. This is the main model composition that we wish to evaluate, while the other two are presented for comparisons.
-%\Fab{I think query processing involves, in addition to Model Selection: input data preparation; model evaluation; results composition. }
-%	Using the model generated at Step 3 (Knowledge Extraction), we apply this model to the $t_p$ time units of every point in the query region to infer the label for a corresponding predictor. Similar to the Representative Predictor composition, the corresponding predictors are loaded and the forecast computed in every point.
-
-   \end{itemize}
+    \end{itemize}
     \item [(d)] With the predictive models obtained from one of the model compositions of the previous step, the requested forecast for the $t_{f}$ steps for each point in $R$ is computed. 
     
     Additionally, if there is information available regarding the actual values of the predictive variable matching the forecast interval, the corresponding error is computed. Otherwise, the generalization error of the model is used. Finally, the errors of the points in $R$ are combined using MSE to produce a single scalar metric for the prediction error over $R$.
