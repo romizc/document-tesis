@@ -156,11 +156,13 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{subfig}
-%\usepackage{fontspec}
-%\usepackage{minted}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{multirow}
 \usepackage{caption}
 \usepackage{dirtree}
+\usepackage{mismath}
+\usepackage{polski}
 
 
 \newcommand{\Fab}[1]{\textbf{\textcolor{red}{[Fabio P.]: #1}}}
@@ -197,7 +199,7 @@
 % Local
 \local{Petrópolis, RJ - Brasil}
 % Data
-\data{Janeiro de 2021}
+\data{May, 2021}
 % Instituição
 \instituicao{%
   Laboratório Nacional de Computação Científica
@@ -209,9 +211,9 @@
 % O preambulo deve conter o tipo do trabalho, o objetivo,
 % o nome da instituição e a área de concentração
 % portugues
-\preambulo{\tipoTrabalho submetida ao corpo docente do Laboratório Nacional de Computação Científica como parte dos requisitos necessários para a obtenção do grau de \grau em Ciências em Modelagem Computacional.}
+%\preambulo{\tipoTrabalho submetida ao corpo docente do Laboratório Nacional de Computação Científica como parte dos requisitos necessários para a obtenção do grau de \grau em Ciências em Modelagem Computacional.}
 %ingles
-%\preambulo{\tipoTrabalho submitted to the examining committee in partial fulfillment of the requirements for the degree of \grau of Sciences in Computational Modeling.}
+\preambulo{\tipoTrabalho submitted to the examining committee in partial fulfillment of the requirements for the degree of \grau of Sciences in Computational Modeling.}
 % ---
 
 % ---
@@ -387,9 +389,9 @@
 
    \assinatura{\textbf{Prof. \imprimirorientador,} \\ \presidenteDaBanca}
    \assinatura{\textbf{Prof. Agma Juci Machado Traina, D. Sc.}}
-   \assinatura{\textbf{Prof. Marta Lima de Queiroz Mattoso, D. Sc.}}
+   \assinatura{\textbf{Prof. Fl\'avia Coimbra Delicato, D. Sc.}}
    \assinatura{\textbf{Prof. Jo\~ao Eduardo Ferreira, D. Sc.}}
-   \assinatura{\textbf{Prof. Arthur Ziviani, Ph.D.}}
+   \assinatura{\textbf{Prof. Ant\^onio Tadeu Azevedo Gomes, D. Sc.}}
 
    \begin{center}
     \vspace*{0.5cm}
@@ -411,7 +413,7 @@
    \flushright
    \noindent
    \textbf{\dedicatorianame\\}
-   \textit{To all....\\ to all fools.\\} \vspace*{\fill}
+   \textit{Pensando.....\\} \vspace*{\fill}
 \end{dedicatoria}
 % ---
 
@@ -419,7 +421,11 @@
 % Agradecimentos
 % ---
 \begin{agradecimentos}
-Gracias totales.
+I would like to thank everyone who helped me to conduct this research. Mostly to my supervisors for all the valuable advice and knowledge they shared with me. I am very thankful for the guidance of Prof. Fabio Porto and Prof. Eduardo Ogasawara, under which I have learned a lot about research
+
+I also need to thank my family for their support, specially Giacomo and Clarissa whom have always pushed me and motivated me throughout this time
+
+Last but not least, I would like to express my gratitude to the National Laboratory of Scientific Computing (LNCC), the Data Extreme Laboratory (DEXL) for the opportunity.  
 
 \end{agradecimentos}
 % ---
@@ -430,8 +436,16 @@ Gracias totales.
 \begin{epigrafe}
     \vspace*{\fill}
 	\begin{flushright}
-		\textit{``Título ou frase que serve de tema ao assunto ou para resumir\\ o sentido ou situar a motivação da obra.''\\
-		(Referência para a epígrafe)}
+		\textit{``Try, Try Again''\\
+		`Tis a lesson you should heed, \\
+		Try, try again;\\
+		If at first you don't succeed,\\
+		Try, try again;\\
+		Then your courage should appear, \\
+		For, if you will persevere, \\
+		You will conquer, never fear;\\
+		Try, try again.\\
+		(William J. Bennett, The Children's Book of Virtues.)}
 	\end{flushright}
 \end{epigrafe}
 % ---
@@ -459,18 +473,20 @@ Gracias totales.
 \begin{resumo}[Abstract]
  \begin{otherlanguage*}{english}
  %Context
- A Spatio--Temporal Predictive Serving System enables users to express Predictive Queries. Predictive Queries encompasses a spatio--temporal region; a predictive variable, and an evaluation metric. The outcome of a predictive query presents the values of the predictive variable on the specified region computed by predictive models, while striving to maximize the evaluation metric.
+ A Spatio--Temporal Predictive Serving System is a solution based on the deployment of pre-trained models that enables users to express Predictive Queries. Spatio--temporal Predictive Queries encompass a spatio--temporal region; a predictive variable, and an evaluation metric. The outcome of such query presents the values of the predictive variable on the specified region computed by predictive models, while striving to maximize the evaluation metric.
  
  % Motivation
- In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing and time--series analysis approaches to generate predictive models are costly in time and computational resources, although they present good predictive performance. 
- 
- % Proposal
- In this work we propose a consistent methodology for spatio--temporal predictive query [evaluation], which aims to reduce the computational workload and time that would be consumed if we were to train a model on each element of a spatio–temporal domain, while maintaining comparable performance of the models that attend the query. Our methodology has the following steps (1) the domain characterization process, based on clustering partition techniques to find representative elements; (2) the generation of predictive models for the representatives; (3) a knowledge extraction process for the underlying relationship between the representative models and domain characterization; and (4) a mechanism to compute a spatio--temporal predictive query.  
+ In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing and time--series analysis approaches tend to generate predictive models that aim for predictive accuracy, at the cost of elevated runtime and utilization of computational resources.
 
- %Results
- In order to evaluate the applicability of this methodology to generate predictive models in a spatio--temporal domain for query processing, we use a case study for weather forecasting. Results from computational experiments show that we can achieve comparable predictive performance using models trained with the representatives selected by the knowledge extraction mechanism, with a fraction of the computational cost. 
+ % Proposal
+ In this work, we propose a step-by-step methodology for the evaluation of spatio--temporal predictive queries, that aims to reduce the computational workload and time that would be consumed if we were to train a model on each element of a spatio–temporal domain.  This is achieved by carefully choosing the predictive models to use for inference at each element, given a spatio--temporal predictive query.
  
-   \textbf{Keywords}: Spatio--Temporal, Univariate Time--Series, Dynamic Time Warping (DTW), Auto--Regressive models.
+ Our methodology has three offline steps and an online step: (1) the domain partitioning, based on clustering techniques with representative elements; (2) the generation of temporal predictive models for the representatives; (3) a time series classification process that leverage underlying relationships between representative models and domain partitioning; (4) an online inference process that uses the time series classifier to compose models and compute a spatio--temporal predictive query.
+ 
+ %Results
+ In order to evaluate the applicability of the proposed methodology, we use a case study for temperature forecasting using historical data and auto-regressive models. Results from computational experiments show that it is possible to achieve comparable predictive quality using a model composition based on cluster representatives, with a fraction of the computational cost. 
+ 
+   \textbf{Keywords}: Spatio--Temporal, Univariate Time--Series, Time--Series Clustering, Time--Series Classification, Auto--Regressive models.
  \end{otherlanguage*}
 \end{resumo}
 

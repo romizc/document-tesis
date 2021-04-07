@@ -22,23 +22,10 @@ Our approach objective is quantify the predictive quality for auto-regressive mo
 %about the predictive variable domain data distribution. 
 In particular, we compute the data distribution on regions of the domain where the models have been trained and compare them against those within the query spatio-temporal region. The intuition is that models behavior in query regions with similar data distribution as the ones used to train the model, shall follow the one observed during training. Conversely, in spatio-temporal regions specified by the query and that have not been used for training the model would exhibit an error computed as a function of the distance between the query non seen data region and the model building data region.
 
-%prediction models used to answer queries must be informed with an approximation of the generalization error \cite{HastieTF2009, Mohri2012},  \fab{Moreover, in a spatio-temporal context, a given model may exhibit a varying behavior throughout regions of the space-time, which should be taken into account during a model selection process.} 
-%Thus, we focus on investigating the problem of selecting predictive machine learning (ML) competing models by analyzing properties of the query, the models and the corresponding regions involved. 
-
-%In order to better understand the challenge being tackled, we present a theoretical description of a prediction serving service. This formalization can then be used to describe the problem of attending a prediction query using several input scenarios, as well as our proposed approach to find the most adequate models. 
-
 \subsection{Problem Statement}
 \label{Sec:ProblemStatement}
 
-%For a phenomenon with spatio-temporal domain, it is possible to generate independent predictive models that are created on a generalization of a region of the domain, based on the temporal patterns present in this region.
 Given a phenomenon with a spatio-temporal domain, represented by univariate time series, where independent predictive models have been trained, select a model or a composition of models to answer a spatio--temporal predictive query that maximizes an evaluation metric.
-% From there, it is possible to perform predictive spatial-temporal queries, the values obtained for the prediction variable are calculated using a model selection or the composition of models that correspond to the standard patterns present in the consultation region.
-%		\begin{itemize}
-%			\item quantify the predictive quality of models, by characterizing patterns within the predictive variable domain data.
-%		
-%			\item identify some patterns on domain regions where the models have been trained, and compare them against patterns within the query spatio-temporal region
-%		\end{itemize}
-
 
 \section{Objective and Contribution}
 \label{Sec:ObjectiveContribution}
@@ -47,6 +34,52 @@ Given a phenomenon with a spatio-temporal domain, represented by univariate time
 Conversely, in spatio-temporal regions specified by the query, that have not been used for training, the model would exhibit an error computed as a function of the distance between the query non seen data region and the model building data region.
 
 
+\section{Problem Formalization}
+\label{Sec:ProblemFormalization}
+
+Let $\mathcal{D} = \{(\mathcal{S}, x, y): \,\, \mathcal{S} = \{s_{1}, s_{2}, \ldots, s_{t}\}$ is a univariate time--series, and $(x,y) \in \mathbb{R}^{2}\}$, represents a spatio-temporal domain. Denote by $\mathcal{G} = \{g: \mathbf{S} \to \mathbf{S}$ such that $g(\mathcal{S}) = \mathcal{S}\}$, the set of temporal predictive models for $\mathbf{S} \subseteq \mathcal{D}$. Each predictive model $g\in \mathcal{G}$ is denoted as follows:
+\begin{equation}
+\label{eq:ModelDefinition}
+g = \langle \mathbf{S}, A, \mathbf{p}, E, \varSigma \rangle,
+\end{equation}
+where:
+\begin{itemize}[noitemsep,nolistsep]	
+	\item $\mathbf{S}$: input dataset included in the spatio--temporal domain $\mathcal{D}$,
+	\item $A$: learner or hypothesis set,
+	\item $\mathbf{p}$: model parameters (number of time-units to obtain the generalization error ($t_{p}$), number of time-units to forecast ($t_{f}$)),
+	\item $E$: generalization error,
+	\item $\varSigma$: implementation/execution quality metrics.
+\end{itemize}
+
+%TODO Extend the existence for several competing models.
+\noindent In this context, given a predictive spatio--temporal query $Q$ denoted as:
+\begin{equation} \label{eq:predictivequery}
+Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle,
+\end{equation}
+where:
+\begin{itemize}[noitemsep,nolistsep]	
+	\item $R$: represents the size/shape/type of interest region,
+	\item $t_{p}$: $\{s_{t-t_p}, s_{t-t_{p}+1}\ldots, s_{t}\}$ number of steps used for  prediction,
+	\item $t_{f}$: $\{s_{t+1}, \ldots, s_{t+t_f}\}$ number of steps to predict ($n\geq 1$),
+	\item $Q_{m}$: represents users qualitative measurements to evaluate the predictive output.
+\end{itemize}
+
+We formally define our problem: Let the spatio-temporal domain characterization $\mathcal{D} = \bigcup_{i=1}^{n} \mathbf{S_i}$ and $\mathcal{G}$ the set of temporal models for a single element of $\mathbf{S_i}$ that accounts for the generalization error bounds for the elements in $\mathbf{S_i}$. Given $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$:
+
+\begin{equation}
+\forall \mathcal{S} \in R: \exists g \in \mathcal{G'} \,\,\textrm{such that} \,\, \argminA_{g\in\mathcal{G'}} E_{g}(R).
+\end{equation}
+
+%TODO Change the argmin 
+\noindent In Figure \ref{fig:time-series}, we show the elements involved in the formalization of our problem:
+\begin{figure}[htb]
+	%\begin{minipage}[b]{0.8\textwidth}
+	\centering
+	\includegraphics[scale=0.25]{../Figures/RepresentationTimeSeries}
+	\caption{Predictive Spatio--Temporal Queries.}
+	\label{fig:time-series}
+	%\end{minipage}
+\end{figure}
 
 
 \section{Thesis Outline}

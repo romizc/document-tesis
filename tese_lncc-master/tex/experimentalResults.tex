@@ -4,17 +4,16 @@
 This Chapter is dedicated to describe the experimental validation of the methodology presented in the previous Chapter. Extensive results and analysis are presented to explore each of the steps in the proposed methodology. In particular, we focus on both the robustness of the domain characterization and in the accuracy of the results obtained from the spatio--temporal predictive queries. In each case, we employ alternative methods as baseline for comparing the performance of the proposed approach.
 
 Several aspects of the methodology have been implemented in the form of a software called ``Spatio-Temporal Tool for Time Series Analysis'' or SPT-TSA. This software is the subject of the next section.
-%\Fab{Me parece que a seção 5.1 trata do Design da solução e não de Results e Analysis. Acho que vc poderia mudar o Titlo do Capitulo para "Implementation and results". E dividir 5.1 Implementation, 5.2 Results}
 
 \section{Spatio Temporal Framework for Time Series Analysis}       
+\label{Sec:SPTA-TSA}
 
 We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous Chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
 
 \subsection{SPTA-TSA Workflow}
+\label{Sec:SPTA-TSA_Workflow}
 
-When dealing with spatio-temporal data and in particular time-series data, it is possible to find libraries and packages to perform operations for data manipulation, and for time-series analysis, particularly in the Python and R programming languages. Our software SPTA-TSA was designed to leverage widely known libraries and packages developed for Python 3, such as Pandas, Scikit-Learn, DTW, Keras, TensorFlow, Pickle, Numpy, MatplotLib, among others.
-
-Figure \ref{Fig:Steps-Data-Transformation} shows the tasks included on each step, as well as the libraries and packages responsible for the manipulation and analysis of spatio-temporal data.
+When dealing with spatio-temporal data and in particular time series data, it is possible to find libraries and packages to perform operations for data manipulation, and for time series analysis, particularly in the Python and R programming languages. Our software SPTA-TSA was designed to leverage widely known libraries and packages developed for Python 3, such as Pandas \cite{McKinney2010}, Scikit-Learn \cite{scikit-learn2011}, tslearn \cite{tslearn2020}, Keras \cite{Chollet2015}, TensorFlow \cite{tensorflow2016}, Pickle, Numpy \cite{Harris2020}, MatplotLib, among others.
 
 \begin{figure}[tp]
 	%\begin{minipage}[b]{0.8\textwidth}
@@ -24,7 +23,16 @@ Figure \ref{Fig:Steps-Data-Transformation} shows the tasks included on each step
 	\label{Fig:Steps-Data-Transformation}	 		
 \end{figure}
 
-% Figure Description
+Figure \ref{Fig:Steps-Data-Transformation} shows the tasks included on each step, as well as the libraries and packages responsible for the manipulation and analysis of spatio-temporal data. Each color represents the following:
+
+\begin{description}
+    \item[In Blue:] Library dependencies and packages required for the tasks execution for time series data manipulation and time series analysis .
+    \item[In Red:] The name of the tasks performed.
+    \item[In Black:] The name of the attributes of the dataset and the options available in the implementation to perform each task.
+    \item[In Green:] The output products in each step in the form of a file (CSV, graphic, serial or NPY).
+\end{description}
+
+The rest of the section describe the Class diagrams that captures the logical structure of the SPTA-TSA implementation.
 
 \subsection{Class Diagrams}
 \label{Sec:SPT-TSAClassDiagrams}
@@ -54,14 +62,9 @@ A brief description of each class is provided:
 	
 	\item \texttt{SpatioTemporalRegion}: The 3D implementation of \texttt{DomainRegion}, it stores an array in each point, representing a time series. Iterations of the points in the domain will yield the series for each point.
 	
-	\item \texttt{FunctionRegion}:
-	%\Fab{esclareça melhor o objetivo dessa classe. Vc diz que ela implementa uma função a cada ponto da região, mas o objeto é um por Região...}
-	A special type of \texttt{DomainRegion} used to transform \texttt{DomainRegion} instances, by accepting a \texttt{DomainRegion} instance as input and producing another \texttt{DomainRegion} instance as output, potentially of a different type. It serves as a common class for \texttt{FunctionRegionScalar} (produces a \texttt{SpatialRegion} instance as output) and \texttt{FunctionRegionSeries} (produces a \texttt{SpatioTemporalRegion} instance as output). The transformation of the input is achieved by storing a Python function at each point of the function region, and applying each function to the corresponding element in the operand region. To represent this application, consider a spatial region $S_{(m,n)}$ and a function region $F_{(m,n)}$, we then have $F(S) = \left\{ f_{ij}(s_{ij}); (i, j) \in [0, m]\times[0, n] \right\}$. See \texttt{FunctionRegionScalar} for practical examples.
-	%a Python function at each point of the region. These functions are stored in a similar way as a \texttt{SpatialRegion} but using a \texttt{numpy.dtype} of value `object' in its internal 2D array.
-
-	The implementation uses the Visitor pattern, where the \texttt{DomainRegion} is the visitor that `visits' the function region to retrieve the corresponding function during an iteration of points. The benefit of the visitor approach is that the same \texttt{FunctionRegion} can be applied to different subclasses of \texttt{SpatialRegion} and \texttt{SpatioTemporalRegion} without knowledge of the particular subclasses, while still producing different and expected outputs. A limitation of this approach is that only one function region can be applied to a given region at the same time, otherwise the iterator of the region will be used twice and become corrupted.
+	\item \texttt{FunctionRegion}: A special type of \texttt{DomainRegion} used to transform \texttt{DomainRegion} instances, by accepting a \texttt{DomainRegion} instance as input and producing another \texttt{DomainRegion} instance as output, potentially of a different type. It serves as a common class for \texttt{FunctionRegionScalar} (produces a \texttt{SpatialRegion} instance as output) and \texttt{FunctionRegionSeries} (produces a \texttt{SpatioTemporalRegion} instance as output). The transformation of the input is achieved by storing a Python function at each point of the function region, and applying each function to the corresponding element in the operand region. To represent this application, consider a spatial region $S_{(m,n)}$ and a function region $F_{(m,n)}$, we then have $F(S) = \left\{ f_{ij}(s_{ij}); (i, j) \in [0, m]\times[0, n] \right\}$. See \texttt{FunctionRegionScalar} for practical examples.
 	
-	%of region. stores a Python function at each point of its region.  %\Fab{ou Region?}. It leverages a \texttt{numpy.ndarray} that has a \texttt{numpy.dtype} of value `object'. The generic implementation allows for different functions at each point, but additional subclasses simplify usage by assuming the same function in every point. 
+	The implementation uses the Visitor pattern, where the \texttt{DomainRegion} is the visitor that `visits' the function region to retrieve the corresponding function during an iteration of points. The benefit of the visitor approach is that the same \texttt{FunctionRegion} can be applied to different subclasses of \texttt{SpatialRegion} and \texttt{SpatioTemporalRegion} without knowledge of the particular subclasses, while still producing different and expected outputs. A limitation of this approach is that only one function region can be applied to a given region at the same time, otherwise the iterator of the region will be used twice and become corrupted.
 	
 	\item \texttt{FunctionRegionScalar}: A subclass of \texttt{FunctionRegion} that produces a subclass of \texttt{SpatialRegion} when applied to a \texttt{DomainRegion}, regardless of the input domain being spatial or spatio-temporal. The implementation will call the \texttt{new\_sp\_region} method of the operand polymorphically to produce the desired output.
 	
@@ -82,8 +85,7 @@ A brief description of each class is provided:
 	\item \texttt{SpatioTemporalScaled}: A decorated version of \texttt{SpatioTemporalRegion} that represents the scaled version of a spatio-temporal region. The scaling process is performed by a \texttt{ScalingFunction}, which will iterate each point to scale independently the corresponding series. A series is scaled by finding its minimum and maximum values so that the new values are in the $[0, 1]$ interval. These minimum and maximum values are stored as \texttt{SpatialRegion} instances inside the scaled region, so that the original values can be restored at a later point. Since both \texttt{SpatioTemporalCluster} and \texttt{SpatioTemporalScaled} are decorators, it is possible to chain these decorators, arriving at the expected output (a cluster representing a group of scaled series at each point), even if the decorators are applied in different order. Also, restoring the scaling in that example will yield a \texttt{SpatioTemporalCluster} again.
 \end{itemize}
 
-The second class diagram is shown in Figure \ref{Fig:DiagramClasess-Models}. %\Fab{Full stop}
-The main focus is now the analysis of the forecast error. Here we find classes related to the training of predictive models, their forecasting of future values of the predictive variable and the subsequent calculation of the forecast error, when the actual values are available. The descriptions provided here are for the relevant ARIMA predictive models. Other predictive models used as baseline for comparison follow a similar class structure of classes.
+The second class diagram is shown in Figure \ref{Fig:DiagramClasess-Models}. The main focus is now the analysis of the forecast error. Here we find classes related to the training of predictive models, their forecasting of future values of the predictive variable and the subsequent calculation of the forecast error, when the actual values are available. The descriptions provided here are for the relevant ARIMA predictive models. Other predictive models used as baseline for comparison follow a similar class structure of classes.
 
 \begin{figure}[tp]
 	%\begin{minipage}[b]{0.8\textwidth}
@@ -121,7 +123,7 @@ In this section we describe the experiments and discuss the results obtained.
 
 \subsection{Case Study: Temperature Forecasting}
 
-% Complete dataset
+% Describe dataset
 The case study considered is the forecast of surface temperature, and for that we consider the CFSR (Climate Forecast System Reanalysis) dataset. It is described extensively in \cite{Saha2010}, here we provide a summary. It is a third generation reanalysis product; it consists of a high-resolution, global surface system, of the coupled ocean-atmosphere-terrestrial surface-sea ice system, covering the period from January 1979 to November 2015. The CFSR includes: (1) coupling of atmosphere and ocean during the generation of kick-off fields every 6 hours; (2) an interactive model of sea ice and; (3) assimilation of satellite radiance from the statistical interpolation scheme by grid points throughout the period. The resolution of the CFSR's global atmosphere is $\sim 38$ km. The global ocean is $0.25$\textdegree at the equator, extending to $0.5$\textdegree, in the tropics. 
 
 In the next subsection, we describe the pre-processing of the dataset and the overall preparation for our proposed methodology. Then, we show how each of the steps are applied to the use case of temperature forecasting, with the corresponding presentation and analysis of the results of each step.
@@ -129,21 +131,22 @@ In the next subsection, we describe the pre-processing of the dataset and the ov
 \subsection{Dataset Preparation and Computational Environment}
 \label{sec:DatasetPreparation}
 
-To validate the proposed methodology, we are interested in the information about the temperature $T$ from the original dataset, for this variable the data acquired are time-series with four readings per day (every six hours) for each geographical coordinate $(x,y)\in ([278, 348], [10, -60])$, with a resolution of $\sim 38$ km or $0.5$\textdegree. This spatial subset comprises the Brazilian territory, and has been studied before in \cite{Souto2018}. Additionally, we restrict our use case to the last year collected. Thus, we can denote the dataset for our region of interest as $\mathcal{D} = [ 365\times 4, 285.5:330, 7.5:-37]$ (there are four daily measurements with six hour interval during one year, the spatial coordinates denote the Brazilian territory). 
+To validate the proposed methodology, we are interested in the information about the temperature $T$ from the original dataset, for this variable the data acquired are time series with four readings per day (every six hours) for each geographical coordinate $(x,y)\in ([278, 348], [10, -60])$, with a resolution of $\sim 38$ km or $0.5$\textdegree. This spatial subset comprises the Brazilian territory, and has been studied before in \cite{Souto2018}. Additionally, we restrict our use case to the last year collected. Thus, we can denote the dataset for our region of interest as $\mathcal{D} = [ 365\times 4, 285.5:330, 7.5:-37]$ (there are four daily measurements with six hour interval during one year, the spatial coordinates denote the Brazilian territory). 
 
-In total there are 8100 time-series representing the temperature variation for one year. Each time-series in the dataset consists of 1260 values, four readings per day. To reduce daily noise, we calculate the mean of each four daily values to produce a single average daily value; this results in 365 time-units. 
+In total there are 8100 time series representing the temperature variation for one year. Each time series in the dataset consists of 1260 values, four readings per day. To reduce daily noise, we calculate the mean of each four daily values to produce a single average daily value; this results in 365 time-units. 
 
-To further pre-process the data, all the time-series are scaled so the values are bounded in the $[0, 1]$ interval. This scaling process is done independently for each point: we find the minimum and maximum values, then apply a simple scaling function $ t_{scaled} = \frac{t - t_{min}}{t_{max} - t_{min}}$. There are many reasons to apply this scaling function, most importantly is to allow for offsets when comparing similar temporal trends. This will be specially useful when using a predictor to estimate the future values of a predictive variable: this way the same predictor can produce different predicted values for each point in the region after applying the inverse scaling function corresponding to each point, even though all the predictions come from the same scaled output.
+To further pre-process the data, all the time series are scaled so the values are bounded in the $[0, 1]$ interval. This scaling process is done independently for each point: we find the minimum and maximum values, then apply a simple scaling function $ t_{scaled} = \frac{t - t_{min}}{t_{max} - t_{min}}$. There are many reasons to apply this scaling function, most importantly is to allow for offsets when comparing similar temporal trends. This will be specially useful when using a predictor to estimate the future values of a predictive variable: this way the same predictor can produce different predicted values for each point in the region after applying the inverse scaling function corresponding to each point, even though all the predictions come from the same scaled output.
 
 \subsection{Calculating the DTW matrix}
+\label{Sec:Calculating_DTW}
 
-In Section \ref{Sec:DomainPartitioning}, we argue for the choice of DTW as the shape-based similarity measure for the partitioning schemes. Here, we describe the computation of the DTW matrix for our entire region of interest, as part of the off-line process. This compute-intensive process needs to be performed only once for each region of interest (bounded not only by the Brazilian territory but also by the chosen temporal slice). It can be performed in parallel using a multi-core machine with satisfactory speedup gain. To achieve parallelism, we leveraged the $multiprocessing$ library from Python to split the tasks of calculating the DTW for each pair points. To optimize speedup, the dataset was loaded into shared readable memory between processes, while allowing a shared writeable memory for writing the DTW distance. The time used to compute the DTW matrix for 8100 univariate time-series with 365 temperature readings was approximately 90000 seconds (25 hours).
+In Section \ref{Sec:DomainPartitioning}, we argue for the choice of DTW as the shape-based similarity measure for the partitioning schemes. Here, we describe the computation of the DTW matrix for our entire region of interest, as part of the off-line process. This compute-intensive process needs to be performed only once for each region of interest (bounded not only by the Brazilian territory but also by the chosen temporal slice). It can be performed in parallel using a multi-core machine with satisfactory speedup gain. To achieve parallelism, we leveraged the $multiprocessing$ library from Python to split the tasks of calculating the DTW for each pair points. To optimize speedup, the dataset was loaded into shared readable memory between processes, while allowing a shared writeable memory for writing the DTW distance. The time used to compute the DTW matrix for $8100$ univariate time series with $365$ temperature readings was approximately $90000$ seconds ($25$ hours).
 
 Once the DTW matrix is computed, it is saved to persistent storage for later retrieval. Afterwards, we are ready to apply a clustering algorithm to find groups based on the measure similarity. The retrieval of distance values between points is simplified to finding rows or columns in the DTW matrix, thereby significantly reducing the computational cost of algorithms such as $k$--medoids.
 
-Here, we provide a couple of examples that highlight the need for computing the DTW matrix for efficiency, by comparing execution times on the same reference hardware. Running our implementation of $k$--medoids without the DTW matrix involves calculating pair-wise DTW distances between candidate medoids and other points until the algorithm converges. Let's first consider a subset of the spatio-temporal region described in the previous section, with only $70$ time-series ($7 \times 10$ spatial region). If the DTW matrix is used, running $k$--medoids with $k=8$ on this small region takes less than one second to execute three iterations with a total of $25$ swaps in the candidate medoids; as opposed to $292$ seconds when the DTW matrix is not used. The difference is more dramatic when running $k$--medoids with $k=24$ over the entire region of interest with $8100$ time-series: with the DTW matrix, it  takes $72.5$ seconds to execute six iterations with a total of $271$ swaps; without the DTW matrix only the first swap took over $4400$ seconds. We need not only to execute $k$--medoids once but many times with different partitioning schemes, and the execution times indicate that this would be unfeasible without the DTW matrix calculated beforehand.
+Here, we provide a couple of examples that highlight the need for computing the DTW matrix for efficiency, by comparing execution times on the same reference hardware. Running our implementation of $k$--medoids without the DTW matrix involves calculating pair-wise DTW distances between candidate medoids and other points until the algorithm converges. Let's first consider a subset of the spatio-temporal region described in the previous section, with only $70$ time series ($7 \times 10$ spatial region). If the DTW matrix is used, running $k$--medoids with $k=8$ on this small region takes less than one second to execute three iterations with a total of $25$ swaps in the candidate medoids; as opposed to $292$ seconds when the DTW matrix is not used. The difference is more dramatic when running $k$--medoids with $k=24$ over the entire region of interest with $8100$ time series: with the DTW matrix, it  takes $72.5$ seconds to execute six iterations with a total of $271$ swaps; without the DTW matrix only the first swap took over $4400$ seconds. We need not only to execute $k$--medoids once but many times with different partitioning schemes, and the execution times indicate that this would be unfeasible without the DTW matrix calculated beforehand.
 
-In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix, and arrange the data to fit into a 2D grid that represents the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} colormap from the \texttt{matplotlib} Python package. With this colormap, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time-series.
+In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix, and arrange the data to fit into a 2D grid that represents the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} colormap from the \texttt{matplotlib} Python package. With this colormap, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time series.
 
 \begin{figure}[htb]
 	\centering
@@ -158,7 +161,7 @@ In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW dista
 		
 		\includegraphics[width=0.45\linewidth]{../Figures/distances_center_whole_real_brazil.pdf}
 	}
-	\caption{DTW Distance of the time-series in the Brazilian region: axes represent spatial indices of the time series, color represents the value of the distance.}
+	\caption{DTW Distance of the time series in the Brazilian region: axes represent spatial indices of the time series, color represents the value of the distance.}
 	\label{Fig:DTW-Distance}
 \end{figure}
 
@@ -179,11 +182,9 @@ Another important aspect to evaluate in $k$--medoids is the choice of the number
 In Sections \ref{Sec:DomainPartitioning} and \ref{Sec:domain_number_groups}, we discussed how we can evaluate the robustness of the $k$--medoids clustering, by comparing its performance with the regular partitioning when varying the number of groups $k$. Here, we describe the experiments used to assess quality of the generated partitions, and analyze the different techniques used to find useful values for $k$.  
 
 % Considering varying k partitions
-% TODO seed based? cita?
-% TODO without penalty?
-The $k$--medoids approach is a seed based algorithm, this means that the performance is dependent on initial cluster center selection and the optimal number of clusters. The convergence of this algorithm primarily depends on the initialization phase, when the membership of each data point is calculated. The algorithm not only produces different clustering results for different values of $k$, but also for different values of the initial seed. In addition, increasing $k$ will always reduce the $k-medoids$ cost (sum of intra-cluster distances) in the resulting grouping, to the extreme case of zero cost if each data point is considered its own cluster (i.e., when $k$ equals the number of data points) \cite{HastieTF2009}. 
+The $k$--medoids approach is a seed based algorithm, this means that the performance is dependent on initial cluster center selection and the optimal number of clusters \cite{Chowdhury2019}. The convergence of this algorithm primarily depends on the initialization phase, when the membership of each data point is calculated. The algorithm not only produces different clustering results for different values of $k$, but also for different values of the initial seed. In addition, increasing $k$ will always reduce the $k-medoids$ cost (within-cluster sum of squares(WSS)) in the resulting grouping, to the extreme case of zero cost if each data point is considered its own cluster (i.e., when $k$ equals the number of data points) \cite{HastieTF2009}. 
 
-For the two partition techniques, we vary the number of groups from $k=2$ up to $k=150$ with a stride of two. In Table \ref{Table:TotalSumRegularkMedoids}, we show the Total Sum of Intra-Cluster distances for both domain partitioning techniques, with $k$ vaying from two to $150$, graphically represented in Figure \ref{Fig:TotalSum-RegularKmedoids}. 
+For the two partition techniques, we vary the number of groups from $k=2$ up to $k=150$ with a stride of two. In Table \ref{Table:TotalSumRegularkMedoids}, we show the within-cluster sum of squares for both domain partitioning techniques, with $k$ vaying from two to $150$, graphically represented in Figure \ref{Fig:TotalSum-RegularKmedoids}. 
 \begin{table}[h]
 	\centering
 	\tiny
@@ -217,7 +218,7 @@ For the two partition techniques, we vary the number of groups from $k=2$ up to 
 		50 &  8698.159 &  9605.287 & 100 & 7822.593 &  8525.302 & 150 & 7293.661 &  7932.553 \\ \hline
 		
 	\end{tabular}
-	\caption{Total Sum of Intra Cluster Distances of $k$--Medoids and Regular Partitioning Techniques for $k = \{2, \ldots, 150\}$.}
+	\caption{Total Within cluster Sum of Squares of $k$--Medoids and Regular Partitioning Techniques for $k = \{2, \ldots, 150\}$.}
 	\label{Table:TotalSumRegularkMedoids}
 \end{table}
 
@@ -225,26 +226,22 @@ For the two partition techniques, we vary the number of groups from $k=2$ up to 
 	%	\begin{minipage}[b]{0.8\textwidth}
 	\centering
 	\includegraphics[scale=0.45]{../Figures/Scaled-TotalSum-RegularKmedoids}
-	\caption{Total Sum of Intra Cluster Distances of $k$--Medoids and Regular Partitioning Techniques.}
+	\caption{Total Within cluster Sum of Squares of $k$--Medoids and Regular Partitioning Techniques.}
 	\label{Fig:TotalSum-RegularKmedoids}
 	%	\end{minipage}
 \end{figure}
 
-%TODO say something about the graph
-% In the previous figure it is possible to observe the decreasing behavior of the Total Sum of Intra-Cluster Distances,  
-
-%TODO Add consider ten seeds and 
+In the previous figure it is possible to observe the decreasing behavior of the WSS curve for higher values of $k$. In clustering the goal is not only create cluster from the dataset, but create more accurate clusters that can be use to generate insights about the characteristics of the dataset.
 
 \subsubsection{Selecting $k$}
 \label{Sec:Selectk}
 
 % Methods to select k
-The $k$--medoids algorithm requires the user to specify $k$, the number of clusters to be generated. When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups. This is particularly important for our problem, where there is low variation in the spatial data distribution of the different time-series. In Section \ref{Sec:domain_number_groups}, some methods for determining suitable values for $k$ were discussed. Here, we show the results of applying these methods to our case study as part of the Step 1 of our methodology (Section \ref{Sec:DomainPartitioning}) in order to determine the partioning schemes that will be used in the later steps.
+The $k$--medoids algorithm requires the user to specify $k$, the number of clusters to be generated. When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups. This is particularly important for our problem, where there is low variation in the spatial data distribution of the different time series. In Section \ref{Sec:domain_number_groups}, some methods for determining suitable values for $k$ were discussed. Here, we show the results of applying these methods to our case study as part of the Step 1 of our methodology (Section \ref{Sec:DomainPartitioning}) in order to determine the partioning schemes that will be used in the later steps.
 
 One common method of choosing the appropriate cluster solution is to compare the Within-Sum-of-Squares (WSS) for a number of cluster solutions. Thus, WSS can be seen as a global measure of error. In general, as the number of clusters increases, the WSS should decrease because clusters are consequently smaller. A plot of the WSS against a series of sequential cluster levels can provide a useful graphical way to choose an appropriate cluster level. An appropriate cluster solution could be defined as the solution at which the reduction in WSS slows dramatically. This produces an ``elbow'' in the plot of WSS against cluster solutions. 
 
-For our dataset we find an ``elbow'' at the four cluster solution suggesting that solutions greater than four do not have a substantial impact on the total SSE, Figure \ref{Fig:SSE-kMedoids} shows this result. The low number of groups indicated by the elbow method is consistent with the observation (see Figure 
-\ref{Fig:DTW-Distance} and corresponding discussion) that there is a low variability of the temporal data values throughout neighbor points, but which accumulate to produce larger variability throughout the region.
+For our dataset we find an ``elbow'' at the four cluster solution suggesting that solutions greater than four do not have a substantial impact on the total sum of square errors, Figure \ref{Fig:SSE-kMedoids} shows this result. The low number of groups indicated by the elbow method is consistent with the observation (see Figure \ref{Fig:DTW-Distance} and corresponding discussion) that there is a low variability of the temporal data values throughout neighbor points, but which accumulate to produce larger variability throughout the region.
 
 % TODO bigger fonts
 \begin{figure}[h]
@@ -256,9 +253,9 @@ For our dataset we find an ``elbow'' at the four cluster solution suggesting tha
 	%	\end{minipage}
 \end{figure}
 
-When performing a Silhouette Analysis, a way to measure how close each point in a cluster is to the points in its neighboring clusters. When performing this analysis, we want to maximize the value of the silhouette score, which would indicate that each sample belongs strongly to its own cluster as opposed to a neighboring cluster.
+When performing a Silhouette Analysis, a way to measure how close each point in a cluster is to the points in its neighboring clusters. We want to maximize the value of the silhouette score, which would indicate that each sample belongs strongly to its own cluster as opposed to a neighboring cluster.
 
-For our dataset, we performed the silhouette analysis to calculate the score for the range of values of $k$ described in the previous Section. The results are in Figure \ref{Fig:Silhouette-kMedoids}, and the maximum score was $0.145$ which corresponds to $k = 8$. 
+For the temperature dataset, we performed the silhouette analysis to calculate the score for the range of values of $k$ described in the previous Section. The results are in Figure \ref{Fig:Silhouette-kMedoids}, and the maximum score was $0.145$ which corresponds to $k = 8$. 
 
 In general, we obtained low values for the silhouette score throughout the considered range of $k$, indicating that, for high values of $k$, the samples are weakly belonging to its own cluster and could also be matched with neighboring clusters. Again, this is an indication that there is low variability throughout neighboring points.
 
@@ -271,7 +268,7 @@ In general, we obtained low values for the silhouette score throughout the consi
 	%	\end{minipage}
 \end{figure}
 
-An additional method to find the optimal value for $k$, based on the inflection point, consists in fitting the values of total sum of intra cluster distances using a cubic smooth spline. We are interested in finding the point where the curvature of the fitted model is the maximum. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
+An additional method to find the optimal value for $k$, based on the inflection point, consists in fitting the values of total sum of intra cluster distances using a cubic smooth spline \cite{HastieTF2009}. We are interested in finding the point where the curvature of the fitted model is the maximum \cite{Akima1970}. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
 
 We argue that this method is more appropriate for our dataset, in contrast to the previous two methods, as it highlights the decreasing trend in the intra-cluster cost as $k$ increased. This was possible because the small variations, that were preventing the other methods to find a higher value for $k$, were smoothed by the splines.
 
@@ -326,7 +323,6 @@ Spatial-temporal data are heterogeneous and autocorrelated, consequently the dat
 The evaluation of this part of the methodology allowed us to establish the $k$--medoids algorithm as a significantly superior partitioning solution, compared to the naive approach of a regular partitioning used as baseline. This was demonstrated even when increasing the number of groups: while both partitioning algorithms exhibit a decreasing trend in the sum of intra-cluster distances (partitioning cost), the cost of the $k$--medoids algorithm was consistently smaller than the baseline. Also, the trend was monotonous for $k$--medoids, while it showed variability for the regular partitioning (the latter variability can be explained by the arithmetic of dividing the region in equal rectangles). 
 
 The monotonous trend of $k$--medoids allowed for the calculation of the inflection point, which effectively calculated a high value for $k$ to represent a suitable partitioning scheme ($k = 66$). This value gives us a reasonable number of representatives that we can use in the next phases of the methodology. Also, since we applied two other validation methods for selecting $k$ that produced two other domain partitioning schemes, we can also consider these groups and their representatives when evaluating a model composition. 
-%TODO hypothesis validated?
 
 % DBSCAN
 %In addition to $k$--Medoids, we also explored DBSCAN, another clustering method that can also use DTW as the similarity measure. DBSCAN is a procedure to find `optimal' number of groups based on the spatial density of the data, and uses two parameters: the maximum ray to agglomerate points and the minimum number of elements per group. Its disadvantage is that being an algorithm that only finds convex groups, if the elements are not similar they are considered outliers. When DBSCAN was applied to our dataset, it would either find only two groups containing most of the data points, or few groups that failed to contain most of the points, because DBSCAN would mark other points as outliers. After this exploration of DBSCAN, further analysis with it was discontinued.
@@ -340,20 +336,15 @@ In the following section, we describe the process to generate predictive models 
 In this section we perform extensive experiments to evaluate the predictive power of models trained on the representative elements of each group. 
 
 % Predictor ARIMA
-Following the Step 2 of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. We denote the subset of representative elements for different values of $k$ by $\mathcal{R} \subset \mathcal{D}$, and the generated models $g$ as per equation \ref{eq:ModelDefinition}, $g \in \mathcal{G}_{(\mathcal{R})}$. 
-%TODO revisar
-In this context, the model parameters $\mathbf{p}$ comprise both the ARIMA $(p, d, q)$ parameters, and the default hyper-parameters used in an implementation of \texttt{auto.ARIMA} that finds a suitable tuple $(p, d, q)$. When using \texttt{auto.ARIMA}, the route performs a grid search that selects the $(p, d, q)$ model parameters based on the minimization of the AIC (Akaike Information Criteria) \cite{Hyndman2008}. A predictive model is then completely characterized by the $(p, d, q)$ tuple and the series used as training data. For models at a representative of a group, the training series is extracted from the time series located at the point coordinates of the representative.
+Following the Step two of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. We denote the subset of representative elements for different values of $k$ by $\mathbf{R} \subset \mathcal{D}$, and the generated models $g$ as per equation \ref{eq:ModelDefinition}, $g \in \mathcal{G}_{(\mathbf{R})}$. 
+
+In this context, the model parameters $\mathbf{p}$ comprise both the ARIMA $(p, d, q)$ parameters, and the default hyper-parameters used in an implementation of \texttt{auto.ARIMA}\footnote{\texttt{auto.ARIMA}: Implementation on \url{https://robjhyndman.com/publications/automatic-forecasting/}} that finds a suitable tuple $(p, d, q)$, as described in Section \ref{Sec:TheoryARIMA}. A predictive model is then completely characterized by the $(p, d, q)$ tuple and the series used as training data. For models at a representative of a group, the training series is extracted from the time series located at the point coordinates of the representative.
 
 \subsubsection{Obtaining In-sample and Forecast Errors}
 \label{sec:InSampleForecastErrors}
 
-Figure \ref{Fig:Time-SeriesModel} shows the division of time units on the time-series in order to train and test an ARIMA model. Recalling the preparation of the dataset described in Section \ref{sec:DatasetPreparation}, we work with 365 values for each representative point, denoted by the series $s[0:364]$.
+Figure \ref{Fig:Time-SeriesModel} shows the division of time units on the time series in order to train and test an ARIMA model. Recalling the preparation of the dataset described in Section \ref{sec:DatasetPreparation}, we work with 365 values for each representative point, denoted by the series $s[0:364]$.
 
-%TODO notation
-Let's consider a particular representative $r \in \mathcal{R}$ and its associated temperature series $s_r$. To evaluate an ARIMA model $g_{s_r}$ and its predictive power, the series is then split into three parts. The first part is used for training the model ($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesModel}), here we determine the tuple $(p_{s_r}, d_{s_r}, q_{s_r})$ that corresponds to the model $g_{s_r}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the validation series $s^v_t[349:357]$. The purpose of this subset is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{s_r}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
-
-To enable forecasting, the model is retrained using the same $(p, d, q)$ model parameters found with $s^t_r$, but now using a longer series $s[0:357]$. In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $s[357:364]$ is actually available from the dataset, we are evaluate to calculate the forecast error, allowing us to perform forecast error analysis on different representatives from different domain partitioning schemes. The error analysis described can also be applied to the $k$NN predictive model (baseline).
- 
 %TODO describe figure (each component) in text
 \begin{figure}[h]
 	\centering
@@ -361,6 +352,10 @@ To enable forecasting, the model is retrained using the same $(p, d, q)$ model p
 	\caption{Dataset Split to Generate Time-Series Predictors.}
 	\label{Fig:Time-SeriesModel}
 \end{figure}
+
+Let's consider a particular representative $\mathcal{S}^{*} \in \mathbf{R}$ and its associated temperature series $s_r$. To evaluate an ARIMA model $g_{s_r}$ and its predictive power, the series is then split into three parts. The first part is used for training the model ($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesModel}), here we determine the tuple $(p_{s_r}, d_{s_r}, q_{s_r})$ that corresponds to the model $g_{s_r}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the validation series $s^v_t[349:357]$. The purpose of this subset is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{s_r}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
+
+To enable forecasting, the model is retrained using the same $(p, d, q)$ model parameters found with $s^t_r$, but now using a longer series $s[0:357]$. In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $s[357:364]$ is actually available from the dataset, we are evaluate to calculate the forecast error, allowing us to perform forecast error analysis on different representatives from different domain partitioning schemes. The error analysis described can also be applied to the $k$NN predictive model (baseline).
 
 \subsubsection{Analyzing Forecast Errors}
 \label{Sec:AnalyzeForecastErrors}
@@ -389,15 +384,15 @@ Analyze the generalization error for the predictor in each representative
 We are interested in evaluate the generalization error for a model composition, as discussed in Section \ref{Sec:KnowledgExtraction} of the methodology. A model composition is formed by one or more predictors which will be used to perform a prediction on a domain region. Recalling from Section \ref{Sec:ModelRepresentatives}, the model compositions of interest are:
 
 \begin{itemize}%[noitemsep,nolistsep]
-	\item Model Composition with Minimal Error (coded `Min.'): for each group in a partitioning scheme, we find the predictive model that minimizes the accumulated forecast error in the group. %time series for which its predictive model, when applied to all points of its corresponding group, minimizes the accumulated forecast error. This can be considered the `best' choice for representatives that can only be found through an exhaustive approach.
-	\item Model Composition with Minimal Local Error (coded `Min. Local'): naive approach where each time series gets its own predictive model. %$ts_j$ in each group, we train its own model $g_j$ and calculate the corresponding forecast error. We can say that this would be the forecast error of a naive approach, because it generates as many models as there are time series in the region. This approach should offer the least accumulated forecast error but at a high computational cost, and is the scenario we want to improve on with our methodology.
-	\item Model Composition at the Medoids (coded 'Medoid'): for each group, generate a predictive model and apply it to each point in the group.% for each representative given the time series of the representatives in each group, we find the corresponding model for each representative, and use it to predict future values of the other time series in their corresponding groups. We then calculate, for each group, the accumulated forecast error when using the model in the representative for all elements in the group. This corresponds to the proposed methodology, and its forecast estimate and generalization error will be evaluated experimentally.
-	\item Model Composition with Maximum Error (coded `Max.'): for each group, we find the predictive model that maximizes the accumulated forecast error in the group.% time series for which its predictive model, when applied to all poins of its corresponding group, maximizes the accumulated forecast error. This can be considered the `worst' choice for representatives. Together with the Minimal Error, it provides an interval that helps to quantify the appropriateness of the choice of representatives when using the Model Composition at the Medoids.
+	\item Model Composition with Minimal Error (coded `Min.'): for each group in a partitioning scheme, we find the predictive model that minimizes the accumulated forecast error in the group. 
+	\item Model Composition with Minimal Local Error (coded `Min. Local'): naive approach where each time series gets its own predictive model.
+	\item Model Composition at the Medoids (coded 'Medoid'): for each group, generate a predictive model and apply it to each point in the group.
+	\item Model Composition with Maximum Error (coded `Max.'): for each group, we find the predictive model that maximizes the accumulated forecast error in the group.
 \end{itemize}
 
 For each of the model compositions above, we perform the forecast error analysis discussed in Section \ref{sec:InSampleForecastErrors} and with one of the associated error metrics described in Section \ref{Sec:TimeSeriesForecast}. Here, we focus on using the sMAPE error metric.
 
-By comparing qualitatively the in-sample error for these model compositions we guarantee the validity of using the model for the representative as a good generalization of the group. At the same time we reduce the number of predictive models generated for a spatio--temporal domain. As a part of the off--line process we store the resultant predictive models, this will allow us to speed--up the task of compute a forecast for a time-series.
+By comparing qualitatively the in-sample error for these model compositions we guarantee the validity of using the model for the representative as a good generalization of the group. At the same time we reduce the number of predictive models generated for a spatio-temporal domain. As a part of the off--line process we store the resultant predictive models, this will allow us to speed--up the task of compute a forecast for a time series.
 
 % Forecast Error in a group
 In the previous step we consider maintain several domain partitioning schemes. Considering the values for $k = \{4, 8, 66\}$, we compute the forecast error of the model compositions listed above, applied over its group generated in the partitioning technique. %In the following tables we 
@@ -422,8 +417,8 @@ In the previous step we consider maintain several domain partitioning schemes. C
 	\label{Table:ForecastErrorRegulark10}
 \end{table}
 
-In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC correspond to the ARIMA predictor for the time-series representative. Here, we use the code for each model composition described above; T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
-%TODO Add time to compare
+In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC correspond to the ARIMA predictor for the time series representative. Here, we use the code for each model composition described above; T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
+
 \begin{table}[h]
 	\centering
 	\tiny
@@ -456,7 +451,7 @@ The advantage of an off-line process is the ability to maintain various domain d
 
 In Sections \ref{Sec:Classifier} and \ref{Sec:TrainingClassifier} of our proposed methodology, we describe the implementation of a Neural Network Model for the Time-Series Multiclass Classification task. Here, we show how we build a classifier using the extracted dataset and known domain partitioning schemes as input. We want to leverage the three partitioning schemes for $k = \{8, 66, 132\}$, obtained in Section \ref{Sec:Selectk} through selection techniques, and their corresponding predictive models on representatives. The goal is to obtain a new model composition similar to the `Model Composition at the Medoids' (see Section \ref{Sec:KnowledgExtraction}), but where the representatives are dictated by the classifier instead of just the group that a given sample belongs to. 
 
-First, we process the dataset so that each sample is formed by a time-series $\mathcal{S}$, and a label $y$. The label is a tuple that represents both the domain partitioning scheme and one of the $k$ groups in the resulting partition (and thus uniquely identifies a representative model) in a partitioning technique.  %Considering maintaining domain partitioning schemes for $k = \{8, 66, 132\}$, and its corresponding predictive models on representatives. 
+First, we process the dataset so that each sample is formed by a time series $\mathcal{S}$, and a label $y$. The label is a tuple that represents both the domain partitioning scheme and one of the $k$ groups in the resulting partition (and thus uniquely identifies a representative model) in a partitioning technique.  %Considering maintaining domain partitioning schemes for $k = \{8, 66, 132\}$, and its corresponding predictive models on representatives. 
 The following table represent the dataset extracted (described on Table \ref{Tab:TSClassificationDataset}) to generate a NN Model:
 
 \begin{table}[h]
@@ -476,9 +471,9 @@ The following table represent the dataset extracted (described on Table \ref{Tab
 
 % Architectures considered
 % TODO confirm "variants"
-To build the classifier, we consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN1D--LSTM. The architecture hyperparameters and the optimization parameters for these two architectures and their variants are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}, respectively. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN architecture we consider a downsample option by using the MaxPooling for 1D temporal data, and regularization dropout hidden layers with value $(0.4)$.
+To build the classifier, we consider two independent architectures, Long-Short-Term Memory (LSTM) and Convolutional Neural Network (CNN) and third hybrid CNN1D--LSTM. The architecture hyperparameters and the optimization parameters for these two architectures and the hybrid version are listed in tables \ref{Table:HyperparametersNN} and \ref{Table:OptimizationNN}, respectively. In the first table we can see the number and type of layers and their respective activation function, Rectified Linear Unit (ReLU), for the CNN architecture we consider a downsample option by using the MaxPooling for 1D temporal data, and regularization dropout hidden layers with value $(0.4)$.
 
-All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}), and several batch sizes that defines the number of samples to work through before updating the internal model parameters. For the fourth model we consider two learning rates which require more training epochs given the smaller changes made to the weights each update \cite{}.
+All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}), and several batch sizes that defines the number of samples to work through before updating the internal model parameters. For the fourth model we consider two learning rates which require more training epochs given the smaller changes made to the weights each update \cite{Patterson2017}.
 
 \begin{table}[h]
 	\centering
@@ -527,7 +522,7 @@ All models were optimized using a variant of SGD such as Adam (\cite{Kingma2015}
 
 % Dataset transformation
 % Sliding Window
-For both architectures, we need to pre-process the dataset so that it represents a valid input. This is done by reshaping the dataset, which originally has the shape \texttt{(3000, 366)}, representing number of samples and vector length (365 instances of an univariate time series and the label). A way to look at it is, interpret a time-series as two dimensional data, where the first dimension is time-steps and other is the values of the  temperature in one axis. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with one data points in each time step. These 1 data points are the temperature in 1 axe. The transformation of the dataset is the following:
+For both architectures, we need to pre-process the dataset so that it represents a valid input. This is done by reshaping the dataset, which originally has the shape \texttt{(3000, 366)}, representing number of samples and vector length (365 instances of an univariate time series and the label). A way to look at it is, interpret a time series as two dimensional data, where the first dimension is time-steps and other is the values of the  temperature in one axis. For the model \texttt{input\_shape = (None, 15, 1)}, represents 15 time-steps with one data points in each time step. This one data points are the temperature in one axe. The transformation of the dataset is the following:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -541,7 +536,7 @@ n_length =  15
 input_shape = (None, n_length, num_features)
 \end{lstlisting}
 
-We implement the architectures in \texttt{keras} (\cite{Chollet2015}),  considering the following CNN1D-LSTM, a ten layer neural network formed by two CNN1D layers, two LSTM layers and one Dense layer:
+We implement the architectures in \texttt{keras} \cite{Chollet2015},  considering the following CNN1D-LSTM, a ten layer neural network formed by two CNN1D layers, two LSTM layers and one Dense layer:
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -575,7 +570,7 @@ print(model.summary())
 \end{lstlisting}
 % Results: Accuracy and Validation Loss for each model
 
-The resultant accuracy of the first two models was very low, which means that the model was not able to predict the label for a new time-series. As a result both models learnt only one class.
+The resultant accuracy of the first two models was very low, which means that the model was not able to predict the label for a new time series. As a result both models learnt only one class.
 
 \begin{table}[h]
 	\centering
@@ -593,14 +588,15 @@ The resultant accuracy of the first two models was very low, which means that th
 \end{table}
 
 \subsubsection{Discussion}
+
 In the third model, a CNN1D-LSTM, we obtain higher accuracy. Performing a set of parameters tuning (considering several values for the learning rate and batch size). The variation of these parameters affects the training time and how fast we achieve convergence in the validation loss function, the following table shows the results obtained:
 
-The key element in these experiments is to find a sweet spot between the window size, learning rate and the batch size. By lowering the learning rate we take smaller steps in order to find the best possible weights for the model and considering a greater batch size we speed-up the training of the model and reduce the noise added to the dataset, which is desirable for time-series data.
+The key element in these experiments is to find a sweet spot between the window size, learning rate and the batch size. By lowering the learning rate we take smaller steps in order to find the best possible weights for the model and considering a greater batch size we speed-up the training of the model and reduce the noise added to the dataset, which is desirable for time series data.
 
 % Justify 
 Having a sufficiently large time delay window is important for a time series predictor - if the window is too small then the attractor of the system is being projected onto a space of insufficient dimension, in which proximity is not a reliable guide to actual proximity on the original attractor. Thus, two similar time delay vectors y1 and y2, might represent points in the state space of the system which are actually quite far apart.  Moreover, a window of too large a size may also produce problems: since all necessary information is populated in a subset of the window, the remaining fields will represent noise or contamination.  Various heuristics can be used to estimate the embedding dimension, and here we use the false nearest neighbor method and the singular-value analysis \cite{Fawaz2019}.
 
-%Time-Series Classification is a difficult problem and recently the use of Deep Learning techniques ae becoming the default to solve this problem When dealing with univariate time-series 
+%Time-Series Classification is a difficult problem and recently the use of Deep Learning techniques ae becoming the default to solve this problem When dealing with univariate time series 
 
 \subsection{Spatio--Temporal Predictive Query Processing}
 

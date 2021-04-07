@@ -1,10 +1,18 @@
 \chapter{Related Works}
 \label{chapter_Related_Works}
 
-In the previous chapter we described the context and purpose of this work, the proposal of a methodology to process spatiotemporal predictive queries in a spatiotemporal domain with massive data (represented by univariate time series). This methodology considers the use of various techniques and algorithms for this type of data, we can consider three clear objectives: cluster, classify and predict the data trend. 
+Time series data are ubiquitous  
+%TODO Intro
+When considering spatiotemporal data exists several methods to extract knowledge about the phenomena analyzed, in this work we consider the following tasks clustering, classification
 
-This chapter thus reviews related studies, by presenting current efforts of efficient techniques for time-series clustering and classification. Also, we review works for prediction methods in particular those focused on the temporal modeling for spatiotemporal data represented by univariate time-series. We conclude by discussing works on methods for model generation to process spatiotemporal predictive queries predictive models
-% en ambientes donde existen modelos ya entrenados para diferentes regiones del dominio.
+\section{Spatiotemporal Modeling with Temporal Approach}
+\label{Sec:SPT-Temporal}
+Meteorological readings, hydrological parameters and many measures of air, soil and water pollution are often collected for a certain span, regularly in time, and at different survey stations of a monitoring network. Then, these observations can be viewed as realizations of a random function with a spatiotemporal variability. In this context, the arrangement of valid models for spatiotemporal prediction and environmental risk assessment is strongly required. Spatio-temporal models might be used for different goals: optimization of sampling design network, prediction at unsampled spatial locations or unsampled time points and computation of maps of predicted values, assessing the uncertainty of predicted values starting from the experimental measurements, trend detection in space and time, particularly important to cope with risks coming from concentrations of hazardous pollutants. Hence, more and more attention is given to spatiotemporal analysis in order to sort out these issues.
+
+Applications of spatial statistics cover many areas and much of the original impetus for the area was driven by geostatistics but in recent years the applications have extended to sociology, economics, environmental and ecological sciences.
+
+
+
 
 \section{Time-Series Clustering and Classification}
 \label{Sec:ClusteringRelatedWorks}
@@ -14,16 +22,25 @@ During several decades the data mining community focused on time-series data, cl
 
 We review works interested in methods concerning manipulating raw sequential data sets (univariate time series), using Partitioning Methods \cite{Kaufman2009}, in accordance with the purpose of grouping the data, it is necessary to consider a dis/similarity measure to compare the time series. Traditionally, the Euclidean distance were used to compare two time-series and measure the dis/similarity, but the nature of time--series ask for a more robust measure that is able to capture the temporal variability. Considering the dis/similarity focused on the shape between two time-series, the Dynamic Time Warping (DTW) measure, which originally was used for speech recognition, and later introduced to time-series for similarity measurement \cite{Sakoe1978}.
 
+The use of DTW as a similarity measure for time series gained popularity through the years, due to its computational cost, there are several variations of the original version that reduce the computational cost. In 
+
 % Success Cases using DTW as a similarity measure
-% The following works show the 
+Dynamic  Time  Warping(DTW) – was introduced in 1978 in the context of speech recognition \cite{Sakoe1978}. DTW is a way to define the distance measure between two univariate time series, and it can be used with a $k$-Nearest Neighbors ($kNN$) classifier. The main idea consists in calculating the distance between two time series not point wisely, like it is done using Euclidean distance, but using the mapping between structurally similar points, which is time-invariant.
 
 % Time Series Classification
-Techniques and methods for Time--Series classification (TSC) in the last decades presented great advances due to the use of sequential models, in particular deep neural networks \cite{Fawaz2019}. In the same manner exists several approaches to process the time--series 
-Geurts (2001) proposes to classify time series data based on combining local properties or patterns in the time series. Zhang et al. (2004) develop a representation method using wavelet decomposition that can automatically select the parameters for the classification task. They propose a nearest neighbor classification algorithm, using the derived appropriate scale. Kadous and Sammut (2005) use metafeature approach (i.e. recurring substructure) like local maxima in time series to generate classifiers. Similarly, Yang et al. (2005) focus on feature subset selection (FSS) based on common principal components, which is called CleVer, to retain the correlation information among original features. Classification is employed to evaluate the effectiveness of the selected subset of features. 
+Techniques and methods for Time--Series classification (TSC) in the last decades presented great advances due to the use of sequential models, in particular deep neural networks \cite{Fawaz2019}. 
+
+Extensive  experimental  evaluation  [1] showed  that  1-NN  DTW  is  a  strong  benchmark  which  cannot  be  beaten  by many proposed algorithms. If beaten, the advantage is often not so significant,compared to the difficulty of the implementation or the computation.
+
+In the same manner exists several approaches to process the time-series Geurts (2001) proposes to classify time series data based on combining local properties or patterns in the time series. Zhang et al. (2004) develop a representation method using wavelet decomposition that can automatically select the parameters for the classification task. 
+
+They propose a nearest neighbor classification algorithm, using the derived appropriate scale. Kadous and Sammut (2005) use metafeature approach (i.e. recurring substructure) like local maxima in time series to generate classifiers. Similarly, Yang et al. (2005) focus on feature subset selection (FSS) based on common principal components, which is called CleVer, to retain the correlation information among original features. Classification is employed to evaluate the effectiveness of the selected subset of features. 
 The use of neural networks for time-series classification
 
-\section{Spatio--Temporal Modeling -- Uni-Variate Time Series Analysis}
-\label{Sec:STModeling}
+ While the complexity is far higher than its static, non-spatial counterpart the ideas behind spatio-temporal clustering are similar - that is, either characteristic features of objects in a spatio-temporal region or the spatio-temporal characteristics of a set of objects are sought (Ng and Han 1994; Ng 1996).
+
+\section{Uni-Variate Time Series Analysis}
+\label{Sec:TSAnalysis}
 % Review the process of modelinng spatiotemporal data, focusing in simple methods that are very expensive 
 
 % Modelos para problemas espacio-temporales:
@@ -31,11 +48,11 @@ In several domains, including climate science, neuroscience, social sciences, ep
 
 Time series analysis has quite a long history. Techniques for statistical modeling and spectral analysis of real or complex-valued time series have been in use for more than fifty years \cite{Hyndman2006, Chatfield2019}. Weather forecasting, financial or stock market prediction and automatic process control have been some of the oldest and most studied applications of such time series analysis \cite{Box1976}. These applications saw the advent of an increased role for machine learning techniques like Hidden Markov Models and time-delay neural networks in time series analysis.
 
+The problem of future traffic prediction can be regarded as time series modelling and forecasting. Common time series data include financial data and temperature data. According to the number of independent variables, time series analysis problems can be divided into univariate time series analysis and multivariate time series analysis. In univariate time series, the current value of the series is only related to its historical values. While in multivariate time series, the current value is not only related with its history but is also related to extra driving series. 
 
-\subsection{Model Selection}
-\label{Sec:STModelSelection}
+According to the type of models, time series analysis problems can be divided into two categories: linear models and nonlinear models. Traditional linear time series modelling includes auto regression (AR), moving average (MA), and auto regression moving average (ARMA) [8]. Nonlinear modelling includes auto regressive conditional heteroskedasticity (ARCH) [9], and general auto regressive conditional heteroskedasticity (GARCH) [10].
 
-In the context of spatio--temporal modeling 
+These traditional algorithms are easy to explain and have complete theoretical basis. They can give a prediction with a confidence interval and the model itself implies the correlation of the variables. Nevertheless, these traditional methods also have disadvantages such as weak predictive ability.
 
 \section{Methods for Executing Spatio--Temporal Predictive Queries}
 \label{Sec:RelatedWorksQueries}
