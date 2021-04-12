@@ -137,6 +137,10 @@ In this work, instead of the default PAM implementation of k-medoids, we use an 
     Select the medoid $j$ with the lowest cost of the configuration. Iterate between steps 3 and 4 until there is no change in the assignments.
 \end{enumerate}
 
+
+% Considering varying k partitions
+The $k$--Medoids approach is a seed based algorithm, this means that the performance is dependent on initial cluster center selection and the optimal number of clusters \cite{Chowdhury2019}. The convergence of this algorithm primarily depends on the initialization phase, when the membership of each data point is calculated. The algorithm not only produces different clustering results for different values of $k$, but also for different values of the initial seed. In addition, increasing $k$ will always reduce the $k$--Medoids cost (within-cluster sum of squares, or WSS) in the resulting grouping, to the extreme case of zero cost if each data point is considered its own cluster (i.e., when $k$ equals the number of data points) \cite{HastieTF2009}. 
+
 In $k$--Medoids clustering algorithm, the number of clusters $k$, has to be pre-assigned, which may not be readily available or may not be easily easily determined for many applications. Thus, one of the main drawbacks of $k$--Medoids is the difficulty in obtaining natural clustering results when working with static objects \cite{Mohri2012}.
 
 The issue of requiring a pre-assigned value for the number of clusters $k$ is exacerbated when applying the $k$--Medoids method on time-series data, because the datasets are very large and diagnostic checks for determining the number of clusters is not easy \cite{Aghabozorgi2015}. In Section \ref{Sec:Selectk}, we will explore methods and techniques to find the optimal number of $k$ under these conditions.
@@ -210,7 +214,7 @@ The process of a convolution layer can be better explained in the context of ima
 \begin{figure}[htb]
 	%\begin{minipage}[b]{0.8\textwidth}
 	\centering
-	\includegraphics[scale=0.2]{../Figures/1d-cnn}
+	\includegraphics[scale=0.25]{../Figures/1d-cnn}
 	\caption{1D Convolution Network for Time Series \cite{Kim2014}.}
 	\label{Fig:1DCNN}
 	%\end{minipage}
@@ -245,7 +249,7 @@ The nature of time-series data includes the following properties: i) large in da
 \label{Sec:MethodsTSA}
 
 % Introduction TSA
-A foundational object of time series analysis is to develop models that provide plausible descriptions for time series data. For this we consider the fact that time series data are usually not independent and the analysis must take into account the time order of the observations. As a consequence, when successive observations (time series) are dependent, future values may be predicted from past observations \cite{Mills2019}. 
+A foundational objective of time series analysis is to develop models that provide plausible descriptions for time series data. For this we consider the fact that time series data are usually not independent and the analysis must take into account the time order of the observations. As a consequence, when successive observations (time series) are dependent, future values may be predicted from past observations \cite{Mills2019}. 
 % FIXME "stochastic" needs rigorous definition
 % TODO https://stats.stackexchange.com/questions/126791/is-a-time-series-the-same-as-a-stochastic-process
 Many applications are represented by stochastic time series, meaning that the future is partly determined by past values. Thus the exact predictions are impossible to determine and must be replaced by the idea that future values have a probability distribution, which is conditioned on a knowledge of past values. 
@@ -354,6 +358,7 @@ Additionally, we consider percentage errors, which have the advantage of being u
 \end{itemize}
 In sMAPE The absolute difference between $s_{t}$ and $\hat{s}_{t}$ is divided by half the sum of absolute values of the actual value $s_{t}$ and the forecast value $\hat{s}_{t}$. The value of this calculation is summed for every fitted point $t$ and divided again by the number of fitted points $n$. In contrast to the MAPE, sMAPE has both a lower bound and an upper bound. The formula above provides a result between $0\%$ and $200\%$. However a percentage error between $0\%$ and $100\%$ is much easier to interpret.  
 
-
 \section{Final Considerations}
+\label{Sec:TheoFinalConsiderations}
 
+% 
