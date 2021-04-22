@@ -175,7 +175,6 @@ In this Section we describe the experiments performed to validate the strategies
 %TODO when this hypothesis is validated, refer to Section \ref{Sec:AnalyzeDomainPartitioning}
 A hypothesis we want to highlight is that it should be preferable to use a partitioning technique that considers grouping domain elements based on the similarity of their temporal evolution, rather than creating groups just according to a regular division of the domain geometry. To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.
 
-%TODO cleanup
 Another important aspect to evaluate in $k$--medoids is the choice of the number of partitions ($k$), for this we use three approaches: elbow method, silhouette index and the inflection point using a smooth spline (see Section \ref{Sec:domain_number_groups} for a description of these methods).
 
 \subsubsection{Evaluating Partitioning Quality}
@@ -283,7 +282,8 @@ We argue that this method is more appropriate for our dataset, in contrast to th
 	%	\end{minipage}
 \end{figure}
 
-We observe that several methods to find an optimal value for $k$ give us different values. Figure \ref{Fig:OptimalkKMedoids} shows the resulting groups when applying two of these partitioning techniques; the marks indicate the representative points of each group. %TODO Argumentar que puede estar pasando
+We observe that several methods to find an optimal value for $k$ give us different values. Figure \ref{Fig:OptimalkKMedoids} shows the resulting groups when applying two of these partitioning techniques; the marks indicate the representative points of each group. 
+% TODO Argumentar que puede estar pasando
 Table \ref{Table:ValidationIndex} summarizes the findings of applying the available methods to find optimal values for $k$.
 \begin{table}[h]
 	\centering
@@ -320,13 +320,13 @@ Table \ref{Table:ValidationIndex} summarizes the findings of applying the availa
 \label{Sec:DomainPartitioningDiscussion}
 
 % Justification and Summarization
-Spatial-temporal data are heterogeneous and autocorrelated, consequently the data are consistent and smoothly variable. The division of the domain into $k$ parts by a method that considers the similarity in the temporal evolution of its elements is indeed superior to a method that does not consider any similarity. Furthermore, there is more than one $k$ that, based on temporal similarity, expresses better different regions of the domain.
+Spatial-temporal data are heterogeneous and autocorrelated, consequently the data are consistent and smoothly variable \cite{}. The division of the domain into $k$ parts by a method that considers the similarity in the temporal evolution of its elements is indeed superior to a method that does not consider any similarity. Furthermore, there is more than one $k$ that, based on temporal similarity, expresses better different regions of the domain.
 
 The evaluation of this part of the methodology allowed us to establish the $k$--medoids algorithm as a significantly superior partitioning solution, compared to the naive approach of a regular partitioning used as baseline. This was demonstrated even when increasing the number of groups: while both partitioning algorithms exhibit a decreasing trend in the sum of intra-cluster distances (partitioning cost), the cost of the $k$--medoids algorithm was consistently smaller than the baseline. Also, the trend was monotonous for $k$--medoids, while it showed variability for the regular partitioning (the latter variability can be explained by the arithmetic of dividing the region in equal rectangles). 
 
 The monotonous trend of $k$--medoids allowed for the calculation of the inflection point, which effectively calculated a high value for $k$ to represent a suitable partitioning scheme ($k = 66$). This value gives us a reasonable number of representatives that we can use in the next phases of the methodology. Also, since we applied two other validation methods for selecting $k$ that produced two other domain partitioning schemes, we can also consider these groups and their representatives when evaluating a model composition. 
 
-% DBSCAN
+% DBSCAN - Not included in the final version to avoid confusion or off-topic discussions.
 %In addition to $k$--Medoids, we also explored DBSCAN, another clustering method that can also use DTW as the similarity measure. DBSCAN is a procedure to find `optimal' number of groups based on the spatial density of the data, and uses two parameters: the maximum ray to agglomerate points and the minimum number of elements per group. Its disadvantage is that being an algorithm that only finds convex groups, if the elements are not similar they are considered outliers. When DBSCAN was applied to our dataset, it would either find only two groups containing most of the data points, or few groups that failed to contain most of the points, because DBSCAN would mark other points as outliers. After this exploration of DBSCAN, further analysis with it was discontinued.
 
 In the following section, we describe the process to generate predictive models on the representative elements and the experiments to evaluate its predictive quality.
@@ -334,66 +334,148 @@ In the following section, we describe the process to generate predictive models 
 \subsection{Forecast Error Analysis of Predictive Models on Representatives}
 \label{Sec:AnalyzePredictorRepresentatives}
 
-% Objective: Demonstrate that it is sufficient to use a models over a group representative for every group element.
+% Objective: Evaluate that it is sufficient to use a models over a group representative for every group element.
 In this section we perform extensive experiments to evaluate the predictive power of models trained on the representative elements of each group. 
+% TODO: GM Revisar escrita y tal vez cambiar el orden del texto.... 
+One of the main reasons we adopt this approach is because we intend to accelerate the computational intensive process involved in perform the forecast of multiple time series, in some cases too many to analyze manually.
 
 % Predictor ARIMA
 Following the Step two of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. We denote the subset of representative elements for different values of $k$ by $\mathbf{R} \subset \mathcal{D}$, and the generated models $g$ as per equation \ref{eq:ModelDefinition}, $g \in \mathcal{G}_{(\mathbf{R})}$. 
 
-In this context, the model parameters $\mathbf{p}$ comprise both the ARIMA $(p, d, q)$ parameters, and the default hyper-parameters used in an implementation of \texttt{auto.ARIMA}\footnote{\texttt{auto.ARIMA}: Implementation on \url{https://robjhyndman.com/publications/automatic-forecasting/}} that finds a suitable tuple $(p, d, q)$, as described in Section \ref{Sec:TheoryARIMA}. A predictive model is then completely characterized by the $(p, d, q)$ tuple and the series used as training data. For models at a representative of a group, the training series is extracted from the time series located at the point coordinates of the representative.
+In this context, the model parameters $\mathbf{p}$ comprise both the ARIMA $(p, d, q)$ parameters, and the default hyper-parameters used in an implementation of \texttt{auto.ARIMA}\footnote{\texttt{auto.ARIMA}: Implementation on \url{https://robjhyndman.com/publications/automatic-forecasting/}} that finds a suitable tuple $(p, d, q)$, as described in Section \ref{Sec:TheoryARIMA}. A predictive model is then completely characterized by the $(p, d, q)$ tuple and the series used as training data. 
+% TODO Add the importance of the residuals
+% Residuals are useful in checking whether a model has adequately captured the information in the data. A good forecasting method will yield residuals with the following properties: The residuals are uncorrelated.
+
+The prediction intervals, which are a way to display the uncertainty in forecasts, for ARIMA models are based on assumptions that the residuals are uncorrelated and normally distributed. 
+
+% Evaluate the prediction interval of the representatives (in-sample)
+% Trade-off between the representative model accuracy and the computational intensive process to perform the creation of model for every element in the domain.
 
 \subsubsection{Obtaining In-sample and Forecast Errors}
 \label{sec:InSampleForecastErrors}
 
-Figure \ref{Fig:Time-SeriesModel} shows the division of time units on the time series in order to train and test an ARIMA model. Recalling the preparation of the dataset described in Section \ref{sec:DatasetPreparation}, we work with 365 values for each representative point, denoted by the series $s[0:364]$.
+% Analyze the in-sample error for the representatives first, later use an argument similar to the NFLT for time-series. Using the in-sample error of the model on the representatives for series within each group
+Figure \ref{Fig:TimeSplit} shows the division of time units on the time series in order to train and test an ARIMA model. Recalling the preparation of the dataset described in Section \ref{sec:DatasetPreparation}, we work with 365 values for each representative point, denoted by the series $s[0:364]$.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.35]{../Figures/ModelRegion_ModelTS}
-	\caption{Dataset Split to Generate Time-Series Predictors.}
-	\label{Fig:Time-SeriesModel}
+	\includegraphics[scale=0.38]{../Figures/ModelRegion_ModelTS}
+	\caption{Time units split for training and test datasets.}
+	\label{Fig:TimeSplit}
 \end{figure}
 
-Let's consider a particular representative $\mathcal{S}^{*} \in \mathbf{R}$ and its associated temperature series $s_r$. To evaluate an ARIMA model $g_{s_r}$ and its predictive power, the series is then split into three parts. The first part is used for training the model ($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesModel}), here we determine the tuple $(p_{s_r}, d_{s_r}, q_{s_r})$ that corresponds to the model $g_{s_r}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the validation series $s^v_t[349:357]$. The purpose of this subset is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{s_r}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
+Let's consider a particular representative $\mathcal{S}^{*} \in \mathbf{R}$ and its associated temperature series $s_r$. To evaluate an ARIMA model $g_{s_r}$ and its predictive power, the series is then split into three parts. The first part is used for training the model ($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesSplit}), here we determine the tuple $(p_{s_r}, d_{s_r}, q_{s_r})$ that corresponds to the model $g_{s_r}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the validation series $s^v_t[349:357]$. The purpose of this subset is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{s_r}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
 
-To enable forecasting, the model is retrained using the same $(p, d, q)$ model parameters found with $s^t_r$, but now using a longer series $s[0:357]$. In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $s[357:364]$ is actually available from the dataset, we are evaluate to calculate the forecast error, allowing us to perform forecast error analysis on different representatives from different domain partitioning schemes. The error analysis described can also be applied to the $k$NN predictive model (baseline).
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1]{../Figures/medoid_test_training}
+	\caption{Dataset Split for a Time Series Representative ($s^t_r$ in black, $s^v_t$ in pink).}
+	\label{Fig:Time-SeriesSplit}
+\end{figure}
+
+To enable forecasting, the model is retrained using the same $(p, d, q)$ model parameters found with $s^t_r$, but now using a longer series $s[0:357]$ (previous training series now extended with the validation series). In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $s[357:364]$ is actually available from the dataset, we are evaluate to calculate the forecast error, allowing us to perform forecast error analysis on different representatives from different domain partitioning schemes. 
+%The error analysis described can also be applied to the $k$NN predictive model (baseline).
+
+In order to show this approach in action, we present Figure \ref{Fig:ModelFinalToForecast}, where we show the ARIMA model with parameters $(3,1,1)$ for a medoid in a domain partitioning ($k=8$). Represented with a blue line, we have the forecast values for $t_{f} = 8$, while the prediction intervals with $95\%$ and $80\%$ confidence levels are shown in blue and light blue shades, respectively. The values fitted by the model are also shown in pink, on top of the original time series for the retrained model in black.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1]{../Figures/medoid_forecast_fitted}
+	\caption{Forecast, fitted.}
+	% Change caption.
+	\label{Fig:ModelFinalToForecast}
+\end{figure}
+
+% Forecast estimates are provided with confidence bounds: 80% confidence limits shaded in darker blue, and 95% in lighter blue. For stationary models (i.e., with d=0), forecast intervals converge, for d>1, the forecast intervals will continue to grow into the future.
+% Add justification for ARIMA models
 
 \subsubsection{Analyzing Forecast Errors}
 \label{Sec:AnalyzeForecastErrors}
-% TODO Referencia: https://towardsdatascience.com/on-the-automation-of-time-series-forecasting-models-technical-and-organizational-considerations-286db3120c8e
- % TODO no free lunch, etc
- % More specifically, the basic assumption underlying the prophet model is that most useful real world time series do not contain any structure beyond trend, seasonality, and causal/holiday effects, and we don’t gain much by trying to mine them for complex auto-correlations the way a non-trivial ARIMA model does. 
- % Besides making it easy to strike a balance between automation and flexibility, the trend + seasonality + causal effects approach to Prophet makes it very convenient for communicating results to non-technical or scientific people (If you are a student or a beginner in the field, brace yourself: Haggling with business over the validity of your forecasts will consume a significant portion of your day. Go get your soft skills brushed up while you are at it).
- % One might ask: But isn’t that what Triple Exponential Smoothing (Holt-Winters) does? Fit a trend component and a seasonal component and leave it at that? Are we just trying to use a Facebook API for hype purposes? Not quite. Prophet is somewhat more sophisticated than Holt-Winters in that regard: It can model break points in the trend, and multiple seasonalities (e.g. for example daily and monthly peaks in a cusotmer time series). It can also handle causal events very well, which HW can’t (You would have to add the causal effects as some sort or post-processing step). Part of Prophets felxibility comes from the fact that it is not “just” a GAM model. Under the hood, there is a lot of Bayesian heavy lifting going on, including in the causal modeling part.
 
-Presumably, one of the main reasons you want to do automated time series forecasting, is because you want to forecast multiple time series, too many to analyze manually (The tool my team uses generates millions of forecasts daily — one for each of our product/location combinations). Therefore your automated forecasting procedure must be able to fit to different types of time series with different business scenarios. In the general ML case, there is a theoretical result called the No Free Lunch Theorem: There is no such thing as a “supervised ML model to rule them all”, one that can generate the best out of sample predictions without having to make any assumptions about the structure of the data set. So if you’re going to throw a generic ML model, say a feed forward neural network, at your problem space, and hope that it will work for every possible data configuration that can occur, you will also have to accept that sometimes there will be a model that performs better than the one you ended up with. It is the price you pay for having one generic model for everything, hence “no free lunch”.
+% GM Review paragraph
+One of the assumptions in the methodology proposed is that we opt for an automated time series forecasting with a reduced number of models, the purpose is perform a forecast for multiple time series inside a region of interest. Therefore this models used for forecasting must be able to fit to times series in different regions of the domain. It is known that is almost impossible to find the best model for each and every single time series \cite{HastieTF2009}, but using our approach, these reduced number of models are reasonable good on average over all the time series, also it is possible that for some of those time series could exists better models that those considered for the representatives.
 
-Something similar happens with time series models: You need to keep in mind that an automated forecasting approach is never going to find the absolute best model for each and every single time series — it is going to give a reasonably good model on average over all the time series, but it is still possible that some of those time series could have better models than the ones selected by the automated method.
-% Forecast Error vs. DTW distance intra-cluster
-% The forecast values for models 
-% Forecast Error of predictor over representative compare with the 
-Given that the confidence intervals of the generalization error for the model built for the representative element is a varying value between the forecast error of the model composition listed, we need to analyze the intra cluster variability. When applying $k$--medoids to the domain, the number of elements on each cluster are different and it is not feasible to find a significant correlation between the model composition forecast error and the DTW distance from the medoid.
-%DTW distance between representatives
-% DTW distance and generalization error 
-%TODO
-Analyze the generalization error for the predictor in each representative 
+% Add comparison important, for elements (other than representatives) compare the actual values with the forecast and prediction intervals of the representative. 
+% GM review paragraph
+Comparison of forecast prediction intervals for the representative element model when is used in another element in their group. In the case of a $k=8$, we have groups with the number of elements varying from 500 to 3479, representing the $6.2\%$ and $43\%$ of the domain respectively. This means that exists eight models that could perform reasonable good predictions for any element in the domain.
 
-% TODO change figure with another k, e.g. k=66?
+% Add the forecast 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{../Figures/auto_arima_distance_error_whole_brazil_1y_1ppd_k8_seed1_cluster4_pdq2-1-1_sMAPE}
-	\caption{Forecast Error vs. DTW distance in a group $k$--medoids with $k=8$}
-	\label{Fig:DTWvsForecastError}
+	\includegraphics[scale=1]{../Figures/forecast_element1}
+	\caption{Forecast, fitted.}
+	% Change caption.
+	\label{Fig:ForecastElement1}
 \end{figure}
 
+
+% GM review paragraph....
+By considering a greater value for the number $k=66$, we are creating more groups and therefore more representatives that generalize better the elements in its group. The partitioning domain result are groups varying from 14 to 278 elements, representing the $0.2\%$ and $3.4\%$ of the domain respectively.
+
+% Forecast Error vs. DTW distance intra-cluster
+% Main objective: Within a group, evaluate the variation of the forecast error obtained when the model is applied over all the elements in the group. In practice we are computing the value forecast on the representative for $t_f = 8$, then we compute the sMAPE using the observational values on the representative.
+
+Given that the prediction intervals for the forecast of the model built using the representative element are varying values between the forecast error of the model composition listed, we need to analyze the intra cluster variability. When applying $k$--medoids to the domain, the number of elements on each cluster are different and it is not feasible to find a significant correlation between the model composition forecast error and the DTW distance from the medoid.
+
+% TODO Re-make figures with the same scale for k =8 and k=66, using the same scale for the forecast errors. Compute the amount of points with `low' or `close' forecast error compared with the medoid forecast error (use percentage or $\pm$ values).
+
+% Figures 
+% DTW Maximum 2.5 
+
+% Maximum Forecast Error 1.0 
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k8_c0}
+    \caption{Flower one.}
+    \label{Fig:Test1}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k66_c47}
+    \caption{Flower two.}
+    \label{Fig:Test2}
+  \end{minipage}
+\end{figure}
+
+% Maximum Forecast Error 1.5
+
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k8_c6}
+    \caption{Flower one.}
+    \label{Fig:Test1}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k66_c24}
+    \caption{Flower two.}
+    \label{Fig:Test2}
+  \end{minipage}
+\end{figure}
+
+% Maximum Forecast Error 2.0
+
+% Maximum Forecast Error 2.5
+
+% Para evaluar cuantitativamente el poder predictivo de la forecast con t_f=8 
+To quantify individually the predictive power of the representative predictor forecast error, we compute the sMAPE of each element 
+
+
+
+
+% Conclusion: It is not feasible to find a direct correlation between DTW distance and forecast error (and also in-sample error), this is due to the nature of the ARIMA models (elaborate more). To establish a more generic function for the forecast error, or the predictive power, we have to consider 
+% TODO Add reference for the statistical equivalent of the learning function.
+
+
  As a part of the off--line process we store the resultant predictive models, this will allow us to speed--up the task of compute a forecast for a time series.
- 
- %It might be better to use time series cross-validation, or out of sample validation, instead of information criteria, but that will be much more computationally intensive (and tedious to code), not to mention the question of which suitable forecast horizon to cross-validate against.
  
 \subsubsection{Predictive Quality of Model Composition}
 \label{Sec:ModelComposition}
 
-We are interested in evaluate the generalization error for a model composition, as discussed in Section \ref{Sec:KnowledgExtraction} of the methodology. A model composition is formed by one or more predictors which will be used to perform a prediction on a domain region. Recalling from Section \ref{Sec:ModelRepresentatives}, the model compositions of interest are:
+% We are using a model on a representative element, one that generalizes the temporal evolution of a group contained in the study domain. We want to evaluate the prediction error 'in-sample' of the model applied on the other elements, we seek to find a balance between the minimum and maximum error of the 
+We are interested in evaluate the forecast error for a model composition, as discussed in Section \ref{Sec:KnowledgExtraction} of the methodology. A model composition is formed by one or more predictors which will be used to perform a prediction on a domain region. Recalling from Section \ref{Sec:ModelRepresentatives}, the model compositions of interest are:
 
 \begin{itemize}%[noitemsep,nolistsep]
 	\item Model Composition with Minimal Error (coded `Min.'): for each group in a partitioning scheme, we find the predictive model that minimizes the accumulated forecast error in the group. 
@@ -402,9 +484,7 @@ We are interested in evaluate the generalization error for a model composition, 
 	\item Model Composition with Maximum Error (coded `Max.'): for each group, we find the predictive model that maximizes the accumulated forecast error in the group.
 \end{itemize}
 
-For each of the model compositions above, we perform the forecast error analysis discussed in Section \ref{sec:InSampleForecastErrors} and with one of the associated error metrics described in Section \ref{Sec:TimeSeriesForecast}. Here, we focus on using the sMAPE error metric.
-
-By comparing qualitatively the in-sample error for these model compositions we guarantee the validity of using the model for the representative as a good generalization of the group. At the same time we reduce the number of predictive models generated for a spatio-temporal domain.
+For each of the model compositions above, we perform the forecast error analysis discussed in Section \ref{Sec:AnalyzeForecastErrors} with one of the associated error metrics described in Section \ref{Sec:TimeSeriesForecast}. Here, we focus on using the sMAPE error metric.
 
 % Forecast Error in a group using the representative predictor.
 In the previous step we consider maintain several domain partitioning schemes. Considering the values for $k = \{8, 66, 132\}$, we compute the forecast error of the model compositions listed above, applied over its group generated in the partitioning technique. %In the following tables we 
@@ -412,18 +492,18 @@ In the previous step we consider maintain several domain partitioning schemes. C
 \begin{table}[h]
 	\centering
 	\tiny
-	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
+	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
 		\hline
-		cid & size & $(p, d, q)$ & AIC & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
+		cid & size & $(p, d, q)$ & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
 		\hline
-		0 &  990 & (2, 1, 2) & -727.287 & 1.642 & 3601.959 & 0.333 & 0.305 & 0.379 & 0.331 & 0.826 \\
-		1 &  990 & (0, 1, 2) & -655.858 & 1.665 & 3221.489 & 0.192 & 0.180 & 0.198 & 0.268 & 0.517 \\
-		2 &  990 & (1, 1, 2) & -769.059 & 1.621 & 4063.693 & 0.384 & 0.460 & 0.888 & 0.587 & 1.608 \\
-		3 &  990 & (2, 1, 1) & -896.605 & 1.610 & 3424.456 & 0.341 & 0.387 & 0.634 & 0.394 & 1.028 \\
-		4 &  990 & (2, 1, 2) & -744.805 & 1.651 & 4305.636 & 0.782 & 0.571 & 1.182 & 0.769 & 3.058 \\
-		5 &  990 & (1, 1, 2) & -688.749 & 1.713 & 3818.287 & 0.470 & 0.489 & 0.580 & 0.609 & 2.062 \\
-		6 & 1080 & (0, 1, 0) & -659.159 & 1.744 & 4674.208 & 1.190 & 0.564 & 0.862 & 2.454 & 2.935 \\
-		7 & 1080 & (2, 1, 1) & -681.813 & 1.795 & 4847.003 & 0.546 & 0.463 & 0.563 & 0.583 & 1.188 \\ \hline
+		0 &  990 & (2, 1, 2) & 1.642 & 3601.959 & 0.333 & 0.305 & 0.379 & 0.331 & 0.826 \\
+		1 &  990 & (0, 1, 2) & 1.665 & 3221.489 & 0.192 & 0.180 & 0.198 & 0.268 & 0.517 \\
+		2 &  990 & (1, 1, 2) & 1.621 & 4063.693 & 0.384 & 0.460 & 0.888 & 0.587 & 1.608 \\
+		3 &  990 & (2, 1, 1) & 1.610 & 3424.456 & 0.341 & 0.387 & 0.634 & 0.394 & 1.028 \\
+		4 &  990 & (2, 1, 2) & 1.651 & 4305.636 & 0.782 & 0.571 & 1.182 & 0.769 & 3.058 \\
+		5 &  990 & (1, 1, 2) & 1.713 & 3818.287 & 0.470 & 0.489 & 0.580 & 0.609 & 2.062 \\
+		6 & 1080 & (0, 1, 0) & 1.744 & 4674.208 & 1.190 & 0.564 & 0.862 & 2.454 & 2.935 \\
+		7 & 1080 & (2, 1, 1) & 1.795 & 4847.003 & 0.546 & 0.463 & 0.563 & 0.583 & 1.188 \\ \hline
 	\end{tabular}
 	\caption{Model Composition Forecast Error for Regular Partitioning with $k=10$.}
 	\label{Table:ForecastErrorRegulark10}
@@ -434,18 +514,18 @@ In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AI
 \begin{table}[h]
 	\centering
 	\tiny
-	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
+	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
 		\hline
-		cid & size & $(p, d, q)$ & AIC & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
+		cid & size & $(p, d, q)$ & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
 		\hline
-		0 &  574 & (0, 1, 2) & -782.717 & 1.069	&  2041.469	& 0.170	& 0.161	& 0.289	& 0.185	& 0.438	 \\
-		1 &  817 & (2, 1, 2) & -814.564 & 1.299	&  3447.608	& 0.689	& 0.460	& 0.531	& 0.926	& 1.566	 \\
-		2 &  542 & (1, 1, 2) & -782.089 & 0.880	&  2011.441	& 0.581	& 0.514	& 0.577	& 0.678	& 1.420	 \\
-		3 &  755 & (1, 1, 1) & -767.516 & 1.238	&  2685.912	& 0.413	& 0.289	& 0.364	& 0.492	& 0.878	 \\
-		4 & 3479 & (1, 1, 2) & -759.429 & 5.727	& 14542.318	& 0.785	& 0.475	& 0.548	& 0.838	& 1.983	 \\
-		5 &  803 & (1, 1, 1) & -737.956 & 1.375	&  3231.718	& 0.407	& 0.294	& 0.378	& 0.437	& 1.194	 \\
-		6 &  625 & (3, 1, 1) & -650.722 & 0.957	&  1930.740	& 0.157	& 0.168	& 0.175	& 0.203	& 0.478	 \\
-		7 &  505 & (3, 1, 1) & -660.001 & 0.853	&  1811.335	& 0.388	& 0.375	& 0.422	& 0.551	& 1.015	 \\ \hline	
+		0 &  574 & (0, 1, 2) & 1.069	&  2041.469	& 0.170	& 0.161	& 0.289	& 0.185	& 0.438	 \\
+		1 &  817 & (2, 1, 2) & 1.299	&  3447.608	& 0.689	& 0.460	& 0.531	& 0.926	& 1.566	 \\
+		2 &  542 & (1, 1, 2) & 0.880	&  2011.441	& 0.581	& 0.514	& 0.577	& 0.678	& 1.420	 \\
+		3 &  755 & (1, 1, 1) & 1.238	&  2685.912	& 0.413	& 0.289	& 0.364	& 0.492	& 0.878	 \\
+		4 & 3479 & (1, 1, 2) & 5.727	& 14542.318	& 0.785	& 0.475	& 0.548	& 0.838	& 1.983	 \\
+		5 &  803 & (1, 1, 1) & 1.375	&  3231.718	& 0.407	& 0.294	& 0.378	& 0.437	& 1.194	 \\
+		6 &  625 & (3, 1, 1) & 0.957	&  1930.740	& 0.157	& 0.168	& 0.175	& 0.203	& 0.478	 \\
+		7 &  505 & (3, 1, 1) & 0.853	&  1811.335	& 0.388	& 0.375	& 0.422	& 0.551	& 1.015	 \\ \hline	
 	\end{tabular}
 	\caption{Model Composition In-Sample Error for Partitioning Technique  $k$--Medoids with $k=8$ and \texttt{seed = 0}.}
 	\label{Table:ForecastErrorkMedoidsk8}

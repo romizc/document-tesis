@@ -1,71 +1,115 @@
 \chapter{Conclusions and Future Works}
 \label{chapter_Conclusions}
 
-This final chapter contains the closing remarks of this work. Here, the most important contributions and findings are highlighted, with some additional discussion about the methodology, the analysis and the experiments. The chapter concludes with possible research lines that this work can open in the future.
+This final chapter contains the closing remarks of this work. Here, the most important contributions and findings are highlighted, with some additional discussion about the methodology, the analysis and the experiments. The chapter concludes with possible research lines that can be pursued in the future, following the direction of this work.
 	
 \section{Results Summary}
 \label{Sec:ResultsSummary}
 
-The main objective of the experiments is to evaluate the proposed methodology, considering the case study of temperature prediction. According to the proposed experiments we can assert that the domain can be grouped according to a shape-based (temporal) measure of similarity between elements, and these groups are represented by representative element that generalizes the behavior (temporal dimension) of the group. 
+The main objective of our work is to develop a methodology that can be used to make predictions about future states of a spatio-temporal region, using carefully predictive models that have been trained with limited temporal data, but at the same time produce predictions about unseen temporal data within some tolerated error margin. The computational experiments were then designed to evaluate the proposed methodology, considering the case study of temperature prediction.
 
-+ Sobre el proceso off line para analizar los datos: 
-	- Orientada al reciclaje de determinados procesos computacionales caros y con alto consumo de tiempo, sin perder [interpretacion] de los datos.
-	- El tratamiento de datos masivos es acelerado por medio del calculo de una matriz de distancias DTW, basicamente la distancia mide la similitud entre dos elementos com base en la evolucion temporal. Computacionalmente el calculo de la matriz es un proceso costoso, por lo que optamos por almacenar el resultado en un archivo que depues es accesado (o consultado) en diferentes partes del proceso implementado.
-	- El dominio es agrupado con base a la similitud de la evolucion temporal por medio de un metodo tradicional, [crips approach], y nos permite encontrar un representante (miembro del dominio) que generaliza a los elementos de cada grupo.
-	- El metodo predictivo temporal usado para este fenomeno espaciotemporal, presenta alto grado de acuracia en predecir el fenomeno, [si considero generar un modelo para cada elemento, es caro y se demora - pero con el representante para cada grupo se acelera el proceso de generar modelos para el dominio entero]
-	- [Muchos representantes y modelos predictivos para un mismo dominio presentan calidad predictiva diferente] 
-	- [en este trabajo consideramos la calidad predictiva de cada modelo sobre el representativo como clases y para cada clase existe una {relacion o funcion} que asocia elementos del dominio, esta relacion podria ser aprendida por medio de un metodo supervisionado], esto con el objetivo de automatizar el proceso de eleccion de modelo predictivo para cualquier elemento del dominio.
+According to the proposed experiments, we can assert that the domain can be grouped according to a shape-based (temporal) measure of similarity between elements, and these groups are represented by representative element that generalizes the behavior (temporal dimension) of the group. In order to represent the similarity between temporal series, the calculation of the DTW distance was used, which measures the similarity based on the temporal evolution of two elements.
 
-+ Sobre el proceso online:
-	- La existencia de una consulta predictiva espaciotemporal exige 
-	- El metodo de composicion o ensemble de modelos para atender a elementos de una region especifica, es un proceso simple y rapido. 
+The pairwise DTW distances can be expressed as a 2-d matrix. Computationally, the calculation of this matrix is an expensive process, but this particular implementation allowed us to perform this time consuming calculation only once, and then store the result as an array for quick retrieval and query. This treatment enabled us to accelerate other processes such as the grouping of elements, effectively saving computational resources without losing any quality in the results.
 
+The spatio-temporal domain is grouped based on the similarity of the temporal evolution by means of the $k$--medoids method, a crisp approach that assigns exactly one group for each element, and at the same time calculates one of the elements as the representative of that group. We then say that this representative generalizes the elements of its own group, and can be used to train useful predictive models.
 
-+ soluciones para realizar consultas predictivas
-	- la mayoria estan basadas en metodos de aprendizaje profundo, que representa una mezcla de los items listados arriba
-	- es dificil calificar la evolucion de la capacidad predictiva de los modelos, es necesario un re-entrenamiento de un proceso que de por si ya es extenso y de alta demanda en tiempo y computacion
-	- [ver clipper, rafiki]
+% TODO quantify kmedoids vs regular
+%The spatio-temporal domain is grouped based on the similarity of the temporal evolution by means of the $k$--medoids method, a crisp approach that assigns exactly one group for each element, and at the same time calculates one of the elements as the representative of that group. We then say that this representative generalizes the elements of its own group, and can be used to train useful predictive models.
+
+% TODO classifier
+An important choice in the approach based on representatives, is to select an adequate partitioning schemes (driven by the value of the parameter $k$) that will produce the groups and representatives. To tackle this issue, we consider many partitioning schemes and gather all of the candidate representatives for the same domain.
+
+% TODO more?
+To complete the case study, the `offline' process of training predictive models is evaluated with spatio-temporal predictive queries, which can be considered the `online' phase of the methodology and initiated after the training has taken place. Here, the composition method or ensemble of models leveraged to attend to elements of a specific region, is a simple and fast process and therefore adequate for the online phase which requires low response time.
+
+% TODO numbers
+The temporal predictive method used for this space-time phenomenon can present a high degree of accuracy in predicting the phenomenon, if a predictive model is generated and evaluated for each element. However, this is computationally expensive and time consuming. When compared with the approach based on representatives, we find that some predictive quality is lost when evaluating predictive queries (X\% when choosing $k=K$, Y\% when using the classifier). We conclude that our multiclass model composition can produce forecast errors comparable to a naive approach, but with a computational efficiency of about two orders of magnitude greater.
+
+% About the offline process to analyze the data:
+% \begin{itemize}
+%     \item Oriented to the recycling of certain expensive and time consuming computational processes, without losing [interpretation] of the data.
+%     \item The treatment of massive data is accelerated by means of the calculation of a DTW distance matrix, basically the distance measures the similarity between two elements based on the temporal evolution. Computationally, the calculation of the matrix is an expensive process, so we choose to store the result in a file that is then accessed (or consulted) in different parts of the implemented process.
+%     \item The domain is grouped based on the similarity of the temporal evolution by means of a traditional method, [crips approach], and allows us to find a representative (member of the domain) that generalizes to the elements of each group.
+%     \item The temporal predictive method used for this space-time phenomenon presents a high degree of accuracy in predicting the phenomenon, [if I consider generating a model for each element, it is expensive and takes time - but with the representative for each group the process of generating models for the entire domain]
+%     \item [Many representatives and predictive models for the same domain present different predictive quality]
+%     \item [In this work we consider the predictive quality of each model on the representative as classes and for each class there is a {relationship or function} that associates elements of the domain, this relationship could be learned through a supervised method], this with the objective of automating the process of choosing a predictive model for any element of the domain.
+% \end{itemize}
+
+% + About the online process:
+% \begin{itemize}
+%    \item The existence of a spatiotemporal predictive query requires
+%    \item The composition method or ensemble of models to attend to elements of a specific region, is a simple and fast process. 
+% \end{itemize}
+
+%+ solutions to perform predictive queries
+% \begin{itemize}
+%     \item most are based on deep learning methods, which represents a mixture of the items listed above
+%     \item - It is difficult to qualify the evolution of the predictive capacity of the models, it is necessary to re-train a process that is already extensive and of high demand in time and computation
+%     \item [see clipper, rafiki] 
+% \end{itemize}
 
 \section{Main Contributions}
 \label{Sec:MainContributions}
 
-We can consider the following contributions:
-\begin{itemize}
-    \item For a spatiotemporal domain represented by univariate time, it is possible to consider a temporal approach  series considerando modelos temporales sobre un dominio espacio-temporal es posible utilizar metodos con alta calidad predictiva, en este caso usamos modelos autoregresivos
-    \item Desde el punto de vista computacional, considerar elementos que generalizan determinadas regiones del dominio representa una reduccion considerable en el costo de generacion de modelos. 
-    \item A methodology for model composition in a spatiotemporal domain with high data volume in the presence of spatiotemporal predictive queries.
-    \item In-depth experimental analysis to verify robustness of partitioning algorithm, forecast error analysis and validation using other baseline approaches.
-    \item Our multiclass model composition can produce forecast errors comparable to a naive approach, but with orders of magnitude more computationally efficient. 
-\end{itemize}
+% We can consider the following contributions:
+% \begin{itemize}
+%     \item For a spatiotemporal domain represented by univariate time, it is possible to consider a temporal approach  series 
+%     \item From the computational point of view, considering elements that generalize certain regions of the domain represents a considerable reduction in the cost of generating models. 
+%     \item A methodology for model composition in a spatiotemporal domain with high data volume in the presence of spatiotemporal predictive queries.
+%     \item In-depth experimental analysis to verify robustness of partitioning algorithm, forecast error analysis and validation using other baseline approaches.
+%     \item Our multiclass model composition can produce forecast errors comparable to a naive approach, but with orders of magnitude more computationally efficient. 
+% \end{itemize}
 
-The applicability of our proposal
+% The applicability of our proposal
 
-\begin{itemize}
-    \item Provide techniques to recognize and react to behaviors that can change over time due to external events and/or internal systematic changes in dynamics/distribution, making forecasting models obsolete.
-\end{itemize}
+% \begin{itemize}
+%     \item Provide techniques to recognize and react to behaviors that can change over time due to external events and/or internal systematic changes in dynamics/distribution, making forecasting models obsolete.
+% \end{itemize}
+
+From the proposed methodology and its evaluation, we can extract the following contributions to the relevant lines of research:
+
+\begin{enumerate}
+
+\item \textbf{A formal description of how a spatio-temporal predictive query can be processed using a composition of predictive models.} This formalization has enabled us to adequately and consistently describe the different processes and components involved in the proposed methodology, and corresponding flow of data.
+
+\item \textbf{A comprehensive approach for grouping temporal elements based on their shape, that is able to calculate elements that generalize certain regions of the spatio-temporal domain.} By understanding the process of the partitioning scheme based on DTW distances, we were able to implement this step efficiently using parallelization and persistence, and therefore gain a considerable reduction in the computational resources and time required to perform the operations. With experimental analysis using another partitioning scheme as a baseline, we were able to verify the robustness of the proposed partitioning algorithm.
+
+% TODO acomodar una frase para intro?
+\item A novel approach for model composition in a spatio-temporal domain with high data volume, expressed as a classification problem and supported by a hybrid (machine learning). We validated this approach against a naive baseline and a simpler approach based on a single partitioning scheme, and verified that the solution is viable in an environment for online spatio-temporal predictive queries.
+
+\item \textbf{A flexible analysis of the forecast errors produced by predictive models.} We successfully applied the same forecast error analysis for the main type of predictive model (ARIMA) and another type of model used as baseline ($k$NN). This same approach has the potential to be useful for other types of predictive models and for different spatio-temporal problems.
+
+\item \textbf{An open-source Python package designed to work with spatio-temporal data and predictive models.} This package was developed as an implementation of a computational solution to execute the methodology described in this work, but it can be easily adapted and extended for other similar purposes in the field of spatio-temporal analysis.
+
+\end{enumerate}
 
 \section{Future Works}
 
-Para el dominio de dados espacio-temporal considerado, la dimension temporal es la base de nuestra metodologia. Habiendo demostrado la utilidad del proceso completo, admitimos que existe espacio para mejorias considerables en el analisis presentado. 
+For the spatio-temporal domain of data considered, the temporal dimension is the basis of our methodology. Having demonstrated the usefulness of the entire process, we admit that there is room for considerable improvement in the analysis presented. 
 
 \begin{itemize}
-	\item Given that we have considered the division of the domain through supervised learning techniques, it is possible to see that given the properties of the spatiotemporal data (autocorrelation and non-static) there is difficulty in finding an ideal number of partitions. The traditional methods to validate the existence of a unique $k$ (number of partitions),  or  or a method that allows verifying if there is that number of partitions, such that this number presents a balance between the cost of computing the partitions and the quality of the grouping generated. 
+	\item Given that we have considered the division of the domain through supervised learning techniques, it is possible to see that given the properties of the spatiotemporal data (autocorrelation and non-static) there is difficulty in finding an ideal number of partitions. The traditional methods to validate the existence of a unique $k$ (number of partitions),  or a method that allows verifying if there is that number of partitions, such that this number presents a balance between the cost of computing the partitions and the quality of the grouping generated. 
 	
-	
-	La naturaleza de los datos espacio temporales 
-	
-	\item Los modelos predictivos considerados, modelos autoregresivos simples que presentan , considerar modelos secuenciales 
+	\item In our methodology we consider models of the same family (ARIMA), fit several models, and then select the model with the lowest AIC, typically this is done in concordance with the out of sample validation. A complex and challenging task will be consider to choose models from different families, i.e. choose the best model from ARIMA, Exponential smoothing and the Theta method. In theory, you can do so in the same way that you do within a single family of models, i.e. by using information criteria. However in practice, you need to calculate the AIC or BIC in exactly the same way for all models considered, and that is a significant challenge. It might be better to use time series cross-validation, or out of sample validation, instead of information criteria, but that will be much more computationally intensive (and tedious to code), not to mention the question of which suitable forecast horizon to cross-validate against.
 	
 	\item 
 \end{itemize}
 
-La metodologia propuesta es compuesta por varias etapas, cada etapa requiere de un conjunto de metodos y algoritmos para ejecutar tareas de tratamiento y analisis de datos representados por series temporales univariadas. Podemos considera que existe espacio para mejorar los siguientes aspectos:
+The proposed methodology is composed of several stages, each stage requires a set of methods and algorithms to perform data processing and analysis tasks represented by univariate time series. We can consider that there is room to improve the following aspects:
 
-+ Tratamiento de datos, el uso de optimizaciones de la medida de similitud DTW, en la literature existen variaciones 
-+ El abordaje utilizado para encontrar los grupos de elementos similares, algoritmo k-medoids, da como resultado grupos excluyentes. Dadas las propiedades de los datos espacio temporales, autocorrelacion y no uniformes, la Inherent in the collection of data taken over time is some form of random variation. 
-    + considerar la concepcion de un metodo mas eficiente para encontrar el valor ideal del numero de particiones dada la naturaleza de los datos podriamos 
-    + considerar una abordaje de particionamento difusa 
+\begin{itemize}
 
-+ Modelos predictivos: Considerar modelos predictivos mas sofisticados tales como modelos secuenciales 
+    \item Data treatment, the use of optimizations of the DTW similarity measure, in the literature there are variations
+    \item The approach used to find the groups of similar elements, the k-medoids algorithm, results in excluding groups. Given the properties of spatio-temporal, autocorrelation, and non-uniform data, the inherent in the collection of data taken over time is some form of random variation.
+    \item consider the conception of a more efficient method to find the ideal value of the number of partitions given the nature of the data we could
+    \item consider a fuzzy partitioning approach
+    
+    \item Incremental clustering technique using DTW
 
-+ Consultas predictivas: considerar funciones de costo mas sofisiticadas para evaluar la salida de la consulta predictiva espacio temporal
+    \item Predictive models: Consider more sophisticated predictive models such as sequential models
+
+    \item Predictive queries: consider more sophisticated cost functions to evaluate spatial-temporal predictive query output
+\end{itemize}
+
+%"forecast at scale"
