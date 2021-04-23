@@ -26,16 +26,6 @@ To complete the case study, the `offline' process of training predictive models 
 % TODO numbers
 The temporal predictive method used for this space-time phenomenon can present a high degree of accuracy in predicting the phenomenon, if a predictive model is generated and evaluated for each element. However, this is computationally expensive and time consuming. When compared with the approach based on representatives, we find that some predictive quality is lost when evaluating predictive queries (X\% when choosing $k=K$, Y\% when using the classifier). We conclude that our multiclass model composition can produce forecast errors comparable to a naive approach, but with a computational efficiency of about two orders of magnitude greater.
 
-% About the offline process to analyze the data:
-% \begin{itemize}
-%     \item Oriented to the recycling of certain expensive and time consuming computational processes, without losing [interpretation] of the data.
-%     \item The treatment of massive data is accelerated by means of the calculation of a DTW distance matrix, basically the distance measures the similarity between two elements based on the temporal evolution. Computationally, the calculation of the matrix is an expensive process, so we choose to store the result in a file that is then accessed (or consulted) in different parts of the implemented process.
-%     \item The domain is grouped based on the similarity of the temporal evolution by means of a traditional method, [crips approach], and allows us to find a representative (member of the domain) that generalizes to the elements of each group.
-%     \item The temporal predictive method used for this space-time phenomenon presents a high degree of accuracy in predicting the phenomenon, [if I consider generating a model for each element, it is expensive and takes time - but with the representative for each group the process of generating models for the entire domain]
-%     \item [Many representatives and predictive models for the same domain present different predictive quality]
-%     \item [In this work we consider the predictive quality of each model on the representative as classes and for each class there is a {relationship or function} that associates elements of the domain, this relationship could be learned through a supervised method], this with the objective of automating the process of choosing a predictive model for any element of the domain.
-% \end{itemize}
-
 % + About the online process:
 % \begin{itemize}
 %    \item The existence of a spatiotemporal predictive query requires
@@ -52,25 +42,9 @@ The temporal predictive method used for this space-time phenomenon can present a
 \section{Main Contributions}
 \label{Sec:MainContributions}
 
-% We can consider the following contributions:
-% \begin{itemize}
-%     \item For a spatiotemporal domain represented by univariate time, it is possible to consider a temporal approach  series 
-%     \item From the computational point of view, considering elements that generalize certain regions of the domain represents a considerable reduction in the cost of generating models. 
-%     \item A methodology for model composition in a spatiotemporal domain with high data volume in the presence of spatiotemporal predictive queries.
-%     \item In-depth experimental analysis to verify robustness of partitioning algorithm, forecast error analysis and validation using other baseline approaches.
-%     \item Our multiclass model composition can produce forecast errors comparable to a naive approach, but with orders of magnitude more computationally efficient. 
-% \end{itemize}
-
-% The applicability of our proposal
-
-% \begin{itemize}
-%     \item Provide techniques to recognize and react to behaviors that can change over time due to external events and/or internal systematic changes in dynamics/distribution, making forecasting models obsolete.
-% \end{itemize}
-
 From the proposed methodology and its evaluation, we can extract the following contributions to the relevant lines of research:
 
 \begin{enumerate}
-
 \item \textbf{A formal description of how a spatio-temporal predictive query can be processed using a composition of predictive models.} This formalization has enabled us to adequately and consistently describe the different processes and components involved in the proposed methodology, and corresponding flow of data.
 
 \item \textbf{A comprehensive approach for grouping temporal elements based on their shape, that is able to calculate elements that generalize certain regions of the spatio-temporal domain.} By understanding the process of the partitioning scheme based on DTW distances, we were able to implement this step efficiently using parallelization and persistence, and therefore gain a considerable reduction in the computational resources and time required to perform the operations. With experimental analysis using another partitioning scheme as a baseline, we were able to verify the robustness of the proposed partitioning algorithm.
@@ -107,7 +81,7 @@ The proposed methodology is composed of several stages, each stage requires a se
     
     \item Incremental clustering technique using DTW
 
-    \item Predictive models: Consider more sophisticated predictive models such as sequential models
+    \item Due to the modular capacity of the SPTA-TSA implementation, we can also consider add more families of predictive models 
 
     \item Predictive queries: consider more sophisticated cost functions to evaluate spatial-temporal predictive query output
 \end{itemize}

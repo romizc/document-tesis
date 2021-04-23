@@ -3,7 +3,8 @@
 \section{Motivation}
 \label{Sec:Motivation}
 
-Recent works \cite{Ghanta022019, Crankshaw2017, Polyzotis2018}, highlight some of the challenges encountered in spatio-temporal predictive serving systems. In such systems, values of variables whose behavior vary in space-time are inferred by predictive models built over regions of the spatio-temporal domain. In this context,  we are interested in the problem arising in the presence of multiple competing predictive models, i.e. models that predict the same variable but built independently over potentially different regions of the domain. This may be the case in large companies in which autonomously developed models about the same phenomenon (a.k.a. competing models) are deployed and used to answer predictive queries. 
+
+Recent works \cite{Ghanta022019, Crankshaw2017, Polyzotis2018}, highlight some of the challenges encountered in spatio-temporal predictive serving systems. In such systems, values of variables whose behavior vary in space-time are inferred by predictive models built over regions of the spatio-temporal domain. In this context, we are interested in the problem arising in the presence of multiple competing predictive models, i.e. models that predict the same variable but built independently over potentially different regions of the domain. This may be the case in large companies in which autonomously developed models about the same phenomenon (a.k.a. competing models) are deployed and used to answer predictive queries. 
 %In this context, the training and validation processes used in building competing models may consider \fab{improve}different fragments of the modeled phenomenon domain leading to a variation on their predictive accuracy.
 
 A predictive serving system enables users to express predictive queries that specify: a spatio-temporal region; a predictive variable and a evaluation metric. The outcome of a predictive query present the values of the predictive variable on the specified region computed by predictive models that maximize the evaluation metric. 
@@ -84,3 +85,13 @@ We formally define our problem: Let the spatio-temporal domain characterization 
 
 \section{Thesis Outline}
 \label{Sec:ThesisOutline}
+
+The structure of the remainder of this thesis is outlined for reference.
+
+\begin{description}
+\item[Chapter 2.] \textbf{[Theoretical Foundations.]}
+\item[Chapter 3.] \textbf{[Related Works.]}
+\item[Chapter 4.] \textbf{[Methodology.]} 
+\item[Chapter 5.] \textbf{[Implementation and Experimental Results.]}
+\item[Chapter 6.] \textbf{[Conclusions and Future Works.]}
+\end{description}
