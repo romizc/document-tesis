@@ -364,7 +364,7 @@ Let's consider a particular representative $\mathcal{S}^{*} \in \mathbf{R}$ and 
 To evaluate an ARIMA model $g_{\mathcal{S}^{*}}$ and its predictive power, the series is then split into three parts. The first part $s^{tr}_t = \lbrace s_0, s_1, \ldots s_{349} \rbrace$ is used for training the model, %($s^t_r[0:349]$ as an example in Figure \ref{Fig:Time-SeriesSplit})
 here we determine the tuple $(p_{\mathcal{S}^{*}}, d_{\mathcal{S}^{*}}, q_{\mathcal{S}^{*}})$ that corresponds to the model $g_{\mathcal{S}^{*}}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the test series $s^{ts}_t = \lbrace s_{349}, \ldots s_{356} \rbrace$.
 %$s^v_t[349:357]$.
-The purpose of this split is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{\mathcal{S}^{*}}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
+The purpose of this split is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{\mathcal{S}^{*}}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}. This corresponds to the Generalization Error presented in Step Two of the proposed methodology (Figure \ref{Fig:OverviewMethodology} in Chapter \ref{Chapter:Methodology}).
 
 \begin{figure}[h]
 	\centering
@@ -376,14 +376,25 @@ The purpose of this split is to obtain the in-sample error ${E^*}$ of the model:
 Then, the model is retrained using the same $(p_{\mathcal{S}^{*}}, d_{\mathcal{S}^{*}}, q_{\mathcal{S}^{*}})$ model parameters found with $s^{tr}_t$, but now using a longer series $\lbrace s_0, s_1, \ldots s_{356} \rbrace$ (previous training series now extended with the test series). In order to evaluate the model's predictive power, we use it to forecast $t_f$ steps into the future ($t_f = 8$ in our example) that the model has not seen. But, since the subset $\lbrace s_{357}, \ldots s_{364} \rbrace$ is actually available from the dataset, it is possible to evaluate the forecast error. As a result of this approach, we are able to perform forecast error analysis on different representatives from different domain partitioning schemes.
 %The error analysis described can also be applied to the $k$NN predictive model (baseline).
 
-In order to show this approach in action, we present Figure \ref{Fig:ModelFinalToForecast}, where we show the ARIMA model with parameters $(3,1,1)$ for a medoid in a domain partitioning ($k=8$). Represented with a blue line, we have the forecast values for $t_{f} = 8$, while the prediction intervals with $95\%$ and $80\%$ levels are shown in blue and light blue shades, respectively. The values fitted by the model are also shown in pink, on top of the original time series for the retrained model in black.
+In order to show this approach in action, we present Figures \ref{Fig:ModelFinalToForecast} and \ref{Fig:ForecastElement1}. In Figure \ref{Fig:ModelFinalToForecast}, we show the ARIMA model with parameters $(3,1,1)$ for a medoid in a domain partitioning ($k=8$). Represented with a blue line, we have the forecast values for $t_{f} = 8$, while the prediction intervals with $95\%$ and $80\%$ levels are shown in blue and light blue shades, respectively. The values fitted by the model are also shown in pink, on top of the original time series for the retrained model in black.
+
+Given that the prediction intervals are available and the future values ($t_f = 8$) of the temporal series in the domain are known, it is possible to determine whether or not the future values of the series are contained within the prediction intervals, in this way we can qualify the effectiveness of the predictive model in a representative. This is shown in Figure \ref{Fig:ForecastElement1}: in addition to showing the time series of the representative in black and the prediction intervals calculated for the corresponding predictive model, we show the actual time series of a different element in the domain (attributed by the representative) in pink. We can see in this case that all the future values are contained within the prediction interval with $80\%$ level, while most of the time series is also contained inside the $95\%$ level. This gives us a reasonable level of confidence that the predictive model is functioning as a predictor for this element in the interval considered.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1]{../Figures/medoid_forecast_fitted}
-	\caption{Example of a fitted ARIMA forecast with prediction intervals.}
+	\caption{Example of a fitted ARIMA forecast at a representative with out-of-sample prediction intervals.}
 	% Change caption.
 	\label{Fig:ModelFinalToForecast}
+\end{figure}
+
+% Add the forecast <
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1]{../Figures/forecast_element1}
+	\caption{Example of a time series (in pink) and its prediction, using the ARIMA model at its representative from Figure \ref{Fig:ModelFinalToForecast}.}
+	% Change caption.
+	\label{Fig:ForecastElement1}
 \end{figure}
 
 %Forecast estimates are provided with confidence bounds: 80% confidence limits shaded in darker blue, and 95% in lighter blue. For stationary models (i.e., with d=0), forecast intervals converge, for d>1, the forecast intervals will continue to grow into the future.
@@ -392,22 +403,18 @@ In order to show this approach in action, we present Figure \ref{Fig:ModelFinalT
 \subsubsection{Analyzing Forecast Error of Predictors on Representatives}
 \label{Sec:AnalyzeForecastErrors}
 
+The previous section described the process of calculating a multi-step prediction for the future values of a time series, using a predictive model trained at a representative. Given that the out-of-sample interval of length $t_f$ is known from the dataset, we can then presents results on the corresponding forecast error. This corresponds to the Forecast Error presented in Step Three of the proposed methodology (Figure \ref{Fig:OverviewMethodology} in Chapter \ref{Chapter:Methodology}).
+
+Now, it is important to remember that there are many different possible model compositions, reviewed in Section \ref{Sec:KnowledgExtraction}. In this Section, we focus in the `Model Composition at the Medoids' to show how forecast errors are calculated for a group of elements based on a model calculated at the corresponding representative. The next Section will later include the other model compositions when forecast errors are aggregated.
+
 % Objetivo: Analizar el error de forecast del medoide aplicado sobre cada uno de sus elementos en su grupo. 
 % GM Review paragraph
-One of the assumptions in the methodology proposed is that we opt for an automated time series forecasting with a reduced number of models, the purpose is perform a forecast for multiple time series inside a region of interest. Therefore this models used for forecasting must be able to fit to times series in different regions of the domain. It is known that is almost impossible to find the best model for each and every single time series \cite{HastieTF2009}, but using our approach, these reduced number of models are reasonable good on average over all the time series, also it is possible that for some of those time series could exists better models that those considered for the representatives.
+%One of the assumptions in the methodology proposed is that we opt for an automated time series forecasting with a reduced number of models, the purpose is perform a forecast for multiple time series inside a region of interest. Therefore this models used for forecasting must be able to fit to times series in different regions of the domain. It is known that is almost impossible to find the best model for each and every single time series \cite{HastieTF2009}, but using our approach, these reduced number of models are reasonable good on average over all the time series, also it is possible that for some of those time series could exists better models that those considered for the representatives.
 
 % Add comparison important, for elements (other than representatives) compare the actual values with the forecast and prediction intervals of the representative. 
 % GM review paragraph
-Comparison of forecast prediction intervals for the representative element model when is used in another element in their group. In the case of a $k=8$, we have eight groups with the number of elements varying from 500 to 3479, representing the $6.2\%$ and $43\%$ of the domain, respectively. This means that there are eight possible predictive models that we can use to make predictions for any element in the domain.
-
-% Add the forecast <
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=1]{../Figures/forecast_element1}
-	\caption{Forecast, fitted.}
-	% Change caption.
-	\label{Fig:ForecastElement1}
-\end{figure}
+%Comparison of forecast prediction intervals for the representative element model when is used in another element in their group. 
+We begin by analyzing the forecast errors when using $k$--Medoids as a partitioning scheme (which yields the medoids as representatives) and the auto ARIMA procedure as the predictive model. In the case of a $k=8$, we have eight groups with the number of elements varying from 500 to 3479, representing the $6.2\%$ and $43\%$ of the domain, respectively. This means that there are eight possible predictive models that we can use to make predictions for any element in the domain.
 
 % GM review paragraph....
 By considering a larger value for the number $k=66$, we are creating more groups and therefore more representatives that generalize better the elements in its group. The partitioning domain result are groups varying from 14 to 278 elements, representing the $0.2\%$ and $3.4\%$ of the domain respectively.
@@ -539,29 +546,12 @@ In this Section we describe the experiments performed to evaluate the forecast e
 
 For each of the model compositions above, we perform the forecast error analysis discussed in Section \ref{Sec:AnalyzeForecastErrors} with one of the associated error metrics described in Section \ref{Sec:TimeSeriesForecast}. Here, we focus on using the sMAPE error metric.
 
-For the experiment we also compute the elapsed time for training the models for all the elements in the domain, by doing that we are able to quantify %cuanto tiempo a menos seria usado en la metodologia propuesta. 
-%TODO Add time to compare
-\begin{table}[h]
-	\centering
-	\tiny
-	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
-		\hline
-		cid & size & $(p, d, q)$ & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
-		\hline
-		0 &  990 & (2, 1, 2) & 1.642 & 3601.959 & 0.333 & 0.305 & 0.379 & 0.331 & 0.826 \\
-		1 &  990 & (0, 1, 2) & 1.665 & 3221.489 & 0.192 & 0.180 & 0.198 & 0.268 & 0.517 \\
-		2 &  990 & (1, 1, 2) & 1.621 & 4063.693 & 0.384 & 0.460 & 0.888 & 0.587 & 1.608 \\
-		3 &  990 & (2, 1, 1) & 1.610 & 3424.456 & 0.341 & 0.387 & 0.634 & 0.394 & 1.028 \\
-		4 &  990 & (2, 1, 2) & 1.651 & 4305.636 & 0.782 & 0.571 & 1.182 & 0.769 & 3.058 \\
-		5 &  990 & (1, 1, 2) & 1.713 & 3818.287 & 0.470 & 0.489 & 0.580 & 0.609 & 2.062 \\
-		6 & 1080 & (0, 1, 0) & 1.744 & 4674.208 & 1.190 & 0.564 & 0.862 & 2.454 & 2.935 \\
-		7 & 1080 & (2, 1, 1) & 1.795 & 4847.003 & 0.546 & 0.463 & 0.563 & 0.583 & 1.188 \\ \hline
-	\end{tabular}
-	\caption{Model Composition Forecast Error for Regular Partitioning with $k=8$ and $t_{f} =8$.}
-	\label{Table:ForecastErrorRegulark10}
-\end{table}
+The difference between the different compositions resides only in which representative to use for a given element: once the representative is determined, the procedure in \ref{Sec:AnalyzeForecastErrors} is applied exactly the same (with the same underlying implementation in code). The special cases of `Model Composition with Minimal Error' and `Model Composition with Maximum Error' differ in that the procedure is repeated so that every other element in the group of the given element is considered as a candidate for representative, then the representatives with the best and worst aggregated errors are used, respectively.
 
-In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AIC correspond to the ARIMA predictor for the time series representative. Here, we use the code for each model composition described above; T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
+For the experiments, we also compute the elapsed time for training the models for all the elements in the domain, by doing that we are able to quantify the a metric for the computational effort of each approach.
+%cuanto tiempo a menos seria usado en la metodologia propuesta. 
+%TODO Add time to compare
+
 
 \begin{table}[h]
 	\centering
@@ -583,6 +573,27 @@ In Table \ref{Table:ForecastErrorRegulark10}, the parameters $(p, d, q)$ and  AI
 	\label{Table:ForecastErrorkMedoidsk8}
 \end{table}
 
+In Table \ref{Table:ForecastErrorkMedoidsk8}, the parameters $(p, d, q)$ and  AIC correspond to the ARIMA predictor for the time series representative. Here, we use the code for each model composition described above; T.F is the elapsed forecast time for eight time units and T.T is the total time used for training and forecast. 
+\begin{table}[h]
+	\centering
+	\tiny
+	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
+		\hline
+		cid & size & $(p, d, q)$ & T. F. (seg) & T. T. (seg) & Each & Min. & Min. Local & Medoid & Max. \\
+		\hline
+		0 &  990 & (2, 1, 2) & 1.642 & 3601.959 & 0.333 & 0.305 & 0.379 & 0.331 & 0.826 \\
+		1 &  990 & (0, 1, 2) & 1.665 & 3221.489 & 0.192 & 0.180 & 0.198 & 0.268 & 0.517 \\
+		2 &  990 & (1, 1, 2) & 1.621 & 4063.693 & 0.384 & 0.460 & 0.888 & 0.587 & 1.608 \\
+		3 &  990 & (2, 1, 1) & 1.610 & 3424.456 & 0.341 & 0.387 & 0.634 & 0.394 & 1.028 \\
+		4 &  990 & (2, 1, 2) & 1.651 & 4305.636 & 0.782 & 0.571 & 1.182 & 0.769 & 3.058 \\
+		5 &  990 & (1, 1, 2) & 1.713 & 3818.287 & 0.470 & 0.489 & 0.580 & 0.609 & 2.062 \\
+		6 & 1080 & (0, 1, 0) & 1.744 & 4674.208 & 1.190 & 0.564 & 0.862 & 2.454 & 2.935 \\
+		7 & 1080 & (2, 1, 1) & 1.795 & 4847.003 & 0.546 & 0.463 & 0.563 & 0.583 & 1.188 \\ \hline
+	\end{tabular}
+	\caption{Model Composition Forecast Error for Regular Partitioning with $k=8$ and $t_{f} =8$.}
+	\label{Table:ForecastErrorRegulark10}
+\end{table}
+
 % Objetivo 2: Analizar el error de forecast del predictor cuando la region de interes tiene mas de un medoide
 In the previous step we consider maintain several domain partitioning schemes. Considering the values for $k = \{8, 66, 132\}$, we compute the forecast error of the model compositions listed above, applied over its group generated in the partitioning technique. %In the following tables we 
 
@@ -590,6 +601,8 @@ In the previous step we consider maintain several domain partitioning schemes. C
 For the $k$--medoids partitioning we compute the same values for $k=8$, shown in Table \ref{Table:ForecastErrorkMedoidsk8}. Experimentally, we can see that when considering the prediction of the medoid as the prediction for the points of its group, there is a balance in the final prediction value in the analyzed region. This ensures that we can use the medoids and their respective predictive models to predict the time evolution of the entire domain.
 
 For each $k$ considered, it is possible to observe that the predictions made by the models in the medoids are lower, this is due to the fact that the points in each group are increasingly similar. There are exceptions since the models considered are built on historical data from a point in the region, and the variations may be the product of an unexpected change in the behavior of the temperature at that point.
+
+\subsubsection{TODO Aggregated?}
 
 To analyze the variation in the value of the prediction model in each composition composed consider a mesh size $10\times 10$ squares over the entire domain. Consider spatio--temporal predictive queries where the region of interest corresponds to each square (Figure \ref{Fig:Query_10x10_whole_real_brazil}). We also consider queries with a region of interest of size $20\times 20$, $30 \times 30$, $15 \times 20$ and $30 \times 15$. 
 
@@ -995,10 +1008,6 @@ The latitude and longitude for the queries are:
 %Lat : (2.5) - (-12.5)
 %Lon : (319) - (326.5)
 
-\section{Results and Discussion} 
+\section{Summary} 
 
 The first part of this Chapter we describe the SPTA-TSA, an application developed to implement and analyze the proposed methodology. Next, we describe the outline of experiments and analysis performed to validate our hypothesis and decisions. 
-
-
-
-\section{Final Comments}

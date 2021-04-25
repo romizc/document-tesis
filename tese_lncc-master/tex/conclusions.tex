@@ -1,43 +1,29 @@
 \chapter{Conclusions and Future Works}
 \label{chapter_Conclusions}
 
-This final chapter contains the closing remarks of this work. Here, the most important contributions and findings are highlighted, with some additional discussion about the methodology, the analysis and the experiments. The chapter concludes with possible research lines that can be pursued in the future, following the direction of this work.
+This final chapter contains the closing remarks of this work. Here, the most important contributions and findings are highlighted, with additional discussion about the methodology, the analysis and the experiments. The chapter concludes with possible research lines that can be pursued in the future, following the direction of this work.
 	
 \section{Results Summary}
 \label{Sec:ResultsSummary}
 
-The main objective of our work is to develop a methodology that can be used to make predictions about future states of a spatio-temporal region, using carefully predictive models that have been trained with limited temporal data, but at the same time produce predictions about unseen temporal data within some tolerated error margin. The computational experiments were then designed to evaluate the proposed methodology, considering the case study of temperature prediction.
+The main objective of our work is to develop a methodology that can be used to make predictions about future states of a spatio-temporal region, using carefully selected predictive models that have been trained with limited temporal data, but at the same time produce predictions about unseen temporal data within some tolerated error margin. The computational experiments were then designed to evaluate the proposed methodology, considering the case study of temperature prediction.
 
-According to the proposed experiments, we can assert that the domain can be grouped according to a shape-based (temporal) measure of similarity between elements, and these groups are represented by representative element that generalizes the behavior (temporal dimension) of the group. In order to represent the similarity between temporal series, the calculation of the DTW distance was used, which measures the similarity based on the temporal evolution of two elements.
+According to the proposed experiments, we can assert that the domain can be grouped according to a shape-based (temporal) measure of similarity between elements, and each of these groups are represented by a representative element that generalizes the behavior (temporal dimension) of the group. In order to describe the similarity between temporal series, the calculation of the DTW distance was used, which measures the similarity based on the temporal evolution of two elements.
 
 The pairwise DTW distances can be expressed as a 2-d matrix. Computationally, the calculation of this matrix is an expensive process, but this particular implementation allowed us to perform this time consuming calculation only once, and then store the result as an array for quick retrieval and query. This treatment enabled us to accelerate other processes such as the grouping of elements, effectively saving computational resources without losing any quality in the results.
 
-The spatio-temporal domain is grouped based on the similarity of the temporal evolution by means of the $k$--medoids method, a crisp approach that assigns exactly one group for each element, and at the same time calculates one of the elements as the representative of that group. We then say that this representative generalizes the elements of its own group, and can be used to train useful predictive models.
-
-% TODO quantify kmedoids vs regular
-%The spatio-temporal domain is grouped based on the similarity of the temporal evolution by means of the $k$--medoids method, a crisp approach that assigns exactly one group for each element, and at the same time calculates one of the elements as the representative of that group. We then say that this representative generalizes the elements of its own group, and can be used to train useful predictive models.
+The spatio-temporal domain is grouped based on the similarity of the temporal evolution by means of the $k$--medoids method, a crisp approach that assigns exactly one group for each element, and at the same time calculates one of the elements as the representative of that group. We then say that this representative generalizes the elements of its own group, and can be used to train useful predictive models. A second partitioning strategy based on the geometry of the domain (regular partitioning) was used as a baseline to validate the main approach based on $k$--medoids. % TODO numbers kmedoids vs regular?
 
 % TODO classifier
-An important choice in the approach based on representatives, is to select an adequate partitioning schemes (driven by the value of the parameter $k$) that will produce the groups and representatives. To tackle this issue, we consider many partitioning schemes and gather all of the candidate representatives for the same domain.
+An important choice in the approach based on representatives, is to select an adequate partitioning scheme (driven by the value of the parameter $k$) that will produce the groups and representatives. Intuitively, we expect that larger values of $k$ will yield smaller and more compact groups so that the predictive model at a representative will provide a more accurate prediction. However, the analysis of the forecast errors that were performed indicate that this is not always the case, smaller values of $k$ may offer more accurate predictive models for some of the elements.
+
+The previous result is the main driver of the classifier that was proposed as part of the methodology: instead of choosing a single partitioning scheme, we allow a set of partitioning schemes ($k = \lbrace 8, 66, 132 \rbrace$) and store all the corresponding predictive models. Our classifier based on TODO is then able to match a subset (last $t_p$ values) of the temporal series of the element of interest, with one of the representatives. %With this approach, it was possible to obtain a perceivable improvement over the partitioning scheme with the largest value of $k$ ($k = 132$).
 
 % TODO more?
 To complete the case study, the `offline' process of training predictive models is evaluated with spatio-temporal predictive queries, which can be considered the `online' phase of the methodology and initiated after the training has taken place. Here, the composition method or ensemble of models leveraged to attend to elements of a specific region, is a simple and fast process and therefore adequate for the online phase which requires low response time.
 
 % TODO numbers
 The temporal predictive method used for this space-time phenomenon can present a high degree of accuracy in predicting the phenomenon, if a predictive model is generated and evaluated for each element. However, this is computationally expensive and time consuming. When compared with the approach based on representatives, we find that some predictive quality is lost when evaluating predictive queries (X\% when choosing $k=K$, Y\% when using the classifier). We conclude that our multiclass model composition can produce forecast errors comparable to a naive approach, but with a computational efficiency of about two orders of magnitude greater.
-
-% + About the online process:
-% \begin{itemize}
-%    \item The existence of a spatiotemporal predictive query requires
-%    \item The composition method or ensemble of models to attend to elements of a specific region, is a simple and fast process. 
-% \end{itemize}
-
-%+ solutions to perform predictive queries
-% \begin{itemize}
-%     \item most are based on deep learning methods, which represents a mixture of the items listed above
-%     \item - It is difficult to qualify the evolution of the predictive capacity of the models, it is necessary to re-train a process that is already extensive and of high demand in time and computation
-%     \item [see clipper, rafiki] 
-% \end{itemize}
 
 \section{Main Contributions}
 \label{Sec:MainContributions}
@@ -55,35 +41,28 @@ From the proposed methodology and its evaluation, we can extract the following c
 \item \textbf{A flexible analysis of the forecast errors produced by predictive models.} We successfully applied the same forecast error analysis for the main type of predictive model (ARIMA) and another type of model used as baseline ($k$NN). This same approach has the potential to be useful for other types of predictive models and for different spatio-temporal problems.
 
 \item \textbf{An open-source Python package designed to work with spatio-temporal data and predictive models.} This package was developed as an implementation of a computational solution to execute the methodology described in this work, but it can be easily adapted and extended for other similar purposes in the field of spatio-temporal analysis.
-
 \end{enumerate}
 
 \section{Future Works}
 
-For the spatio-temporal domain of data considered, the temporal dimension is the basis of our methodology. Having demonstrated the usefulness of the entire process, we admit that there is room for considerable improvement in the analysis presented. 
+Here we lay out some of the possible directions for future research in order to extend the reach of this work.
 
 \begin{itemize}
-	\item Given that we have considered the division of the domain through supervised learning techniques, it is possible to see that given the properties of the spatiotemporal data (autocorrelation and non-static) there is difficulty in finding an ideal number of partitions. The traditional methods to validate the existence of a unique $k$ (number of partitions),  or a method that allows verifying if there is that number of partitions, such that this number presents a balance between the cost of computing the partitions and the quality of the grouping generated. 
-	
-	\item In our methodology we consider models of the same family (ARIMA), fit several models, and then select the model with the lowest AIC, typically this is done in concordance with the out of sample validation. A complex and challenging task will be consider to choose models from different families, i.e. choose the best model from ARIMA, Exponential smoothing and the Theta method. In theory, you can do so in the same way that you do within a single family of models, i.e. by using information criteria. However in practice, you need to calculate the AIC or BIC in exactly the same way for all models considered, and that is a significant challenge. It might be better to use time series cross-validation, or out of sample validation, instead of information criteria, but that will be much more computationally intensive (and tedious to code), not to mention the question of which suitable forecast horizon to cross-validate against.
-	
-	\item 
-\end{itemize}
-
-The proposed methodology is composed of several stages, each stage requires a set of methods and algorithms to perform data processing and analysis tasks represented by univariate time series. We can consider that there is room to improve the following aspects:
-
-\begin{itemize}
-
-    \item Data treatment, the use of optimizations of the DTW similarity measure, in the literature there are variations
-    \item The approach used to find the groups of similar elements, the k-medoids algorithm, results in excluding groups. Given the properties of spatio-temporal, autocorrelation, and non-uniform data, the inherent in the collection of data taken over time is some form of random variation.
-    \item consider the conception of a more efficient method to find the ideal value of the number of partitions given the nature of the data we could
-    \item consider a fuzzy partitioning approach
     
-    \item Incremental clustering technique using DTW
+    \item Test the capacity and applicability of the proposed methodology with another dataset from a different spatio-temporal phenomenon. Here, we may consider the possibility of traffic flow, which is also characterized by univariate temporal series with spatial characteristics. %TODO why is it different, easier/harder?
+    
+    \item The calculation of pairwise DTW distances was not a critical element to the performance of the use case scenario, because this compute-intensive process was done only once during the offline phase. However, if we wanted to group evolving time series based on their shape (shape-based clustering), using the default Dynamic Time Warping (DTW) algorithm would not be feasible, because an aggregation of temporal data (extension of the time series) would imply calculating the whole matrix again. Here, we can analyze the possibility of using an incremental process for the DTW distance, that recycles intermediate results of previous calculations for new observations \cite{Oregi2017}.
+    
+    \item Given that we have considered the division of the domain through a supervised learning techniques, it is possible to see that given the properties of the spatio-temporal data (autocorrelation and non-static) there is a difficulty in finding an ideal number of partitions. Thus, the domain partitioning process may be extended to include non-crisp group relationships, as in the case of fuzzy $k$--medoids \cite{Izakian2015}. Having more than one representative for a given element in the same partitioning scheme may prove useful when considering model composition. For example, it may be the case that two predictive models from different representatives could be merged into a single, more accurate predictive model.
 
-    \item Due to the modular capacity of the SPTA-TSA implementation, we can also consider add more families of predictive models 
+    \item The modular design of the SPTA-TSA framework facilitates the implementation of other families of predictive models and their integration into other aspects of the methodology such as forecast error analysis and query processing. Historically, the ARIMA models have been extensively used in fields such as climate, geophysics, econometrics, among others. However, predicitve models based on neural networks are becoming increasingly prevalent for temporal series in scenarios of data streaming, such as LSTM, RNN, 1DCNN \cite{Shen2020, Torres2021}. Achieving an integration of these models into the existing methodology would represent an important improvement in the proposed solution, both in terms of predictive accuracy and adaptability to other domains.
 
-    \item Predictive queries: consider more sophisticated cost functions to evaluate spatial-temporal predictive query output
+    
+    \item Architectures for TSC
+    % Las arquitecturas consideradas en el presente analisis 
+    
+    \item In the context of the case study presented in this work, the online phase characterized by the query processing did not represent a significant computational effort, the ARIMA models may take some time for training but the prediction of a single temporal series is in the order of the milliseconds. However, more complex models would imply perceivable service times, and then the total response time for a given query can become significant to the user. A natural evolution for our methodology would be to include a multi-objective optimization process, where quality metrics about computational resources and response time would be factored along with quality metrics of predictive quality. In this scenario, the user may then be given a choice between different optimized trade-offs between accuracy and effort.
+    % Una evolucion natural para este processamiento de consultas espacio temporales es considerar una funcion de costo. 
 \end{itemize}
 
 %"forecast at scale"
