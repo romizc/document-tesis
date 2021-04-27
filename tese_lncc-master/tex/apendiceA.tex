@@ -1,7 +1,7 @@
 \chapter{Using SPTA-TSA for Spatio-Temporal Temperature Dataset}
 \label{apendiceA}
 
-In Chapter \ref{chapter_Experimental_Results}, Section \ref{Sec:SPTA-TSA} we describe the diagrams of classes for the implementation of the SPTA-TSA. In this Apendix we describe the file structure and a user guide to use the SPTA-TSA for the Temperature dataset.
+In Chapter \ref{chapter_Experimental_Results}, Section \ref{Sec:SPTA-TSA} we describe the diagrams of classes for the implementation of the SPTA-TSA. In this Appendix we describe the file structure and a user guide to use the SPTA-TSA for the Temperature dataset.
 
 \section{Package File Tree}
 
@@ -58,13 +58,24 @@ As mentioned, the implementation of the package is entirely developed in Python 
 	.3 util.
 }					
 
-\section{Dataset Extraction}
+\section{Domain Dataset ETL Operations}
+\label{ap:dataset_extraction}
 
-To extract the dataset we 
+The dataset provided for the use case, is a dataset in format HDF5 and contains temperature readings for South American continent from year 1975 to 2015. Our experiments and analysis are based on the dataset extracted for one year (2014). 
 
+In a metadata file in the path \texttt{experiments/metadata/region.py}, we make a specification of the region and years to extract from the original dataset:
+\begin{verbatim}
+    region.py
+    ---------
+    'whole_real_brazil_2014_2014_1spd': SpatioTemporalRegionMetadata(
+        'whole_real_brazil', Region(5, 95, 15, 105), year_start=2014, year_end=2014, 
+        spd=1, scaled=False),
+\end{verbatim}
 
+Then, execute the command 
 
 \section{Domain Partitioning}
+\label{ap:domain_partititonig}
 
 
 

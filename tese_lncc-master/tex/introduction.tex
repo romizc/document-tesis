@@ -3,7 +3,6 @@
 \section{Motivation}
 \label{Sec:Motivation}
 
-
 Recent works \cite{Ghanta022019, Crankshaw2017, Polyzotis2018}, highlight some of the challenges encountered in spatio-temporal predictive serving systems. In such systems, values of variables whose behavior vary in space-time are inferred by predictive models built over regions of the spatio-temporal domain. In this context, we are interested in the problem arising in the presence of multiple competing predictive models, i.e. models that predict the same variable but built independently over potentially different regions of the domain. This may be the case in large companies in which autonomously developed models about the same phenomenon (a.k.a. competing models) are deployed and used to answer predictive queries. 
 %In this context, the training and validation processes used in building competing models may consider \fab{improve}different fragments of the modeled phenomenon domain leading to a variation on their predictive accuracy.
 
@@ -34,6 +33,7 @@ Given a phenomenon with a spatio-temporal domain, represented by univariate time
 (TODO) Our approach aims to quantify the predictive quality of models, by characterizing patterns within the predictive variable domain data. In particular, we identify some patterns on domain regions where the models have been trained, and compare them against patterns within the query spatio-temporal region. Our intuition is that, if a query region has similar data patterns as the regions used to train the model, then the behavior of the model on the query region should follow the one observed during training.
 Conversely, in spatio-temporal regions specified by the query, that have not been used for training, the model would exhibit an error computed as a function of the distance between the query non seen data region and the model building data region.
 
+A collection of time series can exhibit various dependency relationships between the individual time series that can be leveraged in forecasting. These include: (1) local co-variate relationships (e.g. the price and demand for a product, which tend to be (negatively) correlated), (2) indirect relationships through shared latent causes (e.g. demand for multiple products increasing because an advertising campaign is driving traffic to the site), (3) subtle dependencies through smoothness, temporal dynamics, and noise characteristics of time series that are measurements of similar underlying phenomena (e.g. product sales time series tend to be similar to each other, but different from energy consumption time series).The data in practical forecasting problems typically has all of these forms of dependencies. Making use of this data from related time series allows more complex and potentially more accurate models to be fitted without overfitting.
 
 \section{Problem Formalization}
 \label{Sec:ProblemFormalization}
@@ -95,3 +95,6 @@ The structure of the remainder of this thesis is outlined for reference.
 \item[Chapter 5.] \textbf{[Implementation and Experimental Results.]}
 \item[Chapter 6.] \textbf{[Conclusions and Future Works.]}
 \end{description}
+
+% TODO Include in the Introduction
+%A hypothesis we want to highlight is that it should be preferable to use a partitioning technique that considers grouping domain elements based on the similarity of their temporal evolution, rather than creating groups just according to a regular division of the domain geometry. To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.

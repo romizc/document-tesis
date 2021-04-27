@@ -20,7 +20,8 @@ In Sections \ref{Sec:DomainPartitioning} to \ref{Sec:SpatioTemporalQueryProcessi
 \label{Sec:DomainPartitioning}
 
 % Objective and general description
-The purpose of the domain partitioning is to i) find groups with high similarity according to the temporal evolution on a spatio--temporal domain (in particular univariate time--series) and ii) find representatives for each of the aforementioned groups. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. In general, a clustering algorithm can be considered as an optimization problem in which we try to minimize the total measure of dissimilarity between the elements in each group \cite{Liao2005}. 
+The purpose of the domain partitioning is to i) find groups with high similarity according to the temporal evolution on a spatio--temporal domain (in particular univariate time--series) and ii) find representatives for each of the aforementioned groups. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
+%In general, a clustering algorithm can be considered as an optimization problem in which we try to minimize the total measure of dissimilarity between the elements in each group \cite{Liao2005}. 
 
 % Consider a representative element
 We consider two methods for grouping elements that involve obtaining a representative element (which also exists on the domain) for each group. A representative is then said to generalize the temporal dimension of the other elements in the group. It is important to remember that in a clustering algorithm, the number of clusters, the size of clusters, the definition for outliers, and the definition of the similarity among the univariate time--series are all the concepts which depend on the problem (case study) at hand \cite{Aghabozorgi2015}.
@@ -81,7 +82,7 @@ Predictive models can be generated when a forecast method is applied over a time
 In practice, two aspects to forecasting exist: the provision of a forecast for a future value (out-of-sample) of the series and the provision of a forecast error of known values of the series (in-sample). After the process of model tuning, it is possible to test the ability of the model to predict observations that the model didn't see before (as opposed to the fitted values that the model saw throughout the training process). The most common method for evaluating the forecast's success is to predict the actual values with the use of an error metric to quantify the forecast's overall accuracy \cite{Hyndman2006}. The selection of a specific error metric depends on the forecast accuracy's goals. In this work we consider the Root Mean Squared Error (RMSE) and the Symmetric Mean Absolute Percentage Error (sMAPE), both described in Section \ref{Sec:ErrorTSA}.
 
 % Refresh the notation
-Recalling the formal representation in Section \ref{Sec:ProblemFormalization}, once we obtain the representative element $\mathcal{S}^{*} \in \mathbf{S}_{i}$, we built $g:\mathbf{S}_{i} \to \mathbf{S}_{i}$ and we can represent $\mathbf{S}_{i}$ using $\mathcal{S}^{*}$ we denote:
+Recalling the formal representation in Section \ref{Sec:ProblemFormalization}, once we obtain the representative element $\mathcal{S}^{*} \in \mathbf{S}_{i}$, we built $g$ and we can represent $\mathbf{S}_{i}$ using $\mathcal{S}^{*}$ we denote:
 
 %TODO error should have been defined before introducing this equation in formalization
 %TODO try to elaborate on the expression of E after explaining forecastings, e.g. f(St - S^t)
@@ -161,18 +162,18 @@ As discussed in the previous Section, in our problem we are not considering a un
 
 In this section, and the next, we seek to implement a process that is able to select predictive models using some kind of intelligence, with the aim of finding a composition of models to predict a region of interest with increased accuracy. Here, it is  necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest. 
 
-We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. We consider the classes to be the identifiers of models computed at the representatives for each cluster the time-series takes part in, whenever multilple clusterings are applied to the domain dataset. Thus, for instance, if a time-series participates of two clusters, with $k_1$ and $k_2$ respectively, it would have associated two models $g_1$ and $g_2$ as labels, respectively.
+We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. We consider the classes to be the identifiers of models computed at the representatives for each cluster the time-series takes part in, whenever multiple clustering are applied to the domain dataset. Thus, for instance, if a time-series participates of two clusters, with $k_1$ and $k_2$ respectively, it would have associated two models $g_1$ and $g_2$ as labels, respectively.
 The label is composed with the value $k$ and the group index \texttt{cluster\_index} (c.i) where $0 \leq c.i <k$. 
 
 In order to show how we can leverage domain partitioning schemes and their respective representatives, we use the formal representation of the problem (see Section \ref{Sec:ProblemFormalization}), with three different domain partitioning schemes as an example: Given three domain partitioning schemes for a spatio--temporal domain of sizes $m, n$ and $l$ and their respective representative sets, we have:
 \begin{eqnarray} 
 \nonumber
-\mathcal{D}	& = & \bigcup_{i=1}^{m} \mathbf{P_i} \,\,\textrm{and} \,\, \left\{\mathcal{P}_{1}^{m}, \ldots, \mathcal{P}_{m}^{m}\right\},  \\ \nonumber
-\mathcal{D} & = & \bigcup_{j=1}^{n} \mathbf{Q_j} \,\,\textrm{and} \,\, \left\{\mathcal{Q}_{1}^{n}, \ldots, \mathcal{Q}_{n}^{n}\right\}, \\ \nonumber 
-\mathcal{D} & = & \bigcup_{k=1}^{l} \mathbf{T_k} \,\,\textrm{and} \,\, \left\{\mathcal{T}_{1}^{l}, \ldots, \mathcal{T}_{l}^{l}\right\},
+\mathcal{D}	& = & \bigcup_{i=1}^{m} \mathbf{P_i} \,\,\textrm{and} \,\, \left\{\mathcal{P}_{1}, \ldots, \mathcal{P}_{m}\right\},  \\ \nonumber
+\mathcal{D} & = & \bigcup_{j=1}^{n} \mathbf{Q_j} \,\,\textrm{and} \,\, \left\{\mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}\right\}, \\ \nonumber 
+\mathcal{D} & = & \bigcup_{k=1}^{l} \mathbf{T_k} \,\,\textrm{and} \,\, \left\{\mathcal{T}_{1}, \ldots, \mathcal{T}_{l}\right\},
 \end{eqnarray}
 
-where $m + n +l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}^{m}, \ldots, \mathcal{P}_{m}^{m}, \mathcal{Q}_{1}^{n}, \ldots, \mathcal{Q}_{n}^{n}, \mathcal{T}_{1}^{l}, \ldots \mathcal{T}_{l}^{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for each element in the domain, we want to find some representative $\mathcal{S} \in \mathbf{R}$ that is the representative of some group in a partitioning scheme $\mathbf{P}$, so that the representative satisfies some optimization condition. Here, we choose the representative $\hat{S}$ whose model $g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}$ has the minimum forecast error for the corresponding time series among the other models:
+where $m, n, l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}, \ldots, \mathcal{P}_{m}, \mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}, \mathcal{T}_{1}, \ldots \mathcal{T}_{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for each element in the domain, we want to find some representative $\mathcal{S} \in \mathbf{R}$ that is the representative of some group in a partitioning scheme $\mathbf{P}$, so that the representative satisfies some optimization condition. Here, we choose the representative $\hat{S}$ whose model $g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}$ has the minimum forecast error for the corresponding time series among the other models:
 
 %TODO describir en texto lo que se esta minimizando
 \begin{equation}\label{eq:timeseries-representative}
@@ -281,8 +282,8 @@ In this Section, we describe the on--line process implemented to compute a spati
 \end{algorithmic} 
 \end{algorithm} 
 
-\section{Summary}
-\label{Sec:MethodologySummary}
+% \section{Summary}
+% \label{Sec:MethodologySummary}
 
-In this Chapter, we describe tasks and techniques involved in the development for the proposed methodology. Each step uses techniques from different research areas to analyse, explore and extract knowledge from datasets, in particular for univariate time--series.
+% In this Chapter, we describe tasks and techniques involved in the development for the proposed methodology. Each step uses techniques from different research areas to analyse, explore and extract knowledge from datasets, in particular for univariate time--series.
 

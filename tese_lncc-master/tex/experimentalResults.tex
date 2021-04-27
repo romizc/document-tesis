@@ -8,7 +8,8 @@ Several aspects of the methodology have been implemented in the form of a softwa
 \section{Spatio Temporal Framework for Time Series Analysis}       
 \label{Sec:SPTA-TSA}
 
-We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous Chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
+\Fab{A referencia a Python neste ponto da tese não é relevante. O que acontece quando a versão do Python for 4, este capitulo estaria invalidado?}
+We will describe the architectural design of SPT-TSA, a Python 3 package built to work with spatio-temporal data and predictive models. This package was developed as an implementation of a computational solution to execute the methodology described in the previous chapter, but it can be extended to be used for other similar purposes in the field of spatio-temporal analysis.
 
 \subsection{SPTA-TSA Workflow}
 \label{Sec:SPTA-TSA_Workflow}
@@ -331,15 +332,13 @@ The monotonous trend of $k$--medoids allowed for the calculation of the inflecti
 
 In the following section, we describe the process to generate predictive models on the representative elements and the experiments to evaluate its predictive quality.
 
-\subsection{Forecast Error Analysis of Predictive Models on Representatives}
+\subsection{Analyzing the Predictive Quality of Models on Representatives}
 \label{Sec:AnalyzePredictorRepresentatives}
 
-% Objective: Evaluate that it is sufficient to use a models over a group representative for every group element.
 In this section we perform extensive experiments to evaluate the predictive quality of models trained on representative elements (medoid or centroid), for different domain partitioning schemes. One reason to adopt this approach is because we intend to accelerate the computational intensive process involved when considering training models for every element in the domain, the evaluation of their efficiency is also a time consuming process \cite{Hyndman2018}.
 
 % Predictor ARIMA
-In Step Two of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. %In Section \ref{Sec:TheoryARIMA} is described its theoretical aspects, and in order to find the suitable parameters $(p,d,q)$ required for the ARIMA model (such that minimizes the AIC), we use an implementation based on the \texttt{auto.arima} routine\footnote{Proposed by R. Hyndman \cite{Hyndman2008}}. 
-Once an appropriate time series model has been fit, it may be used to generate forecasts of future observations. A prediction interval, a similar concept to a confidence interval, is an estimate of the range of likely values that are not yet known but are going to be observed at some point in the future. A prediction interval needs to take into account uncertainty in the model, uncertain estimates of the parameters in a model (i.e. the confidence intervals for those parameters), and also the individual randomness associated with the particular point or points being predicted \cite{Chatfield2001}.
+In Step Two of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. Once an appropriate time series model has been fit, it may be used to generate forecasts of future observations. A prediction interval, a similar concept to a confidence interval, is an estimate of the range of likely values that are not yet known but are going to be observed at some point in the future. A prediction interval needs to take into account uncertainty in the model, uncertain estimates of the parameters in a model (i.e. the confidence intervals for those parameters), and also the individual randomness associated with the particular point or points being predicted \cite{Chatfield2001}.
 
 % Evaluate the prediction interval of the representatives (in-sample)
 % Trade-off between the representative model accuracy and the computational intensive process to perform the creation of model for every element in the domain.
@@ -354,7 +353,7 @@ Let's consider a particular representative $\mathcal{S}^{*} \in \mathbf{R}$ and 
 \lbrace s_t \rbrace = \lbrace s_0, s_1, \ldots s_{364} \rbrace
 \end{equation}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.38]{../Figures/ModelRegion_ModelTS}
 	\caption{Time units split for training and test datasets.}
@@ -366,7 +365,7 @@ here we determine the tuple $(p_{\mathcal{S}^{*}}, d_{\mathcal{S}^{*}}, q_{\math
 %$s^v_t[349:357]$.
 The purpose of this split is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{\mathcal{S}^{*}}$ to make a prediction of $t_p$ steps, and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}. This corresponds to the Generalization Error presented in Step Two of the proposed methodology (Figure \ref{Fig:OverviewMethodology} in Chapter \ref{Chapter:Methodology}).
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{../Figures/medoid_test_training}
 	\caption{Dataset Split for a Time Series Representative ($s^{tr}_t$ in black, $s^{ts}_t$ in pink).}
@@ -380,7 +379,7 @@ In order to show this approach in action, we present Figures \ref{Fig:ModelFinal
 
 Given that the prediction intervals are available and the future values ($t_f = 8$) of the temporal series in the domain are known, it is possible to determine whether or not the future values of the series are contained within the prediction intervals, in this way we can qualify the effectiveness of the predictive model in a representative. This is shown in Figure \ref{Fig:ForecastElement1}: in addition to showing the time series of the representative in black and the prediction intervals calculated for the corresponding predictive model, we show the actual time series of a different element in the domain (attributed by the representative) in pink. We can see in this case that all the future values are contained within the prediction interval with $80\%$ level, while most of the time series is also contained inside the $95\%$ level. This gives us a reasonable level of confidence that the predictive model is functioning as a predictor for this element in the interval considered.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{../Figures/medoid_forecast_fitted}
 	\caption{Example of a fitted ARIMA forecast at a representative with out-of-sample prediction intervals.}
@@ -389,7 +388,7 @@ Given that the prediction intervals are available and the future values ($t_f = 
 \end{figure}
 
 % Add the forecast <
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{../Figures/forecast_element1}
 	\caption{Example of a time series (in pink) and its prediction, using the ARIMA model at its representative from Figure \ref{Fig:ModelFinalToForecast}.}
@@ -397,40 +396,35 @@ Given that the prediction intervals are available and the future values ($t_f = 
 	\label{Fig:ForecastElement1}
 \end{figure}
 
-%Forecast estimates are provided with confidence bounds: 80% confidence limits shaded in darker blue, and 95% in lighter blue. For stationary models (i.e., with d=0), forecast intervals converge, for d>1, the forecast intervals will continue to grow into the future.
-% Add justification for ARIMA models
+For ARIMA models we use the sMAPE measure to describe how well a model fits a given sample of data. This goodness-of-fit approach often uses the residuals and does not really reflect the capability of the forecasting technique to successfully predict future observations \cite{Montgomery2015}. The user of the forecasts is very concerned about the accuracy of future forecasts, not model goodness of fit, so it is important to evaluate this aspect. Sometimes forecast accuracy is called `out-of-sample' forecast error, to distinguish it from the residuals that arise from a model-fitting process. In the following Section, we analyze the forecast error of the models on the representatives.
 
-\subsubsection{Analyzing Forecast Error of Predictors on Representatives}
+\subsubsection{Forecast Error of Models on Representatives}
 \label{Sec:AnalyzeForecastErrors}
 
-The previous section described the process of calculating a multi-step prediction for the future values of a time series, using a predictive model trained at a representative. Given that the out-of-sample interval of length $t_f$ is known from the dataset, we can then presents results on the corresponding forecast error. This corresponds to the Forecast Error presented in Step Three of the proposed methodology (Figure \ref{Fig:OverviewMethodology} in Chapter \ref{Chapter:Methodology}).
-
-Now, it is important to remember that there are many different possible model compositions, reviewed in Section \ref{Sec:KnowledgExtraction}. In this Section, we focus in the `Model Composition at the Medoids' to show how forecast errors are calculated for a group of elements based on a model calculated at the corresponding representative. The next Section will later include the other model compositions when forecast errors are aggregated.
-
 % Objetivo: Analizar el error de forecast del medoide aplicado sobre cada uno de sus elementos en su grupo. 
-% GM Review paragraph
-%One of the assumptions in the methodology proposed is that we opt for an automated time series forecasting with a reduced number of models, the purpose is perform a forecast for multiple time series inside a region of interest. Therefore this models used for forecasting must be able to fit to times series in different regions of the domain. It is known that is almost impossible to find the best model for each and every single time series \cite{HastieTF2009}, but using our approach, these reduced number of models are reasonable good on average over all the time series, also it is possible that for some of those time series could exists better models that those considered for the representatives.
+% Between Step 2 and 3 we consider an intermediate analysis, focused on the forecast error of the model on the predictor, given that the out-of-sample interval ....
+The previous section described the process of calculating a multi-step prediction for the future values of a time series, using a predictive model trained at a representative. Given that the out-of-sample interval of length $t_f$ is known from the dataset, we can then present results on the corresponding forecast error. 
+% We consider the following analysis, forecast error variation of the model on the representative applied to each element in its group (for both domain partitioning techniques).
+This is related to the Forecast Error presented in Step Three of the proposed methodology (Figure \ref{Fig:OverviewMethodology} in Chapter \ref{Chapter:Methodology}).
 
-% Add comparison important, for elements (other than representatives) compare the actual values with the forecast and prediction intervals of the representative. 
-% GM review paragraph
-%Comparison of forecast prediction intervals for the representative element model when is used in another element in their group. 
+% Now, it is important to remember that there are many different possible model compositions, reviewed in Section \ref{Sec:KnowledgExtraction}. In this Section, we focus in the `Model Composition at the Medoids' to show how forecast errors are calculated for a group of elements based on a model calculated at the corresponding representative. The next Section will later include the other model compositions when forecast errors are aggregated.
+
 We begin by analyzing the forecast errors when using $k$--Medoids as a partitioning scheme (which yields the medoids as representatives) and the auto ARIMA procedure as the predictive model. In the case of a $k=8$, we have eight groups with the number of elements varying from 500 to 3479, representing the $6.2\%$ and $43\%$ of the domain, respectively. This means that there are eight possible predictive models that we can use to make predictions for any element in the domain.
 
-% GM review paragraph....
-By considering a larger value for the number $k=66$, we are creating more groups and therefore more representatives that generalize better the elements in its group. The partitioning domain result are groups varying from 14 to 278 elements, representing the $0.2\%$ and $3.4\%$ of the domain respectively.
-
+By considering a larger value for the number $k=66$, we are creating more groups and therefore more representatives that generalize better the elements in its group. The partitioning domain result are groups varying from 14 to 278 elements, representing the $0.2\%$ and $3.4\%$ of the domain respectively. 
 % Forecast Error vs. DTW distance intra-cluster
 % Main objective: Within a group, evaluate the variation of the forecast error obtained when the model is applied over all the elements in the group. In practice we are computing the value forecast on the representative for $t_f = 8$, then we compute the sMAPE using the observational values on the representative.
 
-% Para evaluar cuantitativamente el poder predictivo de la forecast con t_f=8 
-To quantify individually the predictive power of the representative predictor forecast error, we compute the sMAPE of each element 
+% TODO single "Figure" with subfigures?
+To qualify the predictive power of the representative predictor forecast error for each individual element of its group, we compute the sMAPE error of the prediction from the representative model for each element, given that we know the corresponding future values. We perform an exploratory analysis using scatter plots diagrams that aggregate the sMAPE results for each representative in a given partitioning scheme. The diagrams show the distance DTW from the medoid in the $x$-axis, and the sMAPE forecast errors in the $y$-axis. For different domain partitioning schemes ($k=\{8, 66, 132\}$), we show in the left column the `best' representatives, for which the maximum forecast error is the lowest, and on the right column are the representatives for which the maximum forecast error is the highest.
 
-% Figures 
-% DTW Maximum 2.5 
-% Forecast Error 2.5
+% Form: Is the association linear or nonlinear?
+% Direction: Is the association positive or negative?
+% Strength: Does the association appear to be strong, moderately strong, or weak?
+% Outliers: Do there appear to be any data points that are unusually far away from the general pattern?
 
 % k=8
-\begin{figure}[!tbp]
+\begin{figure}[!htbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k8_c0}
@@ -443,10 +437,10 @@ To quantify individually the predictive power of the representative predictor fo
     \caption{Forecast Error with $t_{f}=8$ (for $n=3479$ elements) averaged $0.718 \pm 0.347$.}
     \label{Fig:DTWsMAPE_k8_c4}
   \end{minipage}
-\end{figure}-
+%\end{figure}
 
 % k=66
-\begin{figure}[!tbp]
+%\begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k66_c8}
@@ -459,10 +453,10 @@ To quantify individually the predictive power of the representative predictor fo
     \caption{Forecast Error with $t_{f}=8$ (for $n=182$ elements) averaged $0.400 \pm 0.172$.}
     \label{Fig:DTWsMAPE_k66_c24}
   \end{minipage}
-\end{figure}
+%\end{figure}
 
 % k=132
-\begin{figure}[!tbp]
+%\begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k132_c127}
@@ -477,10 +471,15 @@ To quantify individually the predictive power of the representative predictor fo
   \end{minipage}
 \end{figure}
 
+We can observe that, for each representative considered, there is not a clear correlation between the values of the DTW distance and the forecast error. When we considered all the available data from all the representatives (the axes in all figures was standardized to see this more easily), we can see is that, as $k$ increases, there is a tendency to obtain groups with more similarity between their elements (lower DTW distance) and also the forecast error tends to be lower. This means that each representative from a partitioning scheme with more groups is generally able to make more accurate predictions about future of the elements in its group.
 
-For regular partitioning
+However, an important observation here is that lower values of $k$ (8, 66) are still able to produce some representatives that offer better predictions than, for example, the `worst' (highest forecast error) representatives of the partitioning scheme with $k=132$. This result justifies the inclusion of the classifier in our methodology, because there is potential for improved accuracy when considering representatives from multiple partitioning schemes.
+
+\newpage
+A similar analysis is performed with the regular partitioning domain, we generate scatter plots figures for the distance DTW from the medoid and forecast erros (in sMAPE). For different domain partitioning schemes ($k=\{8, 66, 132\}$), we show in the left column the `best' representatives, those for which the forecast error is inside the prediction intervals of the representatives (See Section \ref{sec:InSampleForecastErrors}), and in the right column are the representative for which the forecast error is outside the prediction interval. 
+
 % k=8
-\begin{figure}[!tbp]
+\begin{figure}[!htbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_r8_c5}
@@ -493,10 +492,10 @@ For regular partitioning
     \caption{Forecast Error with $t_{f}=8$ (for $n=1080$ elements) averaged $2.330 \pm 0.584$.}
     \label{Fig:DTWsMAPE_r8_g64}
   \end{minipage}
-\end{figure}
+%\end{figure}
 
 % k=66
-\begin{figure}[!tbp]
+%\begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_r66_c54}
@@ -509,10 +508,10 @@ For regular partitioning
     \caption{Forecast Error with $t_{f}=8$ (for $n=120$ elements) averaged $0.606 \pm 0.684$.}
     \label{Fig:DTWsMAPE_r66_g42}
   \end{minipage}
-\end{figure}
+%\end{figure}
 
 % k=132
-\begin{figure}[!tbp]
+%\begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_r132_c89}
@@ -527,14 +526,17 @@ For regular partitioning
   \end{minipage}
 \end{figure}
 
-% Conclusion: It is not feasible to find a direct correlation between DTW distance and forecast error (and also in-sample error), this is due to the nature of the ARIMA models (elaborate more). To establish a more generic function for the forecast error, or the predictive power, we have to consider 
+In this case, we can observe that the density of the groups is more expanded and the variation of the forecast error is also grater. Which also help us to evaluate the advantage of grouping the domain under the similarity based on the shape of its elements, rather than by a mere division based on the geometry of the domain.
+
+%It is not feasible to find a direct correlation between DTW distance and forecast error (and also in-sample error), this is due to the nature of the ARIMA models (elaborate more). To establish a more generic function for the forecast error, or the predictive power, we have to consider 
 % TODO Add reference for the statistical equivalent of the learning function.
 
-\subsubsection{Predictive Quality of Predictor on the Representative in a Model Composition}
+\subsection{Predictive Quality Analysis of a Model Composition}
 \label{Sec:MedoidsModelComposition}
 
-% Objectivo: Analizar el error de forecast del medoide para predecir su propio grupo.
+Now, it is important to remember that there are many different possible model compositions, reviewed in Section \ref{Sec:KnowledgExtraction}. In this Section, we focus in the `Model Composition at the Medoids' to show how forecast errors are calculated for a group of elements based on a model calculated at the corresponding representative. The next Section will later include the other model compositions when forecast errors are aggregated.
 
+% Objectivo: Analizar el error de forecast del medoide para predecir su propio grupo.
 In this Section we describe the experiments performed to evaluate the forecast error of a model composition, as discussed in Section \ref{Sec:KnowledgExtraction} of the methodology. A model composition is formed by one or more predictors which will be used to perform a prediction on a domain region. Recalling from Section \ref{Sec:ModelRepresentatives}, the model compositions of interest are:
 
 \begin{itemize}%[noitemsep,nolistsep]
@@ -602,7 +604,9 @@ For the $k$--medoids partitioning we compute the same values for $k=8$, shown in
 
 For each $k$ considered, it is possible to observe that the predictions made by the models in the medoids are lower, this is due to the fact that the points in each group are increasingly similar. There are exceptions since the models considered are built on historical data from a point in the region, and the variations may be the product of an unexpected change in the behavior of the temperature at that point.
 
-\subsubsection{TODO Aggregated?}
+\subsubsection{Model Composition for a Domain Region}
+\label{Sec:Aggregated}
+
 
 To analyze the variation in the value of the prediction model in each composition composed consider a mesh size $10\times 10$ squares over the entire domain. Consider spatio--temporal predictive queries where the region of interest corresponds to each square (Figure \ref{Fig:Query_10x10_whole_real_brazil}). We also consider queries with a region of interest of size $20\times 20$, $30 \times 30$, $15 \times 20$ and $30 \times 15$. 
 
@@ -633,7 +637,7 @@ The results for $81$ spatio--temporal predictive queries, product of considering
 	\label{Table:Query10x10_kMedoids_Regular_StatSummary}
 \end{table}
 
-According to Table \ref{Table:Query10x10_kMedoids_Regular_StatSummary}, the model composition formed by representative models of the $k$--Medoids representatives predict better than the regular approach. Analisis experimental que no es tan riguroso, pues solo muestra una variacion del error para regiones 
+According to Table \ref{Table:Query10x10_kMedoids_Regular_StatSummary}, the model composition formed by representative models of the $k$--Medoids representatives predict better than the regular approach. 
 The following figures are heat maps of the computed forecast errors for the considered spatio--temporal predictive queries:
 
 \begin{figure}[ht]
@@ -874,6 +878,8 @@ where:
 	%\item $Y_{Q}$: prediction output.
 \end{itemize}
 
+% Adicionalmente, para evaluar la aplicabilidad de la metodologia computamos las consultas predictivas espacio-temporales considerando modelos baseline tal como $kNN$.
+
 \subsubsection{Evaluating Spatio--Temporal Predictive Queries}
 \label{Sec:ExperimentsQueries}
 
@@ -900,6 +906,8 @@ We compare the results of the previous predictions with a point model compositio
 	\item AutoRegressive Integrated Moving Average (ARIMA).
 \end{itemize}
 
+In Section \ref{Sec:Aggregated} from \ref{Sec:AnalyzeForecastErrors}, we evaluate the predictive quality 
+% consideramos evaluar la calidad predictiva de la composicion de modelos sobre los medoids sobre regiones de tamanho $10\times 10$. En esta seccion extendemos los resultados de dicho experimento, teniendo en cuenta la composicion de modelos suministrada por el clasificador implementado en la seccion anterior. 
 Next we show the results of model composition using the classifier of predictive models for univariate time--series, and also the results when the model composition is the point model generation.
 
 \begin{table}[h!]

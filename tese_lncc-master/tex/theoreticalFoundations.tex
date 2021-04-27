@@ -43,7 +43,7 @@ that homogenous time-series are grouped together based on a certain similarity m
 
 % Similarity Measure
 %http://practicalquant.blogspot.com/2012/10/mining-time-series-with-trillions-of.html
-We need to consider a similarity measure to calculate the similarity among the whole time-series. This is not a simple process, time-series data are naturally noisy and include outliers and shifts, in some cases the length of time-series varies and the distance among them needs to be calculated \cite{Pal2017}. In the literature, we found several approaches to find similarity among time-series. In this context, we chose shape--based approaches, where shapes of two time-series are matched as well as possible by a non-linear stretching and contracting of the time axes (considering raw time-series data).
+We need to consider a similarity measure to calculate the similarity among the whole time-series. This is not a simple process, time-series data are naturally noisy and include outliers and shifts, in some cases the length of time-series varies and the distance among them needs to be calculated \cite{Pal2017}. In the literature, we review several approaches to find similarity among time-series. In this context, we chose shape--based approaches, where shapes of two time-series are matched as well as possible by a non-linear stretching and contracting of the time axes (considering raw time-series data).
 
 \subsection{Shape-based Distance Algorithms}
 \label{sec:ShapeBasedDistance}
@@ -263,7 +263,7 @@ In this work we consider Auto Regressive Integrated Moving Average (ARIMA) as th
 \label{Sec:TheoryARIMA}
 
 % ARIMA for time series forecast
-ARIMA are the most general class of models for forecasting a time series which can be made to be ``stationary'' by differencing (when necessary). A random variable (in this case, a time series), is said to be stationary if its statistical properties (mean and covariance) are constant over time.  A stationary series has no trend, its variations around its mean have a constant amplitude, and its autocorrelations (correlations with its own prior deviations from the mean) remain constant over time.  A random variable of this form can be usually viewed as a combination of signal and noise, and the signal (if one is apparent) could be a pattern of fast or slow mean reversion, or sinusoidal oscillation, %or rapid alternation in sign,
+ARIMA are the most general classes of models for forecasting a time series which can be made to be ``stationary'' by differencing (when necessary). A random variable (in this case, a time series), is said to be stationary if its statistical properties (mean and covariance) are constant over time.  A stationary series has no trend, its variations around its mean have a constant amplitude, and its autocorrelations (correlations with its own prior deviations from the mean) remain constant over time.  A random variable of this form can be usually viewed as a combination of signal and noise, and the signal (if one is apparent) could be a pattern of fast or slow mean reversion, or sinusoidal oscillation, %or rapid alternation in sign,
 and it could also have a seasonal component. An ARIMA model can be viewed as a ``filter'' that tries to separate the signal from the noise; this signal can then be extrapolated into the future to obtain forecasts \cite{Chatfield2019}.
 
 In a multiple regression model, the variable of interest is predicted using a linear combination of predictors. In an autoregression model, the forecast of the variable of interest is performed using a linear combination of past values of the variable. The term autoregression indicates that it is a regression of the variable against itself. Autoregressive models are based on the idea that the current value of the series, $s_{t}$, can be explained as a function of $t_{p}$ past values, $s_{t-1}, s_{t-2}, \ldots, s_{t-p}$, where $t_{p}$ determines the number of steps into the past needed to forecast the current value. 
@@ -297,9 +297,8 @@ where $s^{'}_{t}$ is the differenced series (it may have been differenced more t
 % The integrated components are useful when data has non-stationarity, and the integrated part of ARIMA helps in reducing the non-stationarity. 
 In summary, the ARIMA forecasting equation for a stationary time series is a linear (i.e., regression-type) equation in which the predictors consist of lags of the dependent variable and/or lags of the forecast errors.  The integrated components are useful when data has non-stationarity, and the integrated part of ARIMA helps in reducing the non-stationarity. The ARIMA applies differencing on time series one or more times to remove non-stationarity effect. The $(p, d, q)$ tuple represents the order for AR, the differencing component, and the order for MA, respectively. Viewed in another way, the $d$ component aims to detrend the signal to make it stationary and ARMA model can be applied to the de--trended dataset \cite{Hyndman2018}.
 
-When working with ARIMA models, the $(p, d, q)$ tuple has to be specified, and different combinations of values will produce results with varying accuracy. An approach to tackle the problem of choosing adequate parameters is to use the auto ARIMA procedure. It performs a grid search that selects the $(p, d, q)$ model parameters based on the minimization of the AICc (Akaike Information Criterion), given by the following formula \cite{Hyndman2008}:
+When working with ARIMA models, the $(p, d, q)$ tuple has to be specified, and different combinations of values will produce results with varying accuracy. An approach to tackle the problem of choosing adequate parameters is to use the auto.ARIMA procedure. It performs a grid search that selects the $(p, d, q)$ model parameters with the minimum AIC (Akaike Information Criterion), the AIC is a technique based in in-sample fit to estimate the likelihood of a model to predict/estimate the future values. The AIC is given by the following formula \cite{Hyndman2008}:
 
-%The AICc is calculated for the final model, and this value can be used to determine the best predictors. That is, the procedure should be repeated for all subsets of predictors to be considered, and the model with the lowest AICc value selected.
 \begin{equation}
 \mathrm{AIC} \, = \, 2(p + q+ k + 1) - 2\ln(\hat L)
 \end{equation}
@@ -309,14 +308,9 @@ where $k$ is the number of estimated parameters and $\hat{L}$ is the maximum val
 \subsubsection{$k$ Nearest Neighbor}
 \label{Sec:TheorykNN}
 
-Another method considered in this work for time series forecasting is the $k$ Nearest Neighbor (kNN) regression. $k$NN is a nonparametric classification method, based on the measurement of a point's similarity to a training set containing patterns for which class labels are supplied. $k$NN is a memory-based method and does not build a model through learning. Instead, the classification is made by aggregating the values provided by the training patterns in the vicinity of the current point \cite{Altman1992}. 
+Another method considered in this work for time series forecasting is the $k$ Nearest Neighbor (kNN) regression, which is memory-based. In summary the technique works as follows: Given some explanatory variable of a new instance to be regressed on; $k$NN finds the $k$ training instances that are closest to the new instance according to some distance metric and returns their average explained variable.
 
-When $k$NN is applied to time series forecasting, it is necessary to:
-\begin{itemize}
-    \item choose the concrete similarity functions used to find the closest neighbors,
-    \item decide how to effectively produce the prediction.
-\end{itemize}
-For the former step, let $\{s_{1}, s_{2}, \ldots, s_{n}\}$ be the series to be analyzed. We search for $k$ subsequences of length $t_p$ inside the given series, that are closest to the suffix vector $\{s_{n-t_{p}+1},\ldots, s_{t}\}$, with $t_{p} >1$. These $k$-subsequences are of the form: 
+When $k$NN is applied to time series forecasting, it is necessary to determine the concrete similarity functions used to find the closest neighbors. Let $\{s_{1}, s_{2}, \ldots, s_{n}\}$ be the series to be analyzed, we search for $k$ subsequences of length $t_p$ inside the given serie, that are closest to the suffix vector $\{s_{n-t_{p}+1},\ldots, s_{t}\}$, with $t_{p} >1$. These $k$-subsequences are of the form: 
 \begin{equation*}
     \{s_{q_{1}}, s_{q_{1}+1}, \ldots, s_{q_{1}+t_{p}-1} \}, \ldots \ldots, \{s_{q{k}}, s_{q_{k}+1}, \ldots, s_{q_{k} + t_{p} -1} \}
 \end{equation*}
@@ -359,7 +353,7 @@ Additionally, we consider percentage errors, which have the advantage of being u
 \end{itemize}
 In sMAPE The absolute difference between $s_{t}$ and $\hat{s}_{t}$ is divided by half the sum of absolute values of the actual value $s_{t}$ and the forecast value $\hat{s}_{t}$. The value of this calculation is summed for every fitted point $t$ and divided again by the number of fitted points $n$. In contrast to the MAPE, sMAPE has both a lower bound and an upper bound. The formula above provides a result between $0\%$ and $200\%$. However a percentage error between $0\%$ and $100\%$ is much easier to interpret.  
 
-\section{Final Considerations}
-\label{Sec:TheoFinalConsiderations}
+% \section{Final Considerations}
+% \label{Sec:TheoFinalConsiderations}
 
 % 
