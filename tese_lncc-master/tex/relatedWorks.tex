@@ -1,6 +1,13 @@
 \chapter{Related Works}
 \label{chapter_Related_Works}
 
+Spatio Temporal phenomena are present in almost every field of research, from climate science, geographic information science (GIS), and others. With the advancement of technology it is possible to obtain exorbitant amounts of data that represent these phenomena, for each type of phenomenon it is possible to represent the spatio-temporal data in different structures \ cite {}. In this work we are interested in the representation of the phenomenon by means of univariate time series, in \ cite {} temperature, in \ cite {} energy consumption, in \ cite {} econometrics.
+% Spatio Temporal phenomena are present in almost every field of research, from climate science, GIS, y otros mas. Con el avance de la tecnologia es posible conseguir cantidades exhorbitantes de datos que representan estos fenomenos, para cada tipo de fenomeno es posible representar los datos espaciotemporales en diferentes estructuras \cite{}. En este trabajo estamos interesados en la representacion del fenomeno por medio de series temporales univariadas, en \cite{} temperatura, en \cite{} consumo de energia, in \cite{} econometris.
+
+Analyzing and studying space-time phenomena through data is a complex task and requires various statistical tools and currently the use of machine learning is obvious \ cite {}. In the particular case of univariate time series, it is not the exception depending on the type of analysis and information to be extracted. There are several tools, from those that were developed decades ago with a base of analysis and statistical methods, which are used with success until today, and with the advent of deep learning tools to process voluminous data, we now find more efficient techniques and models, but at a computational cost - in processing and computation - quite high.
+% Analizar y estudiar los fenómenos espacio temporales a través de los datos, es una tarea compleja y requiere de diversas herramientas estadísticas y en la actualidad el uso de machine learning es obvio \cite{}. En el caso particular de las series temporales univariadas, no es la excepción dependiendo del tipo de análisis y de información a extraer. Existen varias herramientas, desde aquellas que fueron desarrolladas décadas atrás con una base de análisis y métodos estadísticos, que son usadas con éxito hasta hoy, y con el Adviento de herramientas de deep learning para procesar datos voluminosos, encontramos hoy técnicas y modelos más eficientes, pero a un costo computacional -- en procesamiento y computo -- bastante elevado.
+
+La naturaleza de los datos espaciotemporales que expresan relaciones entre espacio y tiempo, exige un acoplamiento natural entre 
 %TODO Intro
 When considering spatiotemporal data exists several methods to extract knowledge about the phenomena analyzed, in this work we consider the following tasks clustering, classification
 
@@ -33,7 +40,7 @@ The use of DTW as a similarity measure for time series gained popularity through
 Dynamic  Time  Warping(DTW) – was introduced in 1978 in the context of speech recognition \cite{Sakoe1978}. DTW is a way to define the distance measure between two univariate time series, and it can be used with a $k$-Nearest Neighbors ($kNN$) classifier. The main idea consists in calculating the distance between two time series not point wisely, like it is done using Euclidean distance, but using the mapping between structurally similar points, which is time-invariant.
 
 % Time Series Classification
-Techniques and methods for Time--Series classification (TSC) in the last decades presented great advances due to the use of sequential models, in particular deep neural networks \cite{Fawaz2019}. 
+Techniques and methods for Time--Series classification in the last decades presented great advances due to the use of sequential models, in particular deep neural networks \cite{Fawaz2019}. 
 
 Extensive  experimental  evaluation  [1] showed  that  1-NN  DTW  is  a  strong  benchmark  which  cannot  be  beaten  by many proposed algorithms. If beaten, the advantage is often not so significant,compared to the difficulty of the implementation or the computation.
 

@@ -161,7 +161,7 @@ Traditional classification approaches can provide a basic baseline for solving t
 \subsection{Deep Learning for Time Series Classification}
 \label{Sec:DL-TSC}
 % Intro to deep learning for time series classification
-In this work, we consider the use of Neural Network Classifiers. Traditional machine learning systems require considerable domain expertise and careful hand engineering to come up with a feature extractor that transforms the raw data (such as pixel values of an image) into a suitable internal representation, or feature vector, from which a learning system (such as a classifier) can detect or classify patterns in the input \cite{Guyon2006}. 
+In this work, we consider the use of Neural Network Classifiers. Traditional machine learning (ML) systems require considerable domain expertise and careful hand engineering to come up with a feature extractor that transforms the raw data (such as pixel values of an image) into a suitable internal representation, or feature vector, from which a learning system (such as a classifier) can detect or classify patterns in the input \cite{Guyon2006}. 
 
 A Deep Learning approach, allows inputting the raw data to the learning algorithm without first extracting features or defining a feature vector. Instead of handcrafting a set of rules and algorithms to extract features from raw data, deep learning involves learning these features automatically during the training process \cite{Goodfellow2016, Schmidhuber2015}. 
 
@@ -207,7 +207,7 @@ A unit memory in LSTM can be seen as a gated cell, shown in Figure \ref{Fig:LSTM
 \end{figure}
 
 % CNN
-Convolutional Neural Networks (CNNs) \cite{Lecun1989} are a subset of machine learning techniques that uses multi-layered artificial neural networks to deliver state-of-the-art accuracy in tasks such as object detection, speech recognition, language translation and others \cite{Szegedy2013}. CNNs employ filters within convolutional layers to transform data, whereas RNNs reuse activation functions from other data points in the sequence to generate the next output in a series. 
+Convolutional Neural Networks (CNNs) \cite{Lecun1989} are a subset of ML techniques that uses multi-layered artificial neural networks to deliver state-of-the-art accuracy in tasks such as object detection, speech recognition, language translation and others \cite{Szegedy2013}. CNNs employ filters within convolutional layers to transform data, whereas RNNs reuse activation functions from other data points in the sequence to generate the next output in a series. 
 
 The process of a convolution layer can be better explained in the context of image processing: a convolution operation is performed as a window of weights sliding across an image, where an output pixel produced at each position is the weighted sum of the input pixels covered by the window. The weights that parameterize the window remain the same throughout the scanning process. Therefore, convolutional layers can capture the shift-invariance of visual patterns and learn robust features.
 
@@ -220,11 +220,13 @@ The process of a convolution layer can be better explained in the context of ima
 	%\end{minipage}
 \end{figure}
 
+% TODO cite multilayer
 Multilayer Feed Forward or fully connected layer is a structure where neurons from a layer are connected to all the neurons in the next layer, for a multiclass classification the dense layer is commonly used. Considering the \texttt{softmax} function onto the last layer, it creates a probability distribution over $K$ classes, and produces an output vector of length $K$. Each element of the vector is the probability that the input belongs to the corresponding class. The most likely class is chosen by selecting the index of that vector having the highest probability (See Figure \ref{Fig:1DCNN}).
 
 % Hybrid models LSTM-CNN
 The main difference between CNN and RNN is the ability to process temporal information or data that comes in sequences, such as a sentence for example. Moreover, convolutional neural networks and recurrent neural networks are used for completely different purposes, and there are differences in the structures of the neural networks themselves to fit those different use cases. 
 
+% TODO cite hybrid
 While RNNs and CNNs have several differences, they are not completely mutually exclusive. It is possible use them together for increased effectiveness. This can especially be helpful when the input has to be classified as visually complex with temporal characteristics. In this context, a CNN can be used to handle spatial data, while RNN can be leveraged to process the temporal aspect of the data. In a combined network, the input is first passed through the CNN layers and then its output is fed to the RNN network layer. These hybrid structures are being currently used for applications like gesture recognition, video scene labeling, video identification, and DNA sequencing. In this work, we will analyze the applicability of a CNN, a RNN and the hybrid approach for time series classification.
 
 \section{Time Series Analysis and Forecast}
@@ -297,7 +299,7 @@ where $s^{'}_{t}$ is the differenced series (it may have been differenced more t
 % The integrated components are useful when data has non-stationarity, and the integrated part of ARIMA helps in reducing the non-stationarity. 
 In summary, the ARIMA forecasting equation for a stationary time series is a linear (i.e., regression-type) equation in which the predictors consist of lags of the dependent variable and/or lags of the forecast errors.  The integrated components are useful when data has non-stationarity, and the integrated part of ARIMA helps in reducing the non-stationarity. The ARIMA applies differencing on time series one or more times to remove non-stationarity effect. The $(p, d, q)$ tuple represents the order for AR, the differencing component, and the order for MA, respectively. Viewed in another way, the $d$ component aims to detrend the signal to make it stationary and ARMA model can be applied to the de--trended dataset \cite{Hyndman2018}.
 
-When working with ARIMA models, the $(p, d, q)$ tuple has to be specified, and different combinations of values will produce results with varying accuracy. An approach to tackle the problem of choosing adequate parameters is to use the auto.ARIMA procedure. It performs a grid search that selects the $(p, d, q)$ model parameters with the minimum AIC (Akaike Information Criterion), the AIC is a technique based in in-sample fit to estimate the likelihood of a model to predict/estimate the future values. The AIC is given by the following formula \cite{Hyndman2008}:
+When working with ARIMA models, the $(p, d, q)$ tuple has to be specified, and different combinations of values will produce results with varying accuracy. An approach to tackle the problem of choosing adequate parameters is to use the auto.ARIMA procedure. It performs a grid search that selects the $(p, d, q)$ model parameters with the minimum AIC (Akaike Information Criterion). The AIC is a technique based in in-sample fit to estimate the likelihood of a model to predict/estimate the future values; the AIC value is given by the following formula \cite{Hyndman2008}:
 
 \begin{equation}
 \mathrm{AIC} \, = \, 2(p + q+ k + 1) - 2\ln(\hat L)
@@ -351,7 +353,9 @@ Additionally, we consider percentage errors, which have the advantage of being u
 	sMAPE = \frac{200}{n}\sum_{t=1}^{n} \frac{\left|s_t - \hat{s}_t\right|}{\left(s_{t}+\hat{s}_{t}\right)}
 	\end{equation}	
 \end{itemize}
-In sMAPE The absolute difference between $s_{t}$ and $\hat{s}_{t}$ is divided by half the sum of absolute values of the actual value $s_{t}$ and the forecast value $\hat{s}_{t}$. The value of this calculation is summed for every fitted point $t$ and divided again by the number of fitted points $n$. In contrast to the MAPE, sMAPE has both a lower bound and an upper bound. The formula above provides a result between $0\%$ and $200\%$. However a percentage error between $0\%$ and $100\%$ is much easier to interpret.  
+
+% TODO clarify MAPE vs sMAPE boundaries and percentages
+With sMAPE, the absolute difference between $s_{t}$ and $\hat{s}_{t}$ is divided by half the sum of absolute values of the actual value $s_{t}$ and the forecast value $\hat{s}_{t}$. The value of this calculation is summed for every fitted point $t$ and divided again by the number of fitted points $n$. In contrast to the MAPE, sMAPE has both a lower bound and an upper bound. The formula above provides a result between $0\%$ and $200\%$. However, a percentage error between $0\%$ and $100\%$ is easier to interpret.  
 
 % \section{Final Considerations}
 % \label{Sec:TheoFinalConsiderations}
