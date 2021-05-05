@@ -58,7 +58,7 @@
 \usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
 \usepackage{lastpage}			% Usado pela Ficha catalográfica
 \usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
-\usepackage{color}			    % Controle das cores
+\usepackage{color, colortbl}    % Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 			% para melhorias de justificação
 \usepackage{amsthm,thmtools}	% Teoremas e outras definições matemáticas
@@ -161,6 +161,14 @@
 \usepackage{caption}
 \usepackage{dirtree}
 \usepackage{mismath}
+\usepackage{tikz}
+\tikzset{hl/.style={
+    set fill color=red!10,
+    set border color=red!60,
+  },
+}
+
+\definecolor{MyRed}{RGB}{248,69,69}
 
 \newcommand{\Fab}[1]{\textbf{\textcolor{red}{[Fabio P.]: #1}}}
 \newcommand{\Edu}[1]{\textbf{\textcolor{green}{[Eduardo O.]: #1}}}

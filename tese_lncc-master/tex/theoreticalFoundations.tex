@@ -43,12 +43,12 @@ that homogenous time-series are grouped together based on a certain similarity m
 
 % Similarity Measure
 %http://practicalquant.blogspot.com/2012/10/mining-time-series-with-trillions-of.html
-We need to consider a similarity measure to calculate the similarity among the whole time-series. This is not a simple process, time-series data are naturally noisy and include outliers and shifts, in some cases the length of time-series varies and the distance among them needs to be calculated \cite{Pal2017}. In the literature, we review several approaches to find similarity among time-series. In this context, we chose shape--based approaches, where shapes of two time-series are matched as well as possible by a non-linear stretching and contracting of the time axes (considering raw time-series data).
+We need to consider a similarity measure to calculate the similarity among the whole time-series. This is not a simple process, time-series data are naturally noisy and include outliers and shifts, in some cases the length of time-series varies and the distance among them needs to be calculated \cite{Liao2005}. In the literature, we review several approaches to find similarity among time-series. In this context, we chose shape-based approaches, where shapes of two time-series are matched as well as possible by a non-linear stretching and contracting of the time axes (considering raw time-series data) \cite{Meesrikamolkul2012}.
 
-\subsection{Shape-based Distance Algorithms}
+\subsection{Shape-based Distance}
 \label{sec:ShapeBasedDistance}
 
-Shape-based distance algorithms are usually employed in conventional clustering methods \cite{Pal2017}. These algorithms are compatible with static data while their distance/similarity measure has been modified with an appropriate one for time-series. A commonly used approach for calculating shape--based similarity measures is the Dynamic Time Warping (DTW) \cite{Sakoe1978} and its variants. DTW is a generalization of classical algorithms for comparing discrete sequences to sequences of continuous values, and leverages dynamic programming to calculate an optimal match between two sequences of feature vectors by allowing for stretching and compression of sections of the sequences. 
+A commonly used approach for calculating shape--based similarity measures is the Dynamic Time Warping (DTW) \cite{Sakoe1978} and its variants. DTW is a generalization of classical algorithms for comparing discrete sequences to sequences of continuous values, and leverages dynamic programming to calculate an optimal match between two sequences of feature vectors by allowing for stretching and compression of sections of the sequences. 
 
 Given two time series, $\mathcal{S}_{1} =\left(s^{1}_{1}, s^{1}_{2}, \ldots, s^{1}_{n}\right)$ and $\mathcal{S}_{2} = \left(s^{2}_{1}, s^{2}_{2}, \ldots, s^{2}_{m}\right)$, DTW aligns the two series so that their difference is minimized. To this end, an $n \times m$ matrix, known as local cost matrix is computed, where the $(i, j)$ element of the matrix contains the distance $d(s^{1}_{i}, s^{2}_{j})$ between two points $s^{1}_{i}$, and $s^{2}_{j}$. Normally, the Euclidean distance is used here.
 
@@ -137,13 +137,10 @@ In this work, instead of the default PAM implementation of k-medoids, we use an 
     Select the medoid $j$ with the lowest cost of the configuration. Iterate between steps 3 and 4 until there is no change in the assignments.
 \end{enumerate}
 
-
 % Considering varying k partitions
 The $k$--Medoids approach is a seed based algorithm, this means that the performance is dependent on initial cluster center selection and the optimal number of clusters \cite{Chowdhury2019}. The convergence of this algorithm primarily depends on the initialization phase, when the membership of each data point is calculated. The algorithm not only produces different clustering results for different values of $k$, but also for different values of the initial seed. In addition, increasing $k$ will always reduce the $k$--Medoids cost (within-cluster sum of squares, or WSS) in the resulting grouping, to the extreme case of zero cost if each data point is considered its own cluster (i.e., when $k$ equals the number of data points) \cite{HastieTF2009}. 
 
-In $k$--Medoids clustering algorithm, the number of clusters $k$, has to be pre-assigned, which may not be readily available or may not be easily easily determined for many applications. Thus, one of the main drawbacks of $k$--Medoids is the difficulty in obtaining natural clustering results when working with static objects \cite{Mohri2012}.
-
-The issue of requiring a pre-assigned value for the number of clusters $k$ is exacerbated when applying the $k$--Medoids method on time-series data, because the datasets are very large and diagnostic checks for determining the number of clusters is not easy \cite{Aghabozorgi2015}. In Section \ref{Sec:Selectk}, we will explore methods and techniques to find the optimal number of $k$ under these conditions.
+In $k$--Medoids clustering algorithm, the number of clusters $k$, has to be pre-assigned, which may not be readily available or may not be easily easily determined for many applications. The issue of requiring a pre-assigned value for the number of clusters $k$ is exacerbated when applying the $k$--Medoids method on time-series data, because the datasets are very large and diagnostic checks for determining the number of clusters is not easy \cite{Aghabozorgi2015}. In Section \ref{Sec:Selectk}, we will explore methods and techniques to find the optimal number of $k$ under these conditions.
 
 \section{Time Series Classification} 
 \label{Sec:TimeSeriesClassification}
@@ -220,8 +217,7 @@ The process of a convolution layer can be better explained in the context of ima
 	%\end{minipage}
 \end{figure}
 
-% TODO cite multilayer
-Multilayer Feed Forward or fully connected layer is a structure where neurons from a layer are connected to all the neurons in the next layer, for a multiclass classification the dense layer is commonly used. Considering the \texttt{softmax} function onto the last layer, it creates a probability distribution over $K$ classes, and produces an output vector of length $K$. Each element of the vector is the probability that the input belongs to the corresponding class. The most likely class is chosen by selecting the index of that vector having the highest probability (See Figure \ref{Fig:1DCNN}).
+Multilayer Feed Forward or fully connected layer is a structure where neurons from a layer are connected to all the neurons in the next layer, for a multiclass classification the dense layer is commonly used \cite{Albawi2017}. Considering the \texttt{softmax} function onto the last layer, it creates a probability distribution over $K$ classes, and produces an output vector of length $K$. Each element of the vector is the probability that the input belongs to the corresponding class. The most likely class is chosen by selecting the index of that vector having the highest probability (See Figure \ref{Fig:1DCNN}).
 
 % Hybrid models LSTM-CNN
 The main difference between CNN and RNN is the ability to process temporal information or data that comes in sequences, such as a sentence for example. Moreover, convolutional neural networks and recurrent neural networks are used for completely different purposes, and there are differences in the structures of the neural networks themselves to fit those different use cases. 
@@ -265,8 +261,7 @@ In this work we consider Auto Regressive Integrated Moving Average (ARIMA) as th
 \label{Sec:TheoryARIMA}
 
 % ARIMA for time series forecast
-ARIMA are the most general classes of models for forecasting a time series which can be made to be ``stationary'' by differencing (when necessary). A random variable (in this case, a time series), is said to be stationary if its statistical properties (mean and covariance) are constant over time.  A stationary series has no trend, its variations around its mean have a constant amplitude, and its autocorrelations (correlations with its own prior deviations from the mean) remain constant over time.  A random variable of this form can be usually viewed as a combination of signal and noise, and the signal (if one is apparent) could be a pattern of fast or slow mean reversion, or sinusoidal oscillation, %or rapid alternation in sign,
-and it could also have a seasonal component. An ARIMA model can be viewed as a ``filter'' that tries to separate the signal from the noise; this signal can then be extrapolated into the future to obtain forecasts \cite{Chatfield2019}.
+ARIMA are the most general classes of models for forecasting a time series which can be made to be ``stationary'' by differencing (when necessary). A random variable (in this case, a time series), is said to be stationary if its statistical properties (mean and covariance) are constant over time.  A stationary series has no trend, its variations around its mean have a constant amplitude, and its autocorrelations (correlations with its own prior deviations from the mean) remain constant over time.  A random variable of this form can be usually viewed as a combination of signal and noise, and the signal (if one is apparent) could be a pattern of fast or slow mean reversion, or sinusoidal oscillation, and it could also have a seasonal component. An ARIMA model can be viewed as a ``filter'' that tries to separate the signal from the noise; this signal can then be extrapolated into the future to obtain forecasts \cite{Chatfield2019}.
 
 In a multiple regression model, the variable of interest is predicted using a linear combination of predictors. In an autoregression model, the forecast of the variable of interest is performed using a linear combination of past values of the variable. The term autoregression indicates that it is a regression of the variable against itself. Autoregressive models are based on the idea that the current value of the series, $s_{t}$, can be explained as a function of $t_{p}$ past values, $s_{t-1}, s_{t-2}, \ldots, s_{t-p}$, where $t_{p}$ determines the number of steps into the past needed to forecast the current value. 
 
@@ -319,10 +314,11 @@ When $k$NN is applied to time series forecasting, it is necessary to determine t
 
 where $1 \leq q_{i} \leq n - t_{p}$, $i = \{1, 2, \ldots, k\}$. The values $k$ and $t_{p}$ are parameters of the prediction model \cite{Ban2013}. Here, it is possible to utilize the DTW similarity measure to compute the distances between series' suffix and a neighbor.
 
-\subsection{Time Series Forecast Error}
+\subsection{Time Series Forecast Metrics}
 \label{Sec:ErrorTSA}
+% Time Series Forecast Prediction Intervals 
+The objective of a predictive ARIMA model is to calculate point forecasts for future time units, but it is sometimes better to calculate an interval forecast to give a clearer indication of future uncertainty. A prediction interval (P.I.) consists of upper and lower limits between which a future value is expected to lie with a prescribed probability. The calculation of the interval depends on the forecasting method used and the properties of the data \cite{Chatfield2001}.
 
-% Time Series Forecast Error 
 Accuracy measures, error statistics or measures, and loss functions are alternative ways of conveying information about the ability of a certain forecasting method to predict actual data, either when a model is fitted to such data, or for future periods (post-sample) whose values have not been used to develop the forecasting model \cite{Makridakis1993}. In order to represent the accuracy of forecast methods applied to univariate time series data, we use $s_{t}$ to denote the observation at time $t$, and $\hat{s}_t$ to denote the forecast of $s_{t}$.
 
 In this work, we consider the following scale-dependent errors:

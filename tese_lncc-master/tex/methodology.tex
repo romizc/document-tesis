@@ -93,38 +93,47 @@ g^{*}_{i} = \langle \mathcal{S}^{*}, A_p, \mathbf{p}, E, \varSigma \rangle
 %TODO improve this
 Thus, the initial approach of having a generic set of models for a domain has been refined, there can now be a reduced number of predictive models that depend on the number of representatives considered. In the case of using a single domain partitioning scheme with $k$ partitions to characterize a domain, there will be $k$ instances of a particular model with $\langle A, p \rangle$ properties. 
 
-As an implementation detail of the off--line process, the predictive models are saved to persistent storage with the appropriate metadata (domain, similarity measure, domain partitioning scheme, group index). This will allow us to recover previously generated predictive models when computing a forecast value for a time-series. The result of applying a partitioning technique to a domain is also stored to speed up future computations.
+As an implementation detail of the off-line process, the predictive models are saved to persistent storage with the appropriate metadata (domain, similarity measure, domain partitioning scheme, group index). This will allow us to recover previously generated predictive models when computing a forecast value for a time-series. The result of applying a partitioning technique to a domain is also stored to speed up future computations.
 
-\Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
-
+% \Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
+% OK 
+The off-line steps, described in Algorithm \ref{alg:trainModelsAtMedoids}, 
+% TODO refer to this algorithm
+% TODO describe split in train/validate
+% TODO describe output
 \begin{algorithm}[h!]
-\caption{ComputeOffline}\label{alg:offline}
+\caption{Apply a set of partitioning schemes and train models at medoids}\label{alg:trainModelsAtMedoids}
 \begin{algorithmic}[1] 
-\Function{computeOffline} {$D,k\_list $}
+\Function{trainModelsAtMedoids} {$D,k\_list,t_p,t_f $}
 
+\State {$(D\_train, D\_validate)\ \leftarrow\ split\_dataset(D, t_p)$}
+\State{$D\_out \gets \bot$}
+ 
 \For{$k\ \in\ k\_list$}
 
- /* cluster the dataset D and obtain the set of groups and associated medoids  /*
- \State {$(medoid\_list, annotated\_ts\ \leftarrow\ cluster(D,k)$}
- \State{$medoid\_out \gets \bot$}
+   /* Partition dataset D and obtain set of groups and associated medoids  /*
+ \State {$(medoid\_list, D\_part)\ \leftarrow\ partition(D,k)$}
+ \State{$medoids\_k \gets \bot$}
  
  \For{$ m\  \in\  medoid\_list$}
  
- /* Train a model at time-series m /*
- \State {$model \gets train(m) $}
- \State {$error \gets model.error $}
+  /* Train a model using training time-series at medoid $m$ /*
+  \State {$model \gets train(m, D\_train) $}
+  
+  /* Calculate the in-sample error /*
+  \State {$error \gets error(model, m, D\_validate) $}
  
- /* Annotate the medoid m with the trained model and its error /*
- \State {$annotate (m,model, error) $}
- \State{$Add(m, medoid\_out)$}
+  /* Annotate the medoid $m$ with the trained model and its error /*
+  \State {$annotate (m, model, error) $}
+  \State{$medoids\_k\ \gets add\_medoid(m, medoids\_k)$}
  \EndFor
  
- \State {$ D\_out.add(k,annotated\_ts,medoid\_out) $}
+ /* Annotate dataset with each partitioning scheme and trained models /*
+ \State {$ D\_out\ \gets add\_medoid\_models(k, D\_part, medoids\_k, D\_out) $}
  
 \EndFor
 
 /* Return the annotated dataset */
-
 \State {$Return \ D\_out$} 
 \EndFunction 
 \end{algorithmic} 
@@ -159,7 +168,6 @@ As discussed in the previous Section, in our problem we are not considering a un
 
 In this section, and the next, we seek to implement a process that is able to select predictive models using some kind of intelligence, with the aim of finding a composition of models to predict a region of interest with increased accuracy. The need for this solution will be justified in the next Chapter, when we analyze the results of the forecast error analysis for the predictive models trained on representatives. For now, the desired output of the classifier is expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
 
-%TODO consider cite here
 Here, it is  necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past\cite{Chatfield2001}. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest.
 
 We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. We consider the classes to be the identifiers of models computed at the representatives for each cluster the time-series takes part in, whenever multiple clustering are applied to the domain dataset. Thus, for instance, if a time-series participates of two clusters, with $k_1$ and $k_2$ respectively, it would have associated two models $g_1$ and $g_2$ as labels, respectively.
@@ -173,14 +181,14 @@ In order to show how we can leverage domain partitioning schemes and their respe
 \mathcal{D} & = & \bigcup_{k=1}^{l} \mathbf{T_k} \,\,\textrm{and} \,\, \left\{\mathcal{T}_{1}, \ldots, \mathcal{T}_{l}\right\},
 \end{eqnarray}
 
-where $m, n, l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}, \ldots, \mathcal{P}_{m}, \mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}, \mathcal{T}_{1}, \ldots \mathcal{T}_{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for each element in the domain, we want to find some representative $\mathcal{S} \in \mathbf{R}$ that is the representative of some group in a partitioning scheme $\mathbf{P}$, so that the representative satisfies some optimization condition. Here, we choose the representative $\hat{S}$ whose model $g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}$ has the minimum forecast error for the corresponding time series among the other models:
+where $m, n, l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}, \ldots, \mathcal{P}_{m}, \mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}, \mathcal{T}_{1}, \ldots \mathcal{T}_{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for an arbitrary element $\mathcal{S}$ in the domain, we want to find a representative $\mathcal{\hat{S}} \in \mathbf{R}$ of some group in a partitioning scheme, so that satisfies some optimization condition. Here we consider the representative $\mathcal{\hat{S}}$ such that has the minimum DTW distance with $\mathcal{S}$:
 
 %TODO describir en texto lo que se esta minimizando
 \begin{equation}\label{eq:timeseries-representative}
-\exists\, \mathcal{\hat{S}} \in \mathbf{R}, \,\, \textrm{such that}, \,\, \argminA_{\substack{\mathcal{\hat{S}} \in \mathbf{R}\\g_{\mathcal{\hat{S}}} \in \mathcal{G}_{(\mathbf{R})}}} E (g_{\mathcal{\hat{S}}}(\mathcal{S})).
+ \exists\, \mathcal{\hat{S}} \in \mathbf{R}, \,\, \textrm{such that}, \,\, \argminA_{\substack{\mathcal{\hat{S}} \in \mathbf{R}\\\mathcal{S} \in \mathcal{D}}} d_{DTW}(\mathcal{\hat{S}}, \mathcal{S}).
 \end{equation}
 
-In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the model with a label \texttt{[number\_of\_clusters, cluster\_index]}, that corresponds to the representative label of the partitioning schemes considered. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a dataset similar to Table \ref{Tab:TSClassificationDataset}.
+In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the representative with a label \texttt{[number\_of\_clusters, cluster\_index]}. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a dataset $TSD$, similar to Table \ref{Tab:TSClassificationDataset}.
 
 \begin{table}[h]
 	\centering
@@ -202,6 +210,7 @@ In order to simplify the notation of the aforementioned relationship (\ref{eq:ti
 \subsection{Training a Classifier for Representative Models}
 \label{Sec:TrainingClassifier}
 % Idea of Classifier
+% Exolain the relationship between elements and medoids to extract a dataset 
 % TODO TSD?
 For the second part of the model selection process, we are interested in implementing a mechanism based on the knowledge acquired on an extracted dataset (Table \ref{Tab:TSClassificationDataset}). The objective is, given a previously unseen time-series, infer a suitable label (and thus a predictive model on a representative) for it by recognizing patterns in the time-series. This can be formulated as a time--series classification problem, which consists of training a classifier on a dataset $TSD$ in order to map from the space of possible inputs to a probability distribution over the class variable values (labels). 
 
@@ -215,8 +224,6 @@ In this work we use Convolutional Neural Networks (CNNs), they typically fare ve
 % https://monkcage.github.io/blog/ai/2019/01/28/time_series_forecast.html
 % CNN-LSTM for Time Series Classification
 Another architecture are the Long-Short Term Memory Neural Networks (LSTM). The benefit of this model is that it can support very long input sequences. By implementing an hybrid CNN-LSTM Neural Network, we are able to integrate the capacity of process time-series as blocks or sub-sequences by the CNN model, then pieced together by the LSTM model. Then the model will further divide each sample into further sub-sequences. The CNN model will interpret each sub-sequence and the LSTM will piece together the interpretations form the sub-sequences. 
-
-% TODO picture or example to show how CNN and LSTM work together...
 
 % TODO we got what we wanted, a system that can receive a time series as input, and return a representative model as output.
 
@@ -247,38 +254,48 @@ In this Section, we describe the on--line process implemented to compute a spati
     \end{itemize}
     \item [(d)] With the predictive models obtained from one of the model compositions of the previous step, the requested forecast for the $t_{f}$ steps for each point in $R$ is computed. 
     
-    Additionally, if there is information available regarding the actual values of the predictive variable matching the forecast interval, the corresponding error is computed. Otherwise, the generalization error of the model is used. Finally, the errors of the points in $R$ are combined using MSE (see Section \ref{Sec:ErrorTSA}) to produce a single scalar metric for the prediction error over $R$.
+    Additionally, if there is information available regarding the actual values of the predictive variable matching the forecast interval, the corresponding error is computed. Otherwise, the in-sample error of the model is used. Finally, the errors of the points in $R$ are combined using MSE (see Section \ref{Sec:ErrorTSA}) to produce a single scalar metric for the prediction error over $R$.
 \end{itemize}
 
+% REVIEW!!!
+This online procedure described in this section can also be represented in Algorithm \ref{alg:online}, it takes as input the domain and elements of the query tuple and the type of model composition listed above, then for each element in the query region the model perform the forecast to then compute the MSE for the query output. 
+% TODO refer to this algorithm
+% TODO mention that this algorithm is using the in-sample error
 \begin{algorithm}[h!]
-\caption{ComputeOnline}\label{alg:online}
+\caption{Process Online Predictive Query}\label{alg:online}
 \begin{algorithmic}[1] 
-\Function{computeOffline} {$D,k\_list $}
+\Function{processQuery} {$D, R, t\_p, t\_f, comp\_id $}
 
-\For{$k\ \in\ k\_list$}
+/* Choose a model composition, also load available models /*
+\State {$model\_comp\ \gets load\_composition(D, comp\_id)$}
 
- /* cluster the dataset D and obtain the set of groups and associated medoids  /*
- \State {$(medoid\_list, annotated\_ts\ \leftarrow\ cluster(D,k)$}
- \State{$medoid\_out \gets \bot$}
+/* Extract $t\_p$ past time units for region $R$ /*
+\State {$region\_data\ \gets extract\_region(D, R, t\_p)$}
+
+\State {$query\_out\ \gets \bot$}
+
+\For{$element\ \in\ region\_data$}
+
+ /* model composition determines representative (medoid) to use /*
+ \State {$representative\ \gets find\_repr(model\_comp, element)$}
  
- \For{$ m\  \in\  medoid\_list$}
+ /* representative has trained model, do forecast of $t\_f$ steps /*
+ \State{$forecast \gets predict(representative.model, element, t\_f)$}
  
- /* Train a model at time-series m /*
- \State {$model \gets train(m) $}
- \State {$error \gets model.error $}
+ /* annotate the current element with forecast series and known error /*
+ \State{$error \gets representative.error$}  
+ \State {$annotate(element, forecast, error) $}
  
- /* Annotate the medoid m with the trained model and its error /*
- \State {$annotate (m,model, error) $}
- \State{$Add(m, medoid\_out)$}
- \EndFor
- 
- \State {$ D\_out.add(k,annotated\_ts,medoid\_out) $}
- 
+ /* the query result has a set of the annotated elements in R /*
+ \State{$query\_result \gets add\_element(element, query\_out)$}
 \EndFor
 
-/* Return the annotated dataset */
+/* Compute the MSE of the errors for a single error metric over R /*
+\State{$error\_mse \gets combine\_errors\_mse(query\_out)$}
+\State {$annotate(query\_out, error\_mse) $}
 
-\State {$Return \ D\_out$} 
+/* Output is the forecast and error at each element of R, as well as the MSE /* 
+\State {$Return \ query\_out$} 
 \EndFunction 
 \end{algorithmic} 
 \end{algorithm} 
