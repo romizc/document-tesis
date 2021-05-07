@@ -463,17 +463,22 @@ Last but not least, I would like to express my gratitude to the National Laborat
 
 % resumo no idioma principal
 \setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
-\begin{resumo}
- Segundo, o resumo deve ressaltar o
- objetivo, o método, os resultados e as conclusões do documento. A ordem e a extensão
- destes itens dependem do tipo de resumo (informativo ou indicativo) e do
- tratamento que cada item recebe no documento original. O resumo deve ser
- precedido da referência do documento, com exceção do resumo inserido no
- próprio documento. (\ldots) As palavras-chave devem figurar logo abaixo do
- resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
- ponto e finalizadas também por ponto.
+\begin{resumo}[Resumo]
 
- \textbf{\palavrasChave}: latex. abntex. editoração de texto.
+Um Spatio-Temporal Predictive Serving System é uma solução baseada na implantação de modelos pré-treinados, que permite aos usuários expressar Consultas Preditivas. As consultas preditivas espaço-temporais abrangem uma região espaço-temporal, uma variável preditiva e uma métrica de avaliação. O resultado dessa consulta cont\'em os valores da variável preditiva na região especificada, calculada por modelos preditivos, procurando ao mesmo tempo maximizar a métrica de avaliação.
+ 
+ % De motivação
+ Em domínios espa\c co-temporais, nos quais conjuntos de dados são representados por quantidades massivas de séries temporais univariadas, as abordagens tradicionais de processamento de dados e da análise de séries temporais tendem a gerar modelos preditivos que visam a acur\^acia na predi\c c\~ao, resultando em tempos de execução e utilização de recursos computacionais elevados.
+
+ % Proposta
+ Neste trabalho, \'e proposta uma metodologia passo a passo para a avaliação de consultas preditivas espaço-temporais, que visa reduzir a carga de trabalho computacional e o tempo que seria consumido se fosee treinado um modelo em cada um dos elementos de um dom\'inio espaço--temporal. Isso é obtido escolhendo cuidadosamente os modelos preditivos a serem utilizados para inferência em cada elemento, dada uma consulta preditiva espaço--temporal.
+ 
+ A metodologia proposta est\'a composta de três etapas offline e uma etapa online: (1) o particionamento do domínio, baseado em técnicas de agrupamento com elementos representativos; (2) a geração de modelos preditivos temporais para os representantes; (3) um processo de classificação de série temporal que alavanca relacionamentos subjacentes entre modelos representativos e o particionamento do domínio; (4) um processo de inferência online que utiliza o classificador de séries temporais para compor modelos e calcular uma consulta preditiva espaço-temporal.
+ 
+ %Resultados
+ A fim de avaliar a aplicabilidade da metodologia proposta, \'e utilizado um estudo de caso relacionado \`a previsão de temperatura, usando dados históricos e modelos autorregressivos. Atrav\'es dos resultados de experimentos computacionais, \'e mostrado que é possível alcançar uma qualidade preditiva comparável usando uma composição de modelos baseada em representantes de grupos, com apenas uma fração do custo computacional. 
+ 
+ \textbf{\palavrasChave}: Espa\c co-temporal, s\'eries temporais univariadas, agrupamento de s\'eries temporais, classifica\c c\~ao de s\'eries temporais, modelos auto-regressivos.
 \end{resumo}
 
 % resumo em inglês
@@ -566,6 +571,7 @@ Last but not least, I would like to express my gratitude to the National Laborat
   \item[SPT-TSA] Spatio-Temporal Tool for Time Series Analysis
   \item[SSE] Sum of Squares Error
   \item[ST] Spatio--temporal
+  \item[TSCD] Time Series Classification Dataset
   \item[WSS] Within--cluster Sum of Squares
 \end{siglas}
 % ---
@@ -573,12 +579,12 @@ Last but not least, I would like to express my gratitude to the National Laborat
 % ---
 % inserir lista de símbolos
 % ---
-\begin{simbolos}
-  \item[$ \Gamma $] Letra grega Gama
-  \item[$ \Lambda $] Lambda
-  \item[$ \zeta $] Letra grega minúscula zeta
-  \item[$ \in $] Pertence
-\end{simbolos}
+% \begin{simbolos}
+%   \item[$ \Gamma $] Letra grega Gama
+%   \item[$ \Lambda $] Lambda
+%   \item[$ \zeta $] Letra grega minúscula zeta
+%   \item[$ \in $] Pertence
+% \end{simbolos}
 % ---
 
 % ---
@@ -612,6 +618,7 @@ Last but not least, I would like to express my gratitude to the National Laborat
 \texInclude{theoreticalFoundations}
 \texInclude{relatedWorks} 
 \texInclude{methodology}
+\texInclude{implementation}
 \texInclude{experimentalResults}
 %\texInclude{conclusions}
 % ---

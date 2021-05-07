@@ -38,7 +38,7 @@ A collection of time series can exhibit various dependency relationships between
 \section{Problem Formalization}
 \label{Sec:ProblemFormalization}
 
-Let $\mathcal{D} = \{(\mathcal{S}, x, y): \,\, \mathcal{S} = \{s_{1}, s_{2}, \ldots, s_{t}\}$ is a univariate time--series, and $(x,y) \in \mathbb{R}^{2}\}$, represents a spatio-temporal domain. Denote by $\mathcal{G} = \{g: \mathbf{S} \to \mathbf{S}$ such that $g(\mathcal{S}) = \mathcal{S}\}$, the set of temporal predictive models for $\mathbf{S} \subseteq \mathcal{D}$. Each predictive model $g\in \mathcal{G}$ is denoted as follows:
+Let $\mathcal{D} = \{(\mathcal{S}, x, y): \,\, \mathcal{S} = \{s_{1}, s_{2}, \ldots, s_{t}\}$ is a univariate time--series, and $(x,y) \in \mathbb{R}^{2}\}$, represents a spatio-temporal domain. Denote by $\mathcal{G} = \{g_{1}, g_{2}, \ldots \}$ the set of temporal predictive models such that were trained for different subsets $\mathbf{S} \subseteq \mathcal{D}$. Each predictive model $g\in \mathcal{G}$ is denoted as follows:
 \begin{equation}
 \label{eq:ModelDefinition}
 g = \langle \mathbf{S}, A, \mathbf{p}, E, \varSigma \rangle,
@@ -47,11 +47,13 @@ where:
 \begin{itemize}[noitemsep,nolistsep]	
 	\item $\mathbf{S}$: input dataset included in the spatio--temporal domain $\mathcal{D}$,
 	\item $A$: learner or hypothesis set,
-	\item $\mathbf{p}$: model parameters (number of time-units to obtain the generalization error ($t_{p}$), number of time-units to forecast ($t_{f}$)),
-	\item $E$: generalization error,
+	\item $\mathbf{p}$: model parameters (number of time-units to obtain the in-sample error ($t_{p}$), number of time-units to forecast ($t_{f}$)),
+	% REVIEW !!!
+	\item $E$: in-sample error (generally computed by the difference between the predicted value by $g$ and the actual value in the dataset),
 	\item $\varSigma$: implementation/execution quality metrics.
 \end{itemize}
 
+We consider the existence of several competing models for different regions of the dataset 
 %TODO Extend the existence for several competing models.
 \noindent In this context, given a predictive spatio--temporal query $Q$ denoted as:
 \begin{equation} \label{eq:predictivequery}
@@ -87,14 +89,26 @@ We formally define our problem: Let the spatio-temporal domain characterization 
 \label{Sec:ThesisOutline}
 
 The structure of the remainder of this thesis is outlined for reference.
-
+% REVIEW!!!
 \begin{description}
-\item[Chapter 2.] \textbf{[Theoretical Foundations.]}
-\item[Chapter 3.] \textbf{[Related Works.]}
-\item[Chapter 4.] \textbf{[Methodology.]} 
-\item[Chapter 5.] \textbf{[Implementation and Experimental Results.]}
-\item[Chapter 6.] \textbf{[Conclusions and Future Works.]}
+\item[Chapter 2.] \textbf{[Theoretical Foundations.]} Presents the fundamental approaches of methods and techniques for the task of univariate time-series clustering, using shape-based similarity in particular. This is followed by the foundations of neural network approaches for the task of univariate time series classification. Finally, we consider foundations for time series analysis, with a focus in auto-regressive methods.
+
+\item[Chapter 3.] \textbf{[Related Works.]} Covers a review for other works found in the literature, that use similar methods and techniques utilized in our proposed methodology. We include some comparisons that help put our contributions into context. %into  proved to be efficient and 
+
+\item[Chapter 4.] \textbf{[Methodology.]} This chapter is dedicated to elaborating in detail the methodology proposed in this work, providing justifications for some of the decisions made and establishing hypothesis that can be later validated via experiments.
+
+\item[Chapter 5.] \textbf{[Spatio Temporal Tool for Time Series Analysis.]} Describes some architectural aspects of an application designed to implement the proposed methodology and to perform the experiments aimed at validating our proposal.
+
+\item[Chapter 6.] \textbf{[Experimental Results.]} Describes the experimental evaluation of the methodology, considering a case study of temperature forecasting. The experiments are organized according to the steps considered in the methodology; for each step we perform extensive analyses and a discussion of the results obtained. 
+
+\item[Chapter 7.] \textbf{[Conclusions and Future Works.]} Finally, in this chapter the main contributions of the thesis are highlighted, and we indicate some future directions for research based on this work.
+
 \end{description}
+
+
+% TODO move this to intro text
+%Formed by an off-line and on-line phase, in this chapter we describe the procedures for: i) a procedure for domain partitioning in order to represent the domain by a set of representatives; ii) the process of generate predictive models for these representatives; iii) a multi class classification approach to select a model to predict a region of interest; and finally iv) the process involved in the execution of a spatiotemporal predictive query. 
+
 
 % TODO Include in the Introduction
 % A hypothesis we want to highlight is that it should be preferable to use a partitioning technique that considers grouping domain elements based on the similarity of their temporal evolution, rather than creating groups just according to a regular division of the domain geometry. To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.

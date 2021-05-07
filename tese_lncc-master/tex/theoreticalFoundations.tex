@@ -29,7 +29,7 @@ Several applications represented by this type of data exist, and depending of th
 In Sections \ref{Sec:TimeSeriesClustering} and \ref{Sec:TimeSeriesClassification}, we introduce methods and techniques designed to find groups of time-series with high similarity. 
 %TODO \ref{Sec:TimeSeriesForecast}
 
-\section{Clustering}
+\section{Time Series Clustering}
 \label{Sec:TimeSeriesClustering}
 
 % Clustering definition and applications
@@ -353,7 +353,10 @@ Additionally, we consider percentage errors, which have the advantage of being u
 % TODO clarify MAPE vs sMAPE boundaries and percentages
 With sMAPE, the absolute difference between $s_{t}$ and $\hat{s}_{t}$ is divided by half the sum of absolute values of the actual value $s_{t}$ and the forecast value $\hat{s}_{t}$. The value of this calculation is summed for every fitted point $t$ and divided again by the number of fitted points $n$. In contrast to the MAPE, sMAPE has both a lower bound and an upper bound. The formula above provides a result between $0\%$ and $200\%$. However, a percentage error between $0\%$ and $100\%$ is easier to interpret.  
 
-% \section{Final Considerations}
-% \label{Sec:TheoFinalConsiderations}
+\section{Final Considerations}
+\label{Sec:TheoFinalConsiderations}
 
-% 
+In this Chapter we cover the theoretical foundations for the techniques and methods used to implement this work. We focus on extract knowledge from univariate time-series, and depending of the tasks to be performed we found specific fields of research for which 
+
+From the datamining point of view, we are interested in techniques for unsupervised learning, in particular clustering techniques. The purpose 
+

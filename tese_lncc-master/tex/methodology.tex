@@ -21,7 +21,6 @@ In Sections \ref{Sec:DomainPartitioning} to \ref{Sec:SpatioTemporalQueryProcessi
 
 % Objective and general description
 The purpose of the domain partitioning is to i) find groups with high similarity according to the temporal evolution on a spatio--temporal domain (in particular univariate time--series) and ii) find representatives for each of the aforementioned groups. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
-%In general, a clustering algorithm can be considered as an optimization problem in which we try to minimize the total measure of dissimilarity between the elements in each group \cite{Liao2005}. 
 
 % Consider a representative element
 We consider two methods for grouping elements that involve obtaining a representative element (which also exists on the domain) for each group. A representative is then said to generalize the temporal dimension of the other elements in the group. It is important to remember that in a clustering algorithm, the number of clusters, the size of clusters, the definition for outliers, and the definition of the similarity among the univariate time--series are all the concepts which depend on the problem (case study) at hand \cite{Aghabozorgi2015}.
@@ -97,16 +96,13 @@ As an implementation detail of the off-line process, the predictive models are s
 
 % \Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
 % OK 
-The off-line steps, described in Algorithm \ref{alg:trainModelsAtMedoids}, 
-% TODO refer to this algorithm
-% TODO describe split in train/validate
-% TODO describe output
+We describe the first two steps in the off-line phase in Algorithm \ref{alg:trainModelsAtMedoids}, assuming that more than one partitioning scheme will be used. As input, it receives the parameters for the domain partitioning ($\mathcal{D}$ and $k\_list$), and the number of past time values as parameter for model building ($t\_p$). The algorithm starts by performing the domain partitioning process, as a partial result we obtain a list of medoids for each partitioning scheme. In the following step, the time series of each medoid $m$ is divided in two parts, training and test (latter of size $t\_p$). With this division, a predictive model and the in-sample error are computed, denoted by $model$ and $error$, respectively.
+
 \begin{algorithm}[h!]
 \caption{Apply a set of partitioning schemes and train models at medoids}\label{alg:trainModelsAtMedoids}
 \begin{algorithmic}[1] 
-\Function{trainModelsAtMedoids} {$D,k\_list,t_p,t_f $}
+\Function{trainModelsAtMedoids} {$D,k\_list,t\_p$}
 
-\State {$(D\_train, D\_validate)\ \leftarrow\ split\_dataset(D, t_p)$}
 \State{$D\_out \gets \bot$}
  
 \For{$k\ \in\ k\_list$}
@@ -117,19 +113,22 @@ The off-line steps, described in Algorithm \ref{alg:trainModelsAtMedoids},
  
  \For{$ m\  \in\  medoid\_list$}
  
+  /* Split the time series at the medoid into training and test /*
+  \State {$(ts\_train, ts\_test)\ \leftarrow\ split\_series(D, m, t\_p)$}
+ 
   /* Train a model using training time-series at medoid $m$ /*
-  \State {$model \gets train(m, D\_train) $}
+  \State {$model \gets train(ts\_train) $}
   
   /* Calculate the in-sample error /*
-  \State {$error \gets error(model, m, D\_validate) $}
+  \State {$error \gets error(model, ts\_test) $}
  
   /* Annotate the medoid $m$ with the trained model and its error /*
   \State {$annotate (m, model, error) $}
   \State{$medoids\_k\ \gets add\_medoid(m, medoids\_k)$}
  \EndFor
  
- /* Annotate dataset with each partitioning scheme and trained models /*
- \State {$ D\_out\ \gets add\_medoid\_models(k, D\_part, medoids\_k, D\_out) $}
+ /* Annotate output dataset with each partitioning scheme and trained models /*
+ \State {$ D\_out\ \gets add\_medoid\_models(D, k, D\_part, medoids\_k, D\_out) $}
  
 \EndFor
 
@@ -139,16 +138,19 @@ The off-line steps, described in Algorithm \ref{alg:trainModelsAtMedoids},
 \end{algorithmic} 
 \end{algorithm} 
 
+The output of the algorithm is the dataset $D\_out$, which contains the list of partitioning schemes, the positions of the corresponding medoids, along with their respective predictive models and in-sample errors. At a later time, this information can be retrieved by a model composition to use predictive models trained at representatives in order to create forecasts.
+
 \section{Step 3: Selecting a Model Representative}
 \label{Sec:KnowledgExtraction}
 
-For a given domain partitioning technique and its predictive models for the representatives, we define a ``model composition'' as the subset of representative models that have the ability to compute the prediction/forecast value of the elements in a region of interest on the domain. The model composition computes the RMSE of the forecast error $E_{g^{*}}$ calculated by the models in the intersection $R \cap \bigcup_{i=1}^{k} \mathbf{S}_{i}$ on each element of $R$.  In Figure \ref{Fig:ModelRegion}, we represent the model composition for the region considering the medoid.
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.35]{../Figures/ModelCompositionRegion}
-	\caption{Model Composition using the Representative for a Region $\mathbf{S_{i}}$.}
-	\label{Fig:ModelRegion}
-\end{figure}
+For a given domain partitioning technique and its predictive models for the representatives, we define a ``model composition'' as the subset of representative models that have the ability to compute the prediction/forecast value of the elements in a region of interest on the domain. The model composition computes the RMSE of the forecast error $E_{g^{*}}$ calculated by the models in the intersection $R \cap \bigcup_{i=1}^{k} \mathbf{S}_{i}$ on each element of $R$.  
+%In Figure \ref{Fig:ModelRegion}, we represent the model composition for the region considering the medoid.
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[scale=0.35]{../Figures/ModelCompositionRegion}
+% 	\caption{Model Composition using the Representative for a Region $\mathbf{S_{i}}$.}
+% 	\label{Fig:ModelRegion}
+% \end{figure}
 
 % Solver forecast error analysis
 In order to assess the predictive quality of a model for the representative element in a given domain partitioning, we compare the generalization error of three other model compositions, in addition to the composition that uses predictive model at the representatives. The four model compositions are described as follows: 
@@ -168,7 +170,7 @@ As discussed in the previous Section, in our problem we are not considering a un
 
 In this section, and the next, we seek to implement a process that is able to select predictive models using some kind of intelligence, with the aim of finding a composition of models to predict a region of interest with increased accuracy. The need for this solution will be justified in the next Chapter, when we analyze the results of the forecast error analysis for the predictive models trained on representatives. For now, the desired output of the classifier is expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
 
-Here, it is  necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past\cite{Chatfield2001}. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest.
+Here, it is necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past\cite{Chatfield2001}. Thus, in order to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest.
 
 We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. We consider the classes to be the identifiers of models computed at the representatives for each cluster the time-series takes part in, whenever multiple clustering are applied to the domain dataset. Thus, for instance, if a time-series participates of two clusters, with $k_1$ and $k_2$ respectively, it would have associated two models $g_1$ and $g_2$ as labels, respectively.
 The label is composed with the value $k$ and the group index \texttt{cluster\_index} (c.i) where $0 \leq c.i <k$. 
@@ -183,12 +185,11 @@ In order to show how we can leverage domain partitioning schemes and their respe
 
 where $m, n, l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}, \ldots, \mathcal{P}_{m}, \mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}, \mathcal{T}_{1}, \ldots \mathcal{T}_{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for an arbitrary element $\mathcal{S}$ in the domain, we want to find a representative $\mathcal{\hat{S}} \in \mathbf{R}$ of some group in a partitioning scheme, so that satisfies some optimization condition. Here we consider the representative $\mathcal{\hat{S}}$ such that has the minimum DTW distance with $\mathcal{S}$:
 
-%TODO describir en texto lo que se esta minimizando
 \begin{equation}\label{eq:timeseries-representative}
  \exists\, \mathcal{\hat{S}} \in \mathbf{R}, \,\, \textrm{such that}, \,\, \argminA_{\substack{\mathcal{\hat{S}} \in \mathbf{R}\\\mathcal{S} \in \mathcal{D}}} d_{DTW}(\mathcal{\hat{S}}, \mathcal{S}).
 \end{equation}
 
-In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the representative with a label \texttt{[number\_of\_clusters, cluster\_index]}. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a dataset $TSD$, similar to Table \ref{Tab:TSClassificationDataset}.
+In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the representative with a label \texttt{[number\_of\_clusters, cluster\_index]}. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models, so we can extract a 'Time Series Classification Dataset ($TSCD$)`, similar to Table \ref{Tab:TSClassificationDataset}.
 
 \begin{table}[h]
 	\centering
@@ -209,12 +210,11 @@ In order to simplify the notation of the aforementioned relationship (\ref{eq:ti
 
 \subsection{Training a Classifier for Representative Models}
 \label{Sec:TrainingClassifier}
-% Idea of Classifier
-% Exolain the relationship between elements and medoids to extract a dataset 
-% TODO TSD?
-For the second part of the model selection process, we are interested in implementing a mechanism based on the knowledge acquired on an extracted dataset (Table \ref{Tab:TSClassificationDataset}). The objective is, given a previously unseen time-series, infer a suitable label (and thus a predictive model on a representative) for it by recognizing patterns in the time-series. This can be formulated as a time--series classification problem, which consists of training a classifier on a dataset $TSD$ in order to map from the space of possible inputs to a probability distribution over the class variable values (labels). 
 
-With the proposed classification method, we will be able to learn from data about the membership relation between elements of the domain and representatives, and then use this learned knowledge to classify new time-series. A dataset $TSD=\{(\mathcal{S}_1,y_1),(\mathcal{S}_2,y_2), \ldots ,(\mathcal{S}_N,y_N)\}$ is a collection of pairs $(\mathcal{S}_i,y_i)$ where $\mathcal{S}_i$ is univariate time series with $y_i$ as its corresponding one-hot label vector of the labels \cite{Gulli2017}. For a dataset containing $m+n+l$ classes, the one-hot label vector $y_i$ is a vector of length $m+n+l$ where each element $j \in [1,(m+n+l)]$ is equal to 1 if the class of $X_i$ is $j$ and $0$ otherwise \cite{Mitsa2010}.
+% Idea of Classifier
+For the second part of the model selection process, we are interested in implementing a mechanism based on the knowledge acquired on an extracted dataset $TSCD$ (Table \ref{Tab:TSClassificationDataset}). The objective is, given a previously unseen time-series, infer a suitable label (and thus a predictive model on a representative) for it by recognizing patterns in the time-series. This can be formulated as a time--series classification problem, which consists of training a classifier on a dataset $TSCD$ in order to map from the space of possible inputs to a probability distribution over the class variable values (labels). 
+
+With the proposed classification method, we will be able to learn from data about the membership relation between elements of the domain and representatives, and then use this learned knowledge to classify new time-series. A dataset $TSCD=\{(\mathcal{S}_1,y_1),(\mathcal{S}_2,y_2), \ldots ,(\mathcal{S}_N,y_N)\}$ is a collection of pairs $(\mathcal{S}_i,y_i)$ where $\mathcal{S}_i$ is univariate time series with $y_i$ as its corresponding one-hot label vector of the labels \cite{Gulli2017}. For a dataset containing $m+n+l$ classes, the one-hot label vector $y_i$ is a vector of length $m+n+l$ where each element $j \in [1,(m+n+l)]$ is equal to 1 if the class of $X_i$ is $j$ and $0$ otherwise \cite{Mitsa2010}.
 
 % Multiclass classifier
 The task of time-series classification is not a simple one, considering the sequential aspect of time-series data requires the development of algorithms that are able to harness this temporal property select a class label from among a collection of candidates. While many neural network architectures can be used to solve this problem, some work better than others \cite{Bagnall2017a}. 
@@ -257,10 +257,6 @@ In this Section, we describe the on--line process implemented to compute a spati
     Additionally, if there is information available regarding the actual values of the predictive variable matching the forecast interval, the corresponding error is computed. Otherwise, the in-sample error of the model is used. Finally, the errors of the points in $R$ are combined using MSE (see Section \ref{Sec:ErrorTSA}) to produce a single scalar metric for the prediction error over $R$.
 \end{itemize}
 
-% REVIEW!!!
-This online procedure described in this section can also be represented in Algorithm \ref{alg:online}, it takes as input the domain and elements of the query tuple and the type of model composition listed above, then for each element in the query region the model perform the forecast to then compute the MSE for the query output. 
-% TODO refer to this algorithm
-% TODO mention that this algorithm is using the in-sample error
 \begin{algorithm}[h!]
 \caption{Process Online Predictive Query}\label{alg:online}
 \begin{algorithmic}[1] 
@@ -300,8 +296,10 @@ This online procedure described in this section can also be represented in Algor
 \end{algorithmic} 
 \end{algorithm} 
 
-% \section{Summary}
-% \label{Sec:MethodologySummary}
+This online procedure described in this section can also be represented in Algorithm \ref{alg:online}. As input, the procedure takes the domain, the query parameters and the type of model composition listed above. Then, for each element in the query region, the model performs the forecast and the known in-sample error of the model is attributed. Finally, the MSE of the error is computed to produce the complete query output.
 
-% In this Chapter, we describe tasks and techniques involved in the development for the proposed methodology. Each step uses techniques from different research areas to analyse, explore and extract knowledge from datasets, in particular for univariate time--series.
+\section{Summary}
+\label{Sec:MethodologySummary}
 
+%In this Chapter, we describe tasks, methods and techniques involved in the development for the proposed methodology. 
+In this Chapter, we describe the workflow for the proposed methodology, that is divided into an off-line and an on-line phase. During the offline-phase, a domain partitioning technique is used to obtain domain representatives and groups, then predictive models for these representatives are generated. A time series classification approach is also considered for model selection, the decision to include such classifier will be justified with experimental results that explore the predictive accuracy when using different partitioning schemes. Finally, the online phase represents the execution of a spatio--temporal predictive query. For each of these steps, we thoroughly describe the methods and techniques used, highlighting the available choices and baseline comparisons. We also present pseudo-code of algorithms that summarize the main aspects of each phase.
