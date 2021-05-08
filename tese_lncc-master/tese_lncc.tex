@@ -465,40 +465,40 @@ Last but not least, I would like to express my gratitude to the National Laborat
 \setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
 \begin{resumo}[Resumo]
 
-Um Spatio-Temporal Predictive Serving System é uma solução baseada na implantação de modelos pré-treinados, que permite aos usuários expressar Consultas Preditivas. As consultas preditivas espaço-temporais abrangem uma região espaço-temporal, uma variável preditiva e uma métrica de avaliação. O resultado dessa consulta cont\'em os valores da variável preditiva na região especificada, calculada por modelos preditivos, procurando ao mesmo tempo maximizar a métrica de avaliação.
+Um Sistema de Serviço para Predição Espaço-Temporal é uma solução baseada na implantação de modelos pré-treinados, que permite aos usuários expressar Consultas Preditivas. As consultas preditivas espaço-temporais abrangem uma região espaço-temporal, uma variável preditiva e uma métrica de avaliação. O resultado dessa consulta contém os valores da variável preditiva na região especificada, calculada por modelos preditivos, procurando ao mesmo tempo maximizar a métrica de avaliação.
  
  % De motivação
- Em domínios espa\c co-temporais, nos quais conjuntos de dados são representados por quantidades massivas de séries temporais univariadas, as abordagens tradicionais de processamento de dados e da análise de séries temporais tendem a gerar modelos preditivos que visam a acur\^acia na predi\c c\~ao, resultando em tempos de execução e utilização de recursos computacionais elevados.
+ Em domínios espaço-temporais, nos quais conjuntos de dados são representados por quantidades massivas de séries temporais, as abordagens tradicionais de processamento de dados e da análise de séries temporais tendem a gerar modelos preditivos que visam a acurácia na predição, resultando em tempos de execução e utilização de recursos computacionais elevados.
 
  % Proposta
- Neste trabalho, \'e proposta uma metodologia passo a passo para a avaliação de consultas preditivas espaço-temporais, que visa reduzir a carga de trabalho computacional e o tempo que seria consumido se fosee treinado um modelo em cada um dos elementos de um dom\'inio espaço--temporal. Isso é obtido escolhendo cuidadosamente os modelos preditivos a serem utilizados para inferência em cada elemento, dada uma consulta preditiva espaço--temporal.
+ Neste trabalho, é proposta uma metodologia passo a passo para a avaliação de consultas preditivas espaço-temporais, que visa reduzir a carga de trabalho computacional e o tempo que seria consumido se fosse treinado um modelo em cada um dos elementos de um domínio espaço--temporal. Isso é obtido escolhendo cuidadosamente os modelos preditivos a serem utilizados para inferência em cada elemento, dada uma consulta preditiva espaço--temporal.
  
- A metodologia proposta est\'a composta de três etapas offline e uma etapa online: (1) o particionamento do domínio, baseado em técnicas de agrupamento com elementos representativos; (2) a geração de modelos preditivos temporais para os representantes; (3) um processo de classificação de série temporal que alavanca relacionamentos subjacentes entre modelos representativos e o particionamento do domínio; (4) um processo de inferência online que utiliza o classificador de séries temporais para compor modelos e calcular uma consulta preditiva espaço-temporal.
+ A metodologia proposta está composta de três etapas offline e uma etapa online: (1) o particionamento do domínio, baseado em técnicas de agrupamento com elementos representativos; (2) a geração de modelos preditivos temporais para os representantes; (3) um processo de classificação de série temporal que alavanca relacionamentos subjacentes entre modelos representativos e o particionamento do domínio; (4) um processo de inferência online que utiliza o classificador de séries temporais para compor modelos e calcular uma consulta preditiva espaço-temporal.
  
  %Resultados
- A fim de avaliar a aplicabilidade da metodologia proposta, \'e utilizado um estudo de caso relacionado \`a previsão de temperatura, usando dados históricos e modelos autorregressivos. Atrav\'es dos resultados de experimentos computacionais, \'e mostrado que é possível alcançar uma qualidade preditiva comparável usando uma composição de modelos baseada em representantes de grupos, com apenas uma fração do custo computacional. 
- 
- \textbf{\palavrasChave}: Espa\c co-temporal, s\'eries temporais univariadas, agrupamento de s\'eries temporais, classifica\c c\~ao de s\'eries temporais, modelos auto-regressivos.
+ A fim de avaliar a aplicabilidade da metodologia proposta, é utilizado um estudo de caso relacionado à previsão de temperatura, usando dados históricos e modelos autorregressivos. Através dos resultados de experimentos computacionais, é mostrado que é possível alcançar uma qualidade preditiva comparável usando uma composição de modelos baseada em representantes de grupos, com apenas uma fração do custo computacional.
+
+ \textbf{\palavrasChave}: Espaço-temporal, séries temporais, agrupamento de séries temporais, classificação de séries temporais, modelos autorregressivos.
 \end{resumo}
 
 % resumo em inglês
 \begin{resumo}[Abstract]
  \begin{otherlanguage*}{english}
  %Context
- A Spatio--Temporal Predictive Serving System is a solution based on the deployment of pre-trained models that enables users to express Predictive Queries. Spatio--temporal Predictive Queries encompass a spatio--temporal region; a predictive variable, and an evaluation metric. The outcome of such query presents the values of the predictive variable on the specified region computed by predictive models, while striving to maximize the evaluation metric.
+A Spatio--Temporal Predictive Serving System is a solution based on pre-trained models that enable users to express Predictive Queries. Spatio--temporal Predictive Queries encompass a spatio--temporal region, a predictive variable, and an evaluation metric. The outcome of such query presents the values of the predictive variable on the specified region computed by predictive models while striving to maximize the evaluation metric.
  
  % Motivation
- In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing and time--series analysis approaches tend to generate predictive models that aim for predictive accuracy, at the cost of elevated runtime and utilization of computational resources.
+ In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing, and time--series analysis approaches tend to generate predictive models that aim for predictive accuracy, at the cost of elevated runtime and utilization of computational resources.
 
  % Proposal
- In this work, we propose a step-by-step methodology for the evaluation of spatio--temporal predictive queries, that aims to reduce the computational workload and time that would be consumed if we were to train a model on each element of a spatio–temporal domain.  This is achieved by carefully choosing the predictive models to use for inference at each element, given a spatio--temporal predictive query.
+ In this work, we propose a step-by-step methodology for evaluating spatio--temporal predictive queries that aim to reduce the computational workload and time consumed if we were to train a model on each element of a spatio–temporal domain.  It is achieved by carefully choosing the predictive models for inference at each element, given a spatio--temporal predictive query.
  
  Our methodology has three offline steps and an online step: (1) the domain partitioning, based on clustering techniques with representative elements; (2) the generation of temporal predictive models for the representatives; (3) a time series classification process that leverage underlying relationships between representative models and domain partitioning; (4) an online inference process that uses the time series classifier to compose models and compute a spatio--temporal predictive query.
  
  %Results
  In order to evaluate the applicability of the proposed methodology, we use a case study for temperature forecasting using historical data and auto-regressive models. Results from computational experiments show that it is possible to achieve comparable predictive quality using a model composition based on cluster representatives, with a fraction of the computational cost. 
  
-   \textbf{Keywords}: Spatio--Temporal, Univariate Time--Series, Time--Series Clustering, Time--Series Classification, Auto--Regressive models.
+   \textbf{Keywords}: Spatio--Temporal, Time--Series, Time--Series Clustering, Time--Series Classification, Auto--Regressive models.
  \end{otherlanguage*}
 \end{resumo}
 
@@ -614,12 +614,12 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 
 % ---
 % Alternativa sem o uso do Makefile padrão
-\texInclude{introduction}
-\texInclude{theoreticalFoundations}
-\texInclude{relatedWorks} 
-\texInclude{methodology}
-\texInclude{implementation}
-\texInclude{experimentalResults}
+\texInclude{1_introduction}
+\texInclude{2_theoreticalFoundations}
+\texInclude{3_relatedWorks} 
+\texInclude{4_methodology}
+\texInclude{5_implementation}
+\texInclude{6_experimentalResults}
 %\texInclude{conclusions}
 % ---
 
@@ -634,7 +634,7 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 % Conclusão
 % ---
 %\include{conclusao} % Inserir com o Makefile padrão
-\texInclude{conclusions} % Alternativa sem o uso do Makefile padrão
+\texInclude{7_conclusions} % Alternativa sem o uso do Makefile padrão
 % ---
 
 % ----------------------------------------------------------
@@ -663,10 +663,10 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 % ---
 % Inicia os apêndices
 % ---
-\begin{apendicesenv}
+% \begin{apendicesenv}
 
 % Imprime uma página indicando o início dos apêndices
-\partapendices
+% \partapendices
 
 % Inclusão dos arquivos referentes aos apêndices
 % ----------------------------------------------------------
@@ -678,14 +678,14 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 
 % ---
 % Alternativa sem o uso do Makefile padrão
-\texInclude{apendiceA}
+% \texInclude{apendiceA}
 % \texInclude{apendiceB}
 % \texInclude{apendiceC}
 % ---
 
 % ----------------------------------------------------------
 
-\end{apendicesenv}
+% \end{apendicesenv}
 % ---
 
 % ----------------------------------------------------------
@@ -695,7 +695,7 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 % ---
 % Inicia os anexos
 % ---
-\begin{anexosenv}
+% \begin{anexosenv}
 
 % Imprime uma página indicando o início dos anexos
 %\partanexos
@@ -717,7 +717,7 @@ Um Spatio-Temporal Predictive Serving System é uma solução baseada na implant
 
 % ----------------------------------------------------------
 
-\end{anexosenv}
+% \end{anexosenv}
 
 %---------------------------------------------------------------------
 % INDICE REMISSIVO

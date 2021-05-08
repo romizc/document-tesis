@@ -6,17 +6,16 @@
 
 Several aspects of the methodology described in the previous chapter have been implemented in the form of a software called ``Spatio-Temporal Tool for Time Series Analysis'' or SPT-TSA, a Python package built to work with spatio-temporal data and predictive models. SPT-TSA supports both the offline and online phases of the methodology. The goal of the offline pre-processing phase is to prepare the data and the candidate models for predictive querying in the online phase. A simplified diagram of components for the SPTA-TSA architecture is presented in \ref{Fig:architecture_spta_tsa}, where the offline phase is managed by the `Analysis User', while the `Query User' interacts with the online phase.
 
-% TODO fix figure
 \begin{figure}[h]
 	%\begin{minipage}[b]{0.8\textwidth}
 	\centering
-	\includegraphics[scale=0.25]{../Figures/arch_spta}
+	\includegraphics[scale=0.32]{../Figures/arch_spta}
 	\caption{Diagram of the main SPTA-TSA Components.}
 	\label{Fig:architecture_spta_tsa}
 \end{figure}
 
 %\Fab{A referencia a Python neste ponto da tese não é relevante. O que acontece quando a versão do Python for 4, este capitulo estaria invalidado?}
-%OK somente Python
+% OK somente Python
 
 \section{SPTA-TSA Workflow}
 \label{Sec:SPTA-TSA_Workflow}
@@ -51,7 +50,7 @@ To better describe the functionality and architectural design of SPT-TSA, we pre
 	%\begin{minipage}[b]{0.8\textwidth}
 	\centering
 	\includegraphics[scale=0.41, angle=90]{../Figures/SPT-TSA-RegionClasses}
-	\caption{Class Diagram -- Region Class.}	
+	\caption{Class Diagram -Region Class.}	
 	\label{Fig:DiagramClasess-Region}	 		
 \end{figure}
 
@@ -103,7 +102,7 @@ The second class diagram is shown in Figure \ref{Fig:DiagramClasess-Models}. The
 	%\begin{minipage}[b]{0.8\textwidth}
 	\centering
 	\includegraphics[scale=0.37, angle=90]{../Figures/SPT-TSA-ModelsClasses}
-	\caption{Class Diagram -- Model Class.}	
+	\caption{Class Diagram -Model Class.}	
 	\label{Fig:DiagramClasess-Models}	 		
 \end{figure}
 
@@ -133,4 +132,4 @@ The second class diagram is shown in Figure \ref{Fig:DiagramClasess-Models}. The
 
 In order to efficiently evaluate the methodology proposed in this work, the Spatio Temporal Tool for Time Series Analysis was designed and implemented. SPTA-TSA manages the tasks and operations considered in the off-line and on-line phase of the methodology, for that it presents a simple command-line interface in the form of scripts with the arguments needed to create domain partitionings, compute forecast errors and execute simple predictive queries. It was also used to perform the experimental results presented in the next chapter, its object-oriented nature provided the necessary code organization to enable us to define experiments varying in several aspects, such as the domain partitioning technique, the predictive model, the error metric and the model composition used.
 
-For all of this, SPTA-TSA represents an important contribution of our work. While SPTA-TSA does not include a cost function for the spatio--temporal predictive query execution, in the future this can be easily implemented; along with further extensions to turn the tool into a more complete framework to explore predictive serving systems.
+For all of this, SPTA-TSA represents an important contribution of our work. While SPTA-TSA does not include a cost function for the spatio-temporal predictive query execution, in the future this can be easily implemented; along with further extensions to turn the tool into a more complete framework to explore predictive serving systems.
