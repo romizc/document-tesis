@@ -5,7 +5,7 @@
 In this work, we propose a methodology focused on domain partitioning that aims to reduce the computational workload and time consumed if we were to train a model on each point of a spatio-temporal domain. We argue that, by considering several models generated over representative elements of the domain, which generalize the temporal dimension of neighboring elements, it is possible to preserve a predictive quality comparable to the baseline approach of using a model for every element. As a result of applying the proposed methodology, we could process a spatio-temporal predictive query efficiently while maintaining a low error margin in the prediction.
 
 % Methodology description
-The process described by the methodology is divided into two phases, offline and online. The offline phase comprises three steps: (1) the domain partitioning process, based on clustering partition techniques to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region. The online phase consists of (4) a mechanism to compute a spatio-temporal predictive query. The methodology is represented by Figure \ref{Fig:OverviewMethodology}. The two main phases are shown in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black, and finally, the corresponding expected products and outputs are shown in red. 
+The process described by the methodology is divided into two phases, offline and online. The offline phase comprises three steps: (1) the domain partitioning process, based on clustering partition techniques, to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region. The online phase consists of (4) a mechanism to compute a spatio-temporal predictive query. The methodology is represented by Figure \ref{Fig:OverviewMethodology}. The two main phases are shown in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black, and finally, the corresponding expected products and outputs are shown in red. 
 
 \begin{figure}[h]
 	\centering
@@ -16,11 +16,11 @@ The process described by the methodology is divided into two phases, offline and
 
 In Sections \ref{Sec:DomainPartitioning} to \ref{Sec:SpatioTemporalQueryProcessing}, we detail the tasks performed in each step, describing the tools and methods used as well as techniques to validate their performance. The last section discusses the decisions adopted during the development of the methodology.
 
-\section{Step 1: Domain Partitioning}
+\section{Step 1: Domain Grouping}
 \label{Sec:DomainPartitioning}
 
 % Objective and general description
-The purpose of the domain partitioning is to i) find groups with high similarity according to the temporal evolution on a spatio-temporal domain (in particular univariate time-series) and ii) find representatives for each aforementioned group. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
+The purpose of the domain grouping is to i) find groups with high similarity according to the temporal evolution on a spatio-temporal domain (in particular univariate time-series) and ii) find representatives for each aforementioned group. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
 
 % Consider a representative element
 We consider two methods for grouping elements that involve obtaining a representative element (which also exists on the domain) for each group. A representative is then said to generalize the temporal dimension of the other elements in the group. It is important to remember that in a clustering algorithm, the number of clusters, the size of clusters, the definition for outliers, and the definition of the similarity among the univariate time-series are all the concepts that depend on the problem (case study) at hand \cite{Aghabozorgi2015}.
@@ -55,9 +55,9 @@ As mentioned in Section \ref{Sec:kMedoidsClustering}, there is the important iss
 
 The performance of the $k$-Medoids algorithm is dependent on the optimal value of $k$, the number of clusters to be generated. The $k$-medoids algorithm requires the user to specify the value of $k$, and finding a suitable value is very challenging for time series data set. The choice is often ambiguous, with interpretations depending on the shape and scale of the distribution of the time series in a dataset \cite{Liao2005}. An optimal choice of $k$ should strike a balance between maximizing the compression of the data using a single cluster while maximizing the accuracy when assigning each data point to its cluster. Here, we explore some of the available methods for finding a suitable value for $k$.
 
-When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups ($k$). It is particularly important for our problem, where there is low variation in the spatial data distribution of the different time series. To identify a cluster in a dataset, we try to minimize the distance between points in a cluster, and the Within-Sum-of-Squares (WSS) method, also know as the Elbow method, measures exactly that. The WSS score is the sum of the squares of the distances of all points within a cluster. Given that the WSS score converges towards zero as the number of groups $k$ goes up to the number of points in the dataset, this method aims to choose a small value of $k$ that still has a low sum of squares error (SSE). It is achieved by finding the maximum numerical second derivative for each point, using its two neighboring points (we consider that the $k$ values are not equidistant when calculating the numerical second derivative). In practice, the elbow represents a point beyond which there are diminishing returns by increasing $k$ \cite{Han2011}.
+When using a clustering technique for high volumes of data and low variability of the data values throughout neighbor points, it is difficult to determine the optimal number of groups ($k$). It is particularly important for our problem, where there is low variation in the spatial data distribution of the different time series. To identify a cluster in a dataset, we try to minimize the distance between points in a cluster, and the Within-Sum-of-Squares (WSS) method, also known as the Elbow method, measures exactly that. The WSS score is the sum of the squares of the distances of all points within a cluster. Given that the WSS score converges towards zero as the number of groups $k$ goes up to the number of points in the dataset, this method aims to choose a small value of $k$ that still has a low sum of squares error (SSE). It is achieved by finding the maximum numerical second derivative for each point, using its two neighboring points (we consider that the $k$ values are not equidistant when calculating the numerical second derivative). In practice, the elbow represents a point beyond which there are diminishing returns by increasing $k$ \cite{Han2011}.
 
-The average silhouette is another method that assesses the quality of clustering by measuring how similar a member is to its group compared to other groups \cite{Rousseeuw1987}. The silhouette index is a way to measure how close each point in a cluster is to the points in its neighboring clusters.  Silhouette values lie in the range of $[-1, 1]$. A value close to $+1$ indicates that the sample is far away from its neighboring cluster and very close to the cluster to which it is assigned, meaning it is `well-clustered'. In contrast, a value of $-1$ indicates that the sample is closer to a neighboring cluster than to the cluster to which it is assigned, meaning that it is `misclassified'. A value of $0$ means that it is not clear to which cluster the point should be assigned. 
+The average silhouette is another method that assesses the quality of clustering by measuring how similar a member is to its group compared to other groups \cite{Rousseeuw1987}. The silhouette index is a way to measure how close each point in a cluster is to the points in its neighboring clusters.  Silhouette values lie in the range of $[-1, 1]$. A value close to $+1$ indicate that the sample is far away from its neighboring cluster and very close to the cluster to which it is assigned, meaning it is `well-clustered'. In contrast, a value of $-1$ indicates that the sample is closer to a neighboring cluster than to the cluster to which it is assigned, meaning that it is `misclassified'. A value of $0$ means that it is not clear to which cluster the point should be assigned to. 
 
 In this work, we also consider a more refined procedure to find an optimal value for $k$ using the inflection point (zero second derivative). However, before calculating the second derivative, we apply a cubic smoothing spline to interpolate the values to reduce the noise in the WSS scores. Splines are a smooth and flexible way of fitting Non-linear Models and learning the Non-linear interactions from the data \cite{HastieTF2009}. This approach should give us another suitable value for $k$.
 
@@ -66,7 +66,7 @@ Comparing partitioning approaches, either with each other or with data, is a com
 % Comparison of the total sum 
 In order to assess the robustness of the $k$-medoids clustering algorithm for creating a viable domain partitioning, we compare it against the regular partitioning technique used as a baseline. Since the $k$-medoids algorithm tries to optimize its cost function (total sum of intra-cluster distances), as opposed to the naive approach of the regular partitioning, we expect that the difference in performance should be more evident as $k$ increases. While larger values of $k$ would tend to lead to clusters with reduced values of the total sum of intra-cluster distances, the techniques for choosing $k$ may not necessarily prefer the largest values of $k$ based on their own cost functions.
 
-In the next Section, we describe the methods adopted to build a predictive model for the representative element for every group.
+In the next section, we describe the methods adopted to build a predictive model for the representative element for every group.
 
 \section{Step 2: Identifying Models for Representatives}
 \label{Sec:ModelRepresentatives}
@@ -76,7 +76,7 @@ The main objective in this step is to generate predictive models for the represe
 Predictive models can be generated when a forecasting method is applied over a time series in a spatio-temporal domain. In this work, we consider the following forecast methods: Auto-Regressive Integrated Moving Average (ARIMA) and $k$-Nearest Neighbor ($k$NN) models; these two methods are described in Section \ref{Sec:MethodsTSA}. Working with ARIMA model can offer a good trade-off between the predictive accuracy and computational resources to train and predict. The simpler $k$-Nearest Neighbor model will be used as a baseline for comparing predictive accuracy when we evaluate predictive queries.
 
 % In Sample Error and Forecast
-In practice, two aspects to forecasting exist the provision of a forecast for a future value (out-of-sample) of the series and the provision of a forecast error of known values of the series (in-sample). After model tuning, it is possible to test the ability of the model to predict observations that the model did not see before (as opposed to the fitted values that the model saw throughout the training process). The most common method for evaluating the forecast's success is predicting the actual values using an error metric to quantify the forecast's overall accuracy \cite{Hyndman2006}. The selection of a specific error metric depends on the forecast accuracy's goals. In this work, we consider the Root Mean Squared Error (RMSE) and the Symmetric Mean Absolute Percentage Error (sMAPE), both described in Section \ref{Sec:ErrorTSA}.
+In practice, two aspects to forecasting exist the provision of a forecast for a future value (out-of-sample) of the series and the provision of a forecast error of known values of the series (in-sample). After model tuning, it is possible to test the ability of the model to predict observations that the model did not see before (as opposed to the fitted values that the model saw throughout the training process). The most common method for evaluating the forecast's success is predicting the actual values, using an error metric to quantify the forecast's overall accuracy \cite{Hyndman2006}. The selection of a specific error metric depends on the forecast accuracy's goals. In this work, we consider the Root Mean Squared Error (RMSE) and the Symmetric Mean Absolute Percentage Error (sMAPE), both described in Section \ref{Sec:ErrorTSA}.
 
 % Refresh the notation
 Recalling the formal representation in Section \ref{Sec:ProblemFormalization}, once we obtain the representative element $\mathcal{S}^{*} \in \mathbf{S}_{i}$, we built $g$ and we can represent $\mathbf{S}_{i}$ using $\mathcal{S}^{*}$ we denote:
@@ -94,7 +94,7 @@ As an implementation detail of the offline process, the predictive models are sa
 
 % \Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
 % OK 
-We describe the first two steps in the off-line phase in Algorithm \ref{alg:trainModelsAtMedoids}, assuming that more than one partitioning scheme will be used. As input, it receives the parameters for the domain partitioning ($\mathcal{D}$ and $k\_list$) and the number of past time values as a parameter for model building ($t\_p$). The algorithm starts by performing the domain partitioning process. As a partial result, we obtain a list of medoids for each partitioning scheme. In the following step, the time series of each medoid $m$ is divided into two parts, training, and test (latter of size $t\_p$). A predictive model and the in-sample error are computed with this division, denoted by $model$ and $error$, respectively.
+We describe the first two steps in the off-line phase in Algorithm \ref{alg:trainModelsAtMedoids}, assuming that more than one partitioning scheme will be used. As input, it receives the parameters for the domain partitioning ($\mathcal{D}$ and $k\_list$) and the number of pastime values as a parameter for model building ($t\_p$). The algorithm starts by performing the domain partitioning process. As a partial result, we obtain a list of medoids for each partitioning scheme. In the following step, the time series of each medoid $m$ is divided into two parts, training, and test (latter of size $t\_p$). A predictive model and the in-sample error are computed with this division, denoted by $model$ and $error$, respectively.
 
 \begin{algorithm}[h!]
 \caption{Apply a set of partitioning schemes and train models at medoids}\label{alg:trainModelsAtMedoids}
@@ -242,7 +242,7 @@ In this section, we describe the on-line process implemented to compute a spatio
  \item [(b)] A data validation and extraction from the original dataset are performed according to the input parameters. The data processing for the query consists of the extraction of instances for the query region $R$ joint with past time units $t_{p}$, which means that for each point in $R$ exists a univariate time-series with $t_{p}$ values.
  \item [(c)] When processing a spatio-temporal predictive query, initially, we need to determine, for each point in the query region, which predictive models will be used. The model composition is then the resulting set of predictive models used to answer the predictive query with a forecast over the region of interest $R$. 
  
- Here we implement three types of model composition for analysis. Note that we reuse terms from Section \ref{Sec:KnowledgExtraction}. It is done on purpose as the procedure for the model composition is the same but now limited to the subset region $R$. The three model compositions are described as follows:
+ Here, we implement three types of model composition for analysis. Note that we reuse terms from Section \ref{Sec:KnowledgExtraction}. It is done on purpose as the procedure for the model composition is the same but now limited to the subset region $R$. The three model compositions are described as follows:
 
  \begin{itemize}
 	\item Model Composition with Point Predictive Models: For every point in the region of interest $R$, we use a baseline approach to train a predictive model on each point. To compute the forecast and associated forecast error, we use the model on each point.
@@ -297,6 +297,70 @@ In this section, we describe the on-line process implemented to compute a spatio
 \end{algorithm} 
 
 This online procedure described in this section can also be represented in Algorithm \ref{alg:online}. As input, the procedure takes the domain, the query parameters, and the type of model composition listed above. Then, for each element in the query region, the model performs the forecast, and the known in-sample error of the model is attributed. Finally, the MSE of the error is computed to produce the complete query output.
+
+\begin{algorithm}[h!]
+\caption{Load a Model Composition}\label{alg:modelcomp}
+\begin{algorithmic}[1] 
+\Function{load\_composition} {$D, comp\_id, t\_p$}
+
+\State {$model\_comp\ \gets \bot$}
+
+/* Model Composition with Point Predictive Models */
+\If {$is\_point\_composition(comp\_id)$}
+
+    
+    /* Let model at each element predict its own element */
+    \State{$model\_comp\ \gets load\_trained\_models\_each(D, t\_p)$}
+    
+\EndIf
+
+/* Model Composition of Representative Predictive Models */
+\If {$is\_representative\_composition(comp\_id)$}
+
+    /* User needs to supply value for k of partitioning scheme */
+    \State{$k\ \gets get\_k\_for\_request(comp\_id)$}
+    
+    /* Retrieve previously trained models at each representative */
+    \State {$(medoids\_with\_models, D\_part)\ \leftarrow\ load\_models\_at\_medoids(D, k, t\_p)$}
+    
+    \For{$m \in medoids\_with\_models$}
+    
+        /* Retrieve the elements associated to current representative */
+        \State {$cluster\ \gets elements\_represented\_by(m, D\_part)$}
+        
+        /* Let model at current representative predict these elements */
+        \State{$model\_comp\ \gets set\_predictor(cluster, m, model\_comp)$}
+    \EndFor
+
+\EndIf
+
+\If {$is\_classifier\_composition(comp\_id)$}
+
+    /* Retrieve previously trained classifier */
+    \State{$classifier\ \gets load\_trained\_classifier(comp\_id, t\_p)$}
+    
+    /* Classifier uses multiple partitioning schemes */
+    \For{$k \in classifier.k\_list$}
+    
+        /* Retrieve previously trained models at each representative of current k */
+        \State {$(medoids\_with\_models, D\_part)\ \leftarrow\ load\_models\_at\_medoids(D, k, t\_p)$}
+
+        \For{$m \in medoids\_with\_models$}
+        
+            /* Determine label associated to current representative */
+            \State {$medoid\_label\ \gets label\_for\_medoid(k, m, classifier)$}
+            
+            /* Let model at current representative predict elements that match label */
+            \State{$model\_comp\ \gets assign\_predictor(medoid\_label, m, model\_comp)$}
+        \EndFor
+
+    \EndFor
+\EndIf
+
+\State {$Return \ model\_comp$}
+\EndFunction 
+\end{algorithmic} 
+\end{algorithm}
 
 \section{Final Considerations}
 \label{Sec:MethodologySummary}

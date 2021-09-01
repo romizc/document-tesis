@@ -190,7 +190,7 @@
 
 % ---
 % Título
-\titulo{An Spatial-Temporal Aware Model Selection for Time Series Analysis}
+\titulo{A Spatial-Temporal Aware Model Selection for Time Series Analysis}
 % Nome do aluno
 \nomeAutor{Roc\'io Milagros}{Zorrilla Coz}
 % Nome do orientador
@@ -420,7 +420,7 @@
    \flushright
    \noindent
    \textbf{\dedicatorianame\\}
-   \textit{Pensando.....\\} \vspace*{\fill}
+   \textit{To Giacomo and Clarissa, their love and support keep me going.\\} \vspace*{\fill}
 \end{dedicatoria}
 % ---
 
@@ -428,11 +428,11 @@
 % Agradecimentos
 % ---
 \begin{agradecimentos}
-I would like to thank everyone who helped me to conduct this research. Mostly to my supervisors for all the valuable advice and knowledge they shared with me. I am very thankful for the guidance of Prof. Fabio Porto and Prof. Eduardo Ogasawara, under which I have learned a lot about research
+I would like to thank everyone who helped me to conduct this research. Mostly to my supervisors for all the valuable advice and knowledge they shared with me. I am very thankful for the guidance of Prof. Fabio Porto and Prof. Eduardo Ogasawara, under which I have learned a lot about research.
 
-I also need to thank my family for their support, specially Giacomo and Clarissa whom have always pushed me and motivated me throughout this time
+I also need to thank my parents, brother and sisters for their support. Special thanks to Giacomo and Clarissa whom have always pushed me and motivated me throughout this time.
 
-Last but not least, I would like to express my gratitude to the National Laboratory of Scientific Computing (LNCC), the Data Extreme Laboratory (DEXL) for the opportunity.  
+Last but not least, I would like to express my gratitude to the National Laboratory of Scientific Computing (LNCC), and Data Extreme Laboratory (DEXL) for the opportunity. 
 
 \end{agradecimentos}
 % ---
@@ -485,20 +485,20 @@ Um Sistema de Serviço para Predição Espaço-Temporal é uma solução baseada
 \begin{resumo}[Abstract]
  \begin{otherlanguage*}{english}
  %Context
-A Spatio--Temporal Predictive Serving System is a solution based on pre-trained models that enable users to express Predictive Queries. Spatio--temporal Predictive Queries encompass a spatio--temporal region, a predictive variable, and an evaluation metric. The outcome of such query presents the values of the predictive variable on the specified region computed by predictive models while striving to maximize the evaluation metric.
+A Spatio-Temporal Predictive Serving System is a solution based on pre-trained models that enables users to express Predictive Queries. Spatio-temporal Predictive Queries encompass a spatio-temporal region, a predictive variable, and an evaluation metric. The outcome of such query presents the values of the predictive variable on the specified region computed by predictive models while striving to maximize the evaluation metric.
  
  % Motivation
- In Spatio--Temporal domains, where datasets are represented by massive amounts of univariate time--series, traditional data processing, and time--series analysis approaches tend to generate predictive models that aim for predictive accuracy, at the cost of elevated runtime and utilization of computational resources.
+ In Spatio-Temporal domains, where datasets are represented by massive amounts of univariate time-series, traditional data processing, and time-series analysis approaches tend to generate predictive models that aim for predictive accuracy, at the cost of large running times and high utilization of computational resources.
 
  % Proposal
- In this work, we propose a step-by-step methodology for evaluating spatio--temporal predictive queries that aim to reduce the computational workload and time consumed if we were to train a model on each element of a spatio–temporal domain.  It is achieved by carefully choosing the predictive models for inference at each element, given a spatio--temporal predictive query.
+ In this work, we propose a step-by-step methodology for evaluating spatio-temporal predictive queries that aims to reduce the computational workload and time consumed if we were to train a model on each element of a spatio–temporal domain.  It is achieved by carefully choosing the predictive models for inference at each element, given a spatio-temporal predictive query.
  
- Our methodology has three offline steps and an online step: (1) the domain partitioning, based on clustering techniques with representative elements; (2) the generation of temporal predictive models for the representatives; (3) a time series classification process that leverage underlying relationships between representative models and domain partitioning; (4) an online inference process that uses the time series classifier to compose models and compute a spatio--temporal predictive query.
+ Our methodology has three offline steps and an online step: (1) the domain partitioning, based on clustering techniques with representative elements; (2) the generation of temporal predictive models for the representatives; (3) a time series classification process that leverages underlying relationships between representative models and domain partitioning; (4) an online inference process that uses the time series classifier to compose models and compute a spatio-temporal predictive query.
  
  %Results
  In order to evaluate the applicability of the proposed methodology, we use a case study for temperature forecasting using historical data and auto-regressive models. Results from computational experiments show that it is possible to achieve comparable predictive quality using a model composition based on cluster representatives, with a fraction of the computational cost. 
  
-   \textbf{Keywords}: Spatio--Temporal, Time--Series, Time--Series Clustering, Time--Series Classification, Auto--Regressive models.
+   \textbf{Keywords}: Spatio-Temporal, Time--Series, Time--Series Clustering, Time--Series Classification, Auto--Regressive models.
  \end{otherlanguage*}
 \end{resumo}
 
@@ -618,7 +618,7 @@ A Spatio--Temporal Predictive Serving System is a solution based on pre-trained 
 \texInclude{2_theoreticalFoundations}
 \texInclude{3_relatedWorks} 
 \texInclude{4_methodology}
-\texInclude{5_implementation}
+% \texInclude{5_implementation}
 \texInclude{6_experimentalResults}
 %\texInclude{conclusions}
 % ---
@@ -663,29 +663,29 @@ A Spatio--Temporal Predictive Serving System is a solution based on pre-trained 
 % ---
 % Inicia os apêndices
 % ---
-% \begin{apendicesenv}
+\begin{apendicesenv}
 
 % Imprime uma página indicando o início dos apêndices
-% \partapendices
+\partapendices
 
 % Inclusão dos arquivos referentes aos apêndices
 % ----------------------------------------------------------
 
 % Inserir com o Makefile padrão
-%\include{apendiceA}
+% \include{5_implementation}
 %\include{apendiceB}
 %\include{apendiceC}
 
 % ---
 % Alternativa sem o uso do Makefile padrão
-% \texInclude{apendiceA}
+\texInclude{5_implementation}
 % \texInclude{apendiceB}
 % \texInclude{apendiceC}
 % ---
 
 % ----------------------------------------------------------
 
-% \end{apendicesenv}
+\end{apendicesenv}
 % ---
 
 % ----------------------------------------------------------

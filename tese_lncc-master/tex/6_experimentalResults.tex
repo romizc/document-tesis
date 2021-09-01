@@ -1,11 +1,11 @@
 \chapter{Experimental Results}
 \label{chapter_Experimental_Results}
 
-This Chapter is dedicated to describing the experimental validation of the methodology presented in the previous Chapter. Extensive results and analysis are presented to explore each of the steps in the proposed methodology. In particular, we focus on both the robustness of the domain characterization and the accuracy of the results obtained from the spatio-temporal predictive queries. In each case, we employ alternative methods as a baseline for comparing the performance of the proposed approach.
+This chapter is dedicated to describing the experimental validation of the methodology presented in the previous Chapter. Extensive results and analysis are presented to explore each of the steps in the proposed methodology. In particular, we focus on both the robustness of the domain characterization and the accuracy of the results obtained from the spatio-temporal predictive queries. In each case, we employ alternative methods as a baseline for comparing the performance of the proposed approach.
 
 \section{Case Study: Temperature Forecasting}
 
-% Describe dataset
+% TODO Improve description of the dataset
 The case study considered is the forecast of surface temperature, and for that, we consider the CFSR (Climate Forecast System Reanalysis) dataset. It is described extensively in \cite{Saha2010}, here we provide a summary. It is a third-generation reanalysis product; it consists of a high-resolution, global surface system of the coupled ocean-atmosphere-terrestrial surface-sea ice system, covering the period from January 1979 to November 2015. The CFSR includes: (1) coupling of atmosphere and ocean during the generation of kick-off fields every 6 hours; (2) an interactive model of sea ice and; (3) assimilation of satellite radiance from the statistical interpolation scheme by grid points throughout the period. The resolution of the CFSR's global atmosphere is $\sim 38$ km. The global ocean is $0.25$\textdegree at the equator, extending to $0.5$\textdegree in the tropics. 
 
 In the next section, we describe the pre-processing of the dataset and the overall preparation for our proposed methodology. Then, we show how each of the steps is applied to the use case of temperature forecasting, with the corresponding presentation and analysis of the results of each step.
@@ -29,7 +29,7 @@ Once the DTW matrix is computed, it is saved to persistent storage for later ret
 
 Here, we provide a couple of examples highlighting the need for computing the DTW matrix for efficiency by comparing execution times on the same reference hardware. Running our implementation of $k$-medoids without the DTW matrix involves calculating pair-wise DTW distances between candidate medoids and other points until the algorithm converges. Let us first consider a subset of the spatio-temporal region described in the previous section, with only $70$ time series ($7 \times 10$ spatial region). If the DTW matrix is used, running $k$-medoids with $k=8$ on this small region takes less than one second to execute three iterations with a total of $25$ swaps in the candidate medoids; as opposed to $292$ seconds when the DTW matrix is not used. The difference is more dramatic when running $k$-medoids with $k=24$ over the entire region of interest with $8100$ time series: with the DTW matrix, it takes $72.5$ seconds to execute six iterations with a total of $271$ swaps; without the DTW matrix only the first swap took over $4400$ seconds. We need not only to execute $k$-medoids once but many times with different partitioning schemes, and the execution times indicate that this would be unfeasible without the DTW matrix calculated beforehand.
 
-In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix and arrange the data to fit into a 2D grid representing the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} colormap from the \texttt{matplotlib} Python package. With this colormap, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time series.
+In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix and arrange the data to fit into a 2D grid representing the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} color map from the \texttt{matplotlib} Python package. With this color map, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time series.
 
 \begin{figure}[htb]
 	\centering
@@ -154,7 +154,7 @@ In general, we obtained low values for the silhouette score throughout the consi
 	%	\end{minipage}
 \end{figure}
 
-An additional method to find the optimal value for $k$, based on the inflection point, consists of fitting the values of the total sum of intra cluster distances using a cubic smooth spline. We are interested in finding the point where the curvature of the fitted model is the maximum \cite{Akima1970}. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
+An additional method to find the optimal value for $k$, based on the inflection point, consists of fitting the values of the total sum of intra-cluster distances using a cubic smooth spline. We are interested in finding the point where the curvature of the fitted model is the maximum \cite{Akima1970}. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
 
 We argue that this method is more appropriate for our dataset, in contrast to the previous two methods, as it highlights the decreasing trend in the intra-cluster cost as $k$ increased. It was possible because the splines smoothed the small variations that were preventing the other methods from finding a higher value for $k$.
 
@@ -233,7 +233,7 @@ In Step Two of our proposed methodology (Section \ref{Sec:ModelRepresentatives})
     \item Forecast errors in a Model Composition: we look at different ways to select the representative used to create the forecast of each element and aggregate errors using MSE. It is explored in detail in the next section.
 \end{enumerate}
 
-The calculation of the in-sample error corresponds to the `Evaluate In-Sample Error' item presented in Step Two of the methodology (Figure \ref{Fig:OverviewMethodology}). The additional experiments listed above (not included in Chapter \ref{Chapter:Methodology}) are not required to produce a model composition capable of processing predictive queries; but will allow us to assess the accuracy of the models better justify aspects of the methodology. This analysis can be described as creating an intermediate process between Step Two and Step Three (see Figure \ref{Fig:MethodologyExperiments}). 
+The calculation of the in-sample error corresponds to the `Evaluate In-Sample Error' item presented in Step Two of the methodology (Figure \ref{Fig:OverviewMethodology}). The additional experiments listed above (not included in Chapter \ref{Chapter:Methodology}) are not required to produce a model composition capable of processing predictive queries; but will allow us to assess the accuracy of the models and better justify aspects of the methodology. This analysis can be described as creating an intermediate process between Step Two and Step Three (see Figure \ref{Fig:MethodologyExperiments}). 
 
 \begin{figure}[h!]
 	\centering
@@ -264,7 +264,7 @@ To evaluate an ARIMA model $g_{\mathcal{S}^{*}}$ and its predictive power, the s
 here we determine the tuple $(p_{\mathcal{S}^{*}}, d_{\mathcal{S}^{*}}, q_{\mathcal{S}^{*}})$ that determines the model $g_{\mathcal{S}^{*}}$. Then, we take the next $t_p$ data points ($t_p = 8$ in our example) to create the test series $s^{ts}_t = \lbrace s_{349}, \ldots s_{356} \rbrace$.
 %$s^v_t[349:357]$.
 
-The purpose of this split is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{\mathcal{S}^{*}}$ to predict $t_p$ steps and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.  
+The purpose of this split is to obtain the in-sample error ${E^*}$ of the model: this is achieved by using the model $g_{\mathcal{S}^{*}}$ to predict $t_p$ steps and then calculating an associated error using one of the error expressions presented in Section \ref{Sec:ModelRepresentatives}.
 
 \begin{figure}[h!]
 	\centering
@@ -302,14 +302,14 @@ For ARIMA models, we use the sMAPE measure to describe how well a model fits a g
 \subsection{Forecast Error of Models on Representatives}
 \label{Sec:AnalyzeForecastErrors}
 
-The previous section described the process of calculating a multi-step prediction for the future values of a time series, using a predictive model trained at the representative. Given that the out-of-sample interval of length $t_f$ is known from the dataset, we can then present results on evaluating the corresponding forecast error. The analysis will be performed for both $k$-medoids and regular partitioning.
+The previous section described the process of calculating a multi-step prediction for the future values of a time series, using a predictive model trained on the representative. Given that the out-of-sample interval of length $t_f$ is known from the dataset, we can then present results on evaluating the corresponding forecast error. The analysis will be performed for both $k$-medoids and regular partitioning.
 
 We begin by analyzing the forecast errors when using $k$-Medoids as partitioning scheme (which yields the medoids as representatives) and the auto ARIMA procedure as the predictive model. In the case of a $k=8$, we have eight groups with the number of elements in average $1012.5 \pm 1003.807$, representing between the $6.2\%$ and $43\%$ of the domain. It means that there are eight possible predictive models that we can use to make predictions for any element in the domain.
 
 By considering a larger value for the number $k=66$, we create more groups and, therefore, more representatives that generalize better the elements in its group. The partitioning domain result is grouped with an average of $122.727 \pm 49.974$, representing between the $0.2\%$ and $3.4\%$ of the domain. For $k=132$, we obtain groups with elements in average $61.363 \pm 17.913$, representing between the $0.2\%$ and $1.2\%$ of the domain.
 
 % TODO single "Figure" with subfigures?
-To qualify the predictive power of the representative predictor forecast error for each element of its group, we compute the sMAPE error of the prediction from the representative model for each element. We perform an exploratory analysis using scatter plots diagrams that aggregate the sMAPE results, shown in Figures \ref{Fig:DTWsMAPE_k8_c0}-\ref{Fig:DTWsMAPE_k66_c24}. The diagrams show the DTW distance of each element to its medoid in the $x$-axis and the sMAPE forecast errors in the $y$-axis. For different domain partitioning schemes ($k=\{8, 66, 132\}$), we show in the left column the `best' representatives, for which the maximum forecast error is the lowest, and on the right column are the representatives for which the maximum forecast error is the highest.
+To qualify the predictive power of the representative predictor forecast error for each element of its group, we compute the sMAPE error of the prediction from the representative model for each element. We perform an exploratory analysis using scatter plots diagrams that aggregate the sMAPE results, shown in Figures \ref{Fig:DTWsMAPE_k8_c0}-\ref{Fig:DTWsMAPE_k132_c15}. The diagrams show the DTW distance of each element to its medoid in the $x$-axis and the sMAPE forecast errors in the $y$-axis. For different domain partitioning schemes ($k=\{8, 66, 132\}$), we show in the left column the `best' representatives, for which the maximum forecast error is the lowest, and on the right column are the representatives for which the maximum forecast error is the highest.
 % TODO Explicar mejor lo que obtenemos.
 
 % k=8
@@ -326,10 +326,10 @@ To qualify the predictive power of the representative predictor forecast error f
     \caption{Forecast Error with $t_{f}=8$ (for $n=3479$ elements) averaged $0.718 \pm 0.347$.}
     \label{Fig:DTWsMAPE_k8_c4}
   \end{minipage}
-%\end{figure}
+% \end{figure}
 
 % k=66
-%\begin{figure}[!tbp]
+% \begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_k66_c8}
@@ -360,6 +360,7 @@ To qualify the predictive power of the representative predictor forecast error f
   \end{minipage}
 \end{figure}
 
+\newpage
 We can observe that, for each representative considered, there is not a clear correlation between the values of the DTW distance and the forecast error. When we considered all the available data from all the representatives (the axes in all figures was standardized to see this more easily), we can see is that, as $k$ increases, there is a tendency to obtain groups with more similarity between their elements (lower DTW distance) and also the forecast error tends to be lower. It means that each representative from a partitioning scheme with more groups is generally able to make more accurate predictions of the elements in its group.
 
 However, an important observation here is that lower values of $k$ (8, 66) can produce some representatives that offer better predictions than, for example, the `worst' (highest forecast error) representatives of the partitioning scheme with $k=132$. This result justifies the inclusion of the classifier in our methodology because there is potential for improved accuracy when considering representatives from multiple partitioning schemes.
@@ -380,10 +381,10 @@ A similar analysis with scatter plots is performed with the regular partitioning
     \caption{Forecast Error with $t_{f}=8$ (for $n=1080$ elements) averaged $2.330 \pm 0.584$.}
     \label{Fig:DTWsMAPE_r8_g64}
   \end{minipage}
-%\end{figure}
+\end{figure}
 
 % k=66
-%\begin{figure}[!tbp]
+\begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../Figures/distDTW_ForecastError_r66_c54}
@@ -414,6 +415,8 @@ A similar analysis with scatter plots is performed with the regular partitioning
   \end{minipage}
 \end{figure}
 
+\newpage
+
 \section{Predictive Quality of a Model Composition}
 \label{Sec:MedoidsModelComposition}
 
@@ -438,8 +441,8 @@ To summarize the results obtained in the experiments, we compose one table for e
     \item[Col. 1.] Id cluster group.
     \item[Col. 2.] Number of elements in the group.
     \item[Col. 3.] Parameters $(p, d, q)$ corresponding to the ARIMA model on the representative element (medoid or centroid), obtained with the \texttt{auto.ARIMA} routine.
-    \item[Col. 5.] Elapsed time for training all the elements in a cluster group, which corresponds to the naive approach.
-    \item[Col. 4.] Elapsed time for performing a prediction for $t_{f}=8$ future points (for all the elements in the domain).
+    \item[Col. 4.] Elapsed time for training all the elements in a cluster group, which corresponds to the naive approach.
+    \item[Col. 5.] Elapsed time for performing a prediction for $t_{f}=8$ future points (for all the elements in the domain).
     \item[Col. 6-10.] The MSE aggregation of the sMAPE forecast error for predicting the cluster group, using the model compositions listed above.
 \end{description}
 
@@ -496,7 +499,7 @@ In our methodology, we consider train models for $k$ representative elements. Th
 \subsection{Model Composition for a Domain Region}
 \label{Sec:ModelCompositionAggregated}
 
-To further evaluate the forecast error of the `Model Composition of Representative Predictive Models’ approach, we consider the task of predict the next $t_{f}=8$ for a region of the domain of a fixed size. The objective is to qualify the performance of our solution when faced with spatio-temporal predictive queries. For this, we split the domain using a mesh of size 10x10 (See Figure \ref{Fig:Query_10x10_whole_real_brazil}).
+To further evaluate the forecast error of the `Model Composition of Representative Predictive Models’ approach, we consider the task of predicting the next $t_{f}=8$ for a region of the domain of a fixed size. The objective is to qualify the performance of our solution when faced with spatio-temporal predictive queries. For this, we split the domain using a mesh of size 10x10 (See Figure \ref{Fig:Query_10x10_whole_real_brazil}).
 
 \begin{figure}[h]
 	\centering
@@ -525,7 +528,7 @@ The results for the resulting $81$ spatio-temporal domain regions are shown in t
 	\label{Table:Query10x10_kMedoids_Regular_StatSummary}
 \end{table}
 
-In concordance with the results obtained, the predictions computed by the model composition formed by representative models of the $k$-Medoids technique are consistently more accurate than those obtained with the regular approach. To aid in visualizing these results, we show colormaps for the variation of the forecast errors computed in different regions of the domain in Figures \ref{Fig:kMedoid_10x10_k8} to \ref{Fig:Regular_10x10_k132}. Each colormap shows the relative intensity of values captured: we assign a dark blue to the highest forecast error, while those lower in their value will be given a lighter blue. The color palette has been kept constant for all figures for visual comparisons.
+In concordance with the results obtained, the predictions computed by the model composition formed by representative models of the $k$-Medoids technique are consistently more accurate than those obtained with the regular approach. To aid in visualizing these results, we show color maps for the variation of the forecast errors computed in different regions of the domain in Figures \ref{Fig:kMedoid_10x10_k8} to \ref{Fig:Regular_10x10_k132}. Each color map shows the relative intensity of values captured: we assign a dark blue to the highest forecast error, while those lower in their value will be given a lighter blue. The color palette has been kept constant for all figures for visual comparisons.
 
 \begin{figure}[!htbp]
   \centering
@@ -823,4 +826,4 @@ Regarding the forecast analysis, our experiments indicate that the chosen model 
 
 The results from the forecast analysis further support the use of a time-series classifier to try and leverage the potential gains in predictive performance when using multiple partitioning schemes. However, we recognize that the results obtained for the case study considered could be improved by considering a domain with a larger volume of data, and this was demonstrated using performance metrics from the training of the classifier.
 
-Finally, we believe that the way of presenting results from the forecast analysis using colormaps is very convenient in understanding the performance of the models at a glance, and helped identify problematic regions where the loss accuracy is more pronounced. This approach could also be leveraged to apply a different, more refined approach in those areas.
+Finally, we believe that the way of presenting results from the forecast analysis using colormaps is very convenient in understanding the performance of the models at a glance, and helped identify problematic regions where the loss of accuracy is more pronounced. This approach could also be leveraged to apply a different, more refined approach in those areas.

@@ -51,7 +51,7 @@ A commonly used approach for calculating shape-based similarity measures is the 
 
 Given two time series, $\mathcal{S}_{1} =\left(s^{1}_{1}, s^{1}_{2}, \ldots, s^{1}_{n}\right)$ and $\mathcal{S}_{2} = \left(s^{2}_{1}, s^{2}_{2}, \ldots, s^{2}_{m}\right)$, DTW aligns the two series so that their difference is minimized. To this end, an $n \times m$ matrix, known as local cost matrix is computed, where the $(i, j)$ element of the matrix contains the distance $d(s^{1}_{i}, s^{2}_{j})$ between two points $s^{1}_{i}$, and $s^{2}_{j}$. Normally, the Euclidean distance is used here.
 
-Once the local cost matrix is built, the algorithm finds an alignment path which runs through the low-cost area. This warping path defines the correspondence of an element $s^{1}_{i} \in \mathcal{S}_{1}$ to $s^{2}_{j} \in \mathcal{S}_{2}$, following the boundary condition which assigns the first and last elements of $\mathcal{S}_{1}$ and $\mathcal{S}_{2}$ to each other (See Figure \ref{Fig:DTW_warp_path}). Formally, the alignment path or warping path is the sequence $w = w_{1} , w_{2}, \ldots w_{k}, \ldots, w_{K}$ with $\max(m, n) \leq K \leq m + n-1$, where each $w$ is an element that satisfies three constraints: boundary condition, continuity, and monotonicity. 
+Once the local cost matrix is built, the algorithm finds an alignment path which runs through the low-cost area. This warping path defines the correspondence of an element $s^{1}_{i} \in \mathcal{S}_{1}$ to $s^{2}_{j} \in \mathcal{S}_{2}$, following the boundary condition, which assigns the first and last elements of $\mathcal{S}_{1}$ and $\mathcal{S}_{2}$ to each other (See Figure \ref{Fig:DTW_warp_path}). Formally, the alignment path or warping path is the sequence $w = w_{1} , w_{2}, \ldots w_{k}, \ldots, w_{K}$ with $\max(m, n) \leq K \leq m + n-1$, where each $w$ is an element that satisfies three constraints: boundary condition, continuity, and monotonicity. 
 
 \begin{figure}[htb]
 	%\begin{minipage}[b]{0.8\textwidth}
@@ -152,7 +152,7 @@ For Time Series Classification, we consider the data points as the whole time se
 A dataset $D=\{(\mathcal{S}_1,Y_1),(\mathcal{S}_2,Y_2), \ldots ,(\mathcal{S}_N,Y_N)\}$ is a collection of pairs $(\mathcal{S}_i,Y_i)$ where $\mathcal{S}_i$ is univariate time series with $Y_i$ as its corresponding one-hot label vector.  For a dataset containing $k$ classes, the one-hot label vector $Y_i$ is a vector of length $k$ where each element $j \in [1,k]$ is equal to 1 if the class of $X_i$ is $j$ and $0$ otherwise.
 \end{definition}
 
-Traditional classification approaches can provide a basic baseline for solving this underlying time series classification task. However, in the past two decades, research has shown that designing algorithms that can exploit temporal information is very useful to achieve high classification accuracy \cite{Wang2017}. In particular, the use of Deep Learning methods to solve time series classification problems are gaining more adepts due to capacity to work with sequential data \cite{Bagnall2017a, Zhao2017, Zebik2017}.
+Traditional classification approaches can provide a baseline for solving this underlying time series classification task. However, in the past two decades, research has shown that designing algorithms that can exploit temporal information is very useful to achieve high classification accuracy \cite{Wang2017}. In particular, the use of Deep Learning methods to solve time series classification problems are gaining more adepts due to capacity to work with sequential data \cite{Bagnall2017a, Zhao2017, Zebik2017}.
 
 \subsection{Deep Learning for Time Series Classification}
 \label{Sec:DL-TSC}
@@ -210,7 +210,7 @@ The process of a convolution layer can be better explained in the context of ima
 \begin{figure}[htb]
 	%\begin{minipage}[b]{0.8\textwidth}
 	\centering
-	\includegraphics[scale=0.25]{../Figures/1d-cnn}
+	\includegraphics[scale=0.26]{../Figures/1d-cnn}
 	\caption{1D Convolution Network for Time Series \cite{Kim2014}.}
 	\label{Fig:1DCNN}
 	%\end{minipage}
@@ -269,7 +269,9 @@ Thus, an autoregressive (AR) model of order $p$ can be written as
 \begin{equation}
     \label{Eq:AR_p}
     s_{t} = c + \phi_{1} s_{t-1} + \phi_{2} s_{t-2} + \ldots +\phi_{p}s_{t-p} + \varepsilon_{t},
-\end{equation} where $\varepsilon_{t}$ is white noise. This is like a multiple regression but with lagged values of $s_{t}$ as predictors. We refer to this as an AR$(p)$ model, an autoregressive model of order $p$. Autoregressive models are remarkably flexible at handling a wide range of different time series patterns. Changing the parameters $\phi_{1},\ldots, \phi_{p}$ results in different time series patterns. The variance of the error term $\varepsilon_{t}$ will only change the scale of the series, not the patterns.
+\end{equation} 
+
+where $\varepsilon_{t}$ is white noise. This is like a multiple regression but with lagged values of $s_{t}$ as predictors. We refer to this as an AR$(p)$ model, an autoregressive model of order $p$. Autoregressive models are remarkably flexible at handling a wide range of different time series patterns. Changing the parameters $\phi_{1},\ldots, \phi_{p}$ results in different time series patterns. The variance of the error term $\varepsilon_{t}$ will only change the scale of the series, not the patterns.
 
 Rather than using past values of the forecast variable in a regression, a moving average (MA) model uses past forecast errors in a regression-like model. 
 \begin{equation}
@@ -307,7 +309,7 @@ where $k$ is the number of estimated parameters and $\hat{L}$ is the maximum val
 
 Another method considered in this work for time series forecasting is the $k$ Nearest Neighbor (kNN) regression, which is memory-based. In summary, the technique works as follows: Given some explanatory variable of a new instance to be regressed on, $k$NN finds the $k$ training instances that are closest to the new instance according to some distance metric and returns their average explained variable.
 
-When $k$NN is applied to time series forecasting, it is necessary to determine the concrete similarity functions used to find the closest neighbors. Let $\{s_{1}, s_{2}, \ldots, s_{n}\}$ be the series to be analyzed, we search for $k$ subsequences of length $t_p$ inside the given serie, that are closest to the suffix vector $\{s_{n-t_{p}+1},\ldots, s_{t}\}$, with $t_{p} >1$. These $k$-subsequences are of the form: 
+When $k$NN is applied to time series forecasting, it is necessary to determine the concrete similarity functions used to find the closest neighbors. Let $\{s_{1}, s_{2}, \ldots, s_{n}\}$ be the series to be analyzed, we search for $k$ subsequences of length $t_p$ inside the given series, that are closest to the suffix vector $\{s_{n-t_{p}+1},\ldots, s_{t}\}$, with $t_{p} >1$. These $k$-subsequences are of the form: 
 \begin{equation*}
     \{s_{q_{1}}, s_{q_{1}+1}, \ldots, s_{q_{1}+t_{p}-1} \}, \ldots \ldots, \{s_{q{k}}, s_{q_{k}+1}, \ldots, s_{q_{k} + t_{p}-1} \}
 \end{equation*}

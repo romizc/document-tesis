@@ -16,14 +16,18 @@ The spatio-temporal domain is grouped based on the similarity of the temporal ev
 
 An important choice in the approach based on representatives is to select an adequate partitioning scheme (driven by the value of the parameter $k$) that will produce the groups and representatives. Intuitively, we expect that larger values of $k$ will yield smaller and more compact groups so that the predictive model at a representative will provide a more accurate prediction. However, the analysis of the forecast errors that were performed indicates that this is not always the case; smaller values of $k$ may offer more accurate predictive models for some of the elements.
 
-% TODO based on...
-The previous result is the main driver of the classifier that was proposed as part of the methodology: instead of choosing a single partitioning scheme, we allow a set of partitioning schemes ($k = \lbrace 8, 66, 132 \rbrace$) and store all the corresponding predictive models. Our classifier based on TODO can then match a subset (last $t_p$ values) of the temporal series of the element of interest with one of the representatives.
+% TODO based on... -> Neural Network Classifiers for sequential data
+The previous result is the main driver of the classifier that was proposed as part of the methodology: instead of choosing a single partitioning scheme, we allow a set of partitioning schemes ($k = \lbrace 8, 66, 132 \rbrace$) and store all the corresponding predictive models. Our classifier based on a neural network classifier for sequential data can then match a subset (last $t_p$ values) of the temporal series of the element of interest with one of the representatives.
 
 % TODO more?
 To complete the case study, the `offline' process of training predictive models is evaluated with spatio-temporal predictive queries, which can be considered the `online' phase of the methodology and initiated after the training has taken place. Here, the composition method or ensemble of models leveraged to attend to elements of a specific region is a simple and fast process and therefore adequate for the online phase, which requires low response time.
 
 % TODO numbers
-The temporal predictive method used for this space-time phenomenon can present a high degree of accuracy in predicting the phenomenon if a predictive model is generated and evaluated for each element. However, this is computationally expensive and time-consuming. When compared with the approach based on representatives, we find that some predictive quality is lost when evaluating predictive queries (X\% when choosing $k=K$, Y\% when using the classifier). We conclude that our multiclass model composition can produce forecast errors comparable to a naive approach but with a computational efficiency of about two orders of magnitude greater.
+% 85.1052048726467	k=8
+% 15.2270210409745	k=66
+% 11.4617940199336	k=132
+% 45.1949058693245 Classifier (58)
+The temporal predictive method used for this space-time phenomenon can present a high degree of accuracy in predicting the phenomenon if a predictive model is generated and evaluated for each element. However, this is computationally expensive and time-consuming. When compared with the approach based on representatives, we find that some predictive quality is lost when evaluating predictive queries (20\% when choosing $k=66$, 45\% when using the classifier). We conclude that our multiclass model composition can produce forecast errors comparable to a naive approach but with a computational efficiency of about two orders of magnitude greater.
 
 \section{Main Contributions}
 \label{Sec:MainContributions}
@@ -31,7 +35,6 @@ The temporal predictive method used for this space-time phenomenon can present a
 From the proposed methodology and its evaluation, we can extract the following contributions to the relevant lines of research:
 
 \begin{enumerate}
-\item \textbf{A formal description of how a spatio-temporal predictive query can be processed using a composition of predictive models.} This formalization has enabled us to adequately and consistently describe the different processes and components involved in the proposed methodology and corresponding flow of data.
 
 \item \textbf{A comprehensive approach for grouping temporal elements based on their shape can calculate elements that generalize certain regions of the spatio-temporal domain.} By understanding the process of the partitioning scheme based on DTW distances, we were able to implement this step efficiently using parallelization and persistence, and therefore gain a considerable reduction in the computational resources and time required to perform the operations. With experimental analysis using another partitioning scheme as a baseline, we were able to verify the robustness of the proposed partitioning algorithm.
 
