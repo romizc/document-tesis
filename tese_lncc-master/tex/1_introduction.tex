@@ -1,9 +1,13 @@
 \chapter[Introduction]{Introduction}\label{chap_intro}
 
-%%% REVISAR
-The majority of real-world phenomena are spatio-temporal, for example the traffic flow, epidemiological analysis, the diffusion of air pollutants and the regional rainfall. Successfully predicting the future of these spatio-temporal systems based on the past observations is essential for a wide range of scientific studies and real-life applications like traffic management, precipitation nowcasting, and typhoon alert systems.
+    The study of a large number of real-world phenomena, such as the traffic flow, epidemiology, and regional rainfall involves the relationship between the variables of interest and their correlation with space and time. Due to such correlation, they are referred to as spatio-temporal phenomena. Successfully predicting the behavior of spatio-temporal phenomena based on past observations is essential for a wide range of scientific studies and real-life applications like traffic management \cite{Shahriari2020}, precipitation now-casting \cite{Souto2018}, and climate alert systems \cite{Murat2018}.
 
-
+    In support to these applications, traditional data processing, and time-series analysis approaches generate predictive models that aim for predictive accuracy, at the cost of elevated execution time and utilization of computational resources \cite{Hassani2015, Yang2020}. More recently, a new class of systems, known as prediction serving systems has emerged to support trained models scheduling warranting performance and run-time efficiency \cite{Crankshaw2018, Ghanta2019MLHealth, Lee2017, Polyzotis2018}. 
+    
+    Inspired by the tradition of database systems, predictive serving systems are expected to support prediction requests through a declarative query interface \cite{Crankshaw2018}. For spatio-temporal phenomena, the focus of this paper, expressing a predictive query involves specifying spatio-temporal constraints that define a region, a target variable whose values are to be inferred, and an evaluation metric for the execution performance of the predictive query. The outcome of the query then exhibits the target variable's values on the specified region, computed by predictive models that meet the evaluation metric threshold.
+    
+    However, we argue that building a query plan to answer a spatio-temporal predictive query is a hard problem from several perspectives. Among them, we are interested in the model selection and allocation problem: for a given spatio-temporal query region a serving system must compose a solution that selects between training models or picking pre-trained models for each query region spatial position, such that their composition meets the specified performance constraints.
+    
 \section{Motivation}
 \label{Sec:Motivation}
 
@@ -48,8 +52,6 @@ We now highlight some important contributions of this work to the state of the a
 \begin{itemize}
 \item A comprehensive approach for grouping temporal elements based on their shape; this approach can calculate elements that generalize certain regions of the spatio-temporal domain. %A novel approach for model composition in a spatio-temporal domain with high data volume, expressed as a classification problem and supported by a hybrid (machine learning). We validated this approach against a naive baseline and a simpler approach based on a single partitioning scheme. We verified that the solution is viable in an environment for online spatio-temporal predictive queries.
 
-
-
 %By understanding the process of the partitioning scheme based on DTW distances, we were able to implement this step efficiently using parallelization and persistence, and therefore gain a considerable reduction in the computational resources and time required to perform the operations. With experimental analysis using another partitioning scheme as a baseline, we were able to verify the robustness of the proposed partitioning algorithm.
 % To verify this, we compare the intra-cluster sum of both partitioning techniques for several values of $k$.
 
@@ -74,9 +76,9 @@ These contributions stem from the proposed methodology and its evaluation, and w
 \label{Sec:ProblemFormalization}
 
 %% GINO REVISAR
-This formalization enables us to adequately and consistently describe the different processes and components involved in the proposed methodology and corresponding flow of data. The axes $\left(T, X, Y\right)$ represent the spatio-temporal dimensions, where $T$ is the temporal axe for the time index, and $(X,Y)$ indicate the spatial position for the variable(s) of interest, as shown in Figure \ref{fig:time-series}.
+This formalization enables us to adequately and consistently describe the different processes and components involved in the proposed methodology and corresponding flow of data. The axes $\left(T, X, Y\right)$ represent the spatio-temporal dimensions, where $T$ is the temporal axe for the time index, and $(X,Y) \in \mathbb{R}^{2}$ indicate the spatial position for the variable(s) of interest, as shown in Figure \ref{fig:time-series}.
 
-Let $\mathcal{D} = \{(\mathcal{S},( x, y)): \,\, \mathcal{S} = \{s_{0}, s_{1}, s_{2}, \ldots, s_{t}\}$ denote a univariate time-series in the axe $T$, and $(x,y) \in (X,Y)\}$, represent a spatio-temporal domain. Denote by $\mathcal{G} = \{g_{1}, g_{2}, \ldots \}$ the set of temporal predictive models that were trained for different subsets $\mathbf{S} \subseteq \mathcal{D}$. Each predictive model $g\in \mathcal{G}$ is denoted as follows:
+Let $\mathcal{D} = \{(\mathcal{S},( x, y)): \,\, \mathcal{S} = \{s_{1}, s_{2}, \ldots, s_{T}\}$ denote a univariate time-series in the axe $T$, and $(x,y) \in \mathbb{R}^{2}\}$, represent a spatio-temporal domain. Denote by $\mathcal{G} = \{g_{1}, g_{2}, \ldots \}$ the set of temporal predictive models that were trained for different subsets $\mathbf{S} \subseteq \mathcal{D}$. Each predictive model $g\in \mathcal{G}$ is denoted as follows:
 
 \begin{equation}
 \label{eq:ModelDefinition}
@@ -92,7 +94,7 @@ where:
 	\item $\varSigma$: implementation/execution quality metrics.
 \end{itemize}
 %\noindent In Figure \ref{fig:time-series}, we show the elements involved in the formalization of our problem:
-\begin{figure}[htb]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.25]{../Figures/RepresentationTimeSeries}
 	\caption{Predictive Spatio-Temporal Queries.}
@@ -106,16 +108,17 @@ Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle,
 where:
 \begin{itemize}[noitemsep,nolistsep]	
 	\item $R$: represents the size/shape/type of interest region,
-	\item $t_{p}$: $\{s_{t-t_p}, s_{t-t_{p}+1}\ldots, s_{t}\}$ number of steps used for  prediction,
-	\item $t_{f}$: $\{s_{t+1}, \ldots, s_{t+t_f}\}$ number of steps to predict ($n\geq 1$),
+	\item $t_{p}$: $\{s_{T-t_p}, s_{T-t_{p}+1}\ldots, s_{T}\}$ number of steps used for prediction,
+	\item $t_{f}$: $\{s_{T+1}, \ldots, s_{T+t_f}\}$ number of steps to predict ($n\geq 1$),
 	\item $Q_{m}$: represent users quantitative measurements to evaluate the predictive output.
 \end{itemize}
 We are interested in processing this query using the models $g$ in a way that guarantees a degree of accuracy. We formally define our problem: Let the spatio-temporal domain characterization $\mathcal{D} = \bigcup_{i=1}^{n} \mathbf{S_i}$ and $\mathcal{G}$ the set of temporal models for a single element of $\mathbf{S_i}$ that accounts for the in-sample error bounds for the elements in $\mathbf{S_i}$. Given $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$:
 
 \begin{equation}
-\textrm{For all}\, \mathcal{S} \in R: \textrm{Find a\, } g \in \mathcal{G'} \,\,\textrm{such that} \,\, \argminA_{g\in\mathcal{G'}} E_{g}(R).
+\textrm{For all}\, \mathcal{S} \in R: \textrm{Find a\, } g \in \mathcal{G'} \,\,\textrm{such that} \,\, \argminA_{g\in\mathcal{G'}\\t_{train}, t_{eval} \in Q_{m}} \langle MSE \left\{E_{g}(R)\right\}, t_{train}, t_{eval}\rangle .
 \end{equation}
 
+We assume $\langle MSE\left\{E_{g}; \mathit{s}\in R\right\}, t_{train}, t_{eval}\rangle$ as an evaluation metric, bounded by $Q_{m}$. This process can be integrated into a more general query processing framework that is outside the scope of this work. Moreover,  $\mathcal{D}$ is a dataset that is directly processed in \emph{raw} by queries in database systems like \cite{Karpathiotakis2014, Lustosa2020}. 
 %TODO Change the argmin 
 
 

@@ -2,10 +2,10 @@
 \label{Chapter:Methodology}
 
 % Work Objective 
-In this work, we propose a methodology focused on domain partitioning that aims to reduce the computational workload and time consumed if we were to train a model on each point of a spatio-temporal domain. We argue that, by considering several models generated over representative elements of the domain, which generalize the temporal dimension of neighboring elements, it is possible to preserve a predictive quality comparable to the baseline approach of using a model for every element. As a result of applying the proposed methodology, we could process a spatio-temporal predictive query efficiently while maintaining a low error margin in the prediction.
+In this work, we propose a methodology focused on domain partitioning and grouping that aims to reduce the computational workload and time consumed if we were to train a model on each point of a spatio-temporal domain. We argue that, by considering several models generated over representative elements of the domain, which generalize the temporal dimension of neighboring elements, it is possible to preserve a predictive quality comparable to the baseline approach of using a model for every element. As a result of applying the proposed methodology, we could process a spatio-temporal predictive query efficiently while maintaining a low error margin in the prediction.
 
 % Methodology description
-The process described by the methodology is divided into two phases, offline and online. The offline phase comprises three steps: (1) the domain partitioning process, based on clustering partition techniques, to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region. The online phase consists of (4) a mechanism to compute a spatio-temporal predictive query. The methodology is represented by Figure \ref{Fig:OverviewMethodology}. The two main phases are shown in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black, and finally, the corresponding expected products and outputs are shown in red. 
+The process described by the methodology is divided into two phases, offline and online. The offline phase comprises three steps: (1) the domain partitioning process, based on clustering techniques, to find representative elements; (2) the generation of predictive models for the representatives; and (3) a model composition process to predict a subset of the domain region. The online phase consists of (4) a mechanism to compute a spatio-temporal predictive query. The methodology is represented by Figure \ref{Fig:OverviewMethodology}. The two main phases are shown in green, the steps for each phase in blue, the tasks performed in every step of the workflow in black, and finally, the corresponding expected products and outputs are shown in red. 
 
 \begin{figure}[h]
 	\centering
@@ -20,12 +20,12 @@ In Sections \ref{Sec:DomainPartitioning} to \ref{Sec:SpatioTemporalQueryProcessi
 \label{Sec:DomainPartitioning}
 
 % Objective and general description
-The purpose of the domain grouping is to i) find groups with high similarity according to the temporal evolution on a spatio-temporal domain (in particular univariate time-series) and ii) find representatives for each aforementioned group. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
+The purpose of this step is to i) find groups with high similarity according to the temporal evolution on a spatio-temporal domain (in particular univariate time-series) and ii) find representatives for each aforementioned group. We adopt clustering techniques to partition the domain by grouping elements based on a shape similarity measure. 
 
 % Consider a representative element
 We consider two methods for grouping elements that involve obtaining a representative element (which also exists on the domain) for each group. A representative is then said to generalize the temporal dimension of the other elements in the group. It is important to remember that in a clustering algorithm, the number of clusters, the size of clusters, the definition for outliers, and the definition of the similarity among the univariate time-series are all the concepts that depend on the problem (case study) at hand \cite{Aghabozorgi2015}.
 
-For univariate time-series data, we use the shape-based similarity measure in order to leverage similarities in the temporal behavior of the spatio-temporal domain. In particular, we use Dynamic Time Warping (DTW), previously described in Section \ref{sec:ShapeBasedDistance}.
+For univariate time-series data, we use a shape-based similarity measure in order to leverage similarities in the temporal behavior of the spatio-temporal domain. In particular, we use Dynamic Time Warping (DTW), previously described in Section \ref{sec:ShapeBasedDistance}.
 
 % What are the products
 As part of the off-line process, we calculate the distance matrix quantifying the DTW similarity between any two time series on the domain. This process can demand considerable computational power, but efficient calculation is possible using data parallelism by calculating pairwise distances independently and in parallel. Additionally, the distance matrix only needs to be calculated once per domain dataset and saved into persistent storage for future lookups.
@@ -37,11 +37,11 @@ In this work, we consider the following techniques for domain partitioning:
 	
 	The benefits of using $k$-medoids as a clustering algorithm are two-fold. In addition to finding the groups that help minimize local dissimilarity, the algorithm returns a medoid for each group, an existing object. For our methodology, we can leverage the model trained on each medoid and measure the generalization error of this model when applied to other points in the corresponding cluster. A downside of the $k$-medoids approach is that it requires the computation of the distances between many points, which can have order of time complexity $O(n^2)$. To mitigate this problem, we can leverage a previously calculated distance matrix, which can be reused for all $k$-medoids clusters for that region, thereby significantly reducing the time to compute each $k$-medoids partitioning.
 	
-	\item Regular or naive partitioning: The spatio-temporal domain is first divided into $k$ rectangles of the same shape (allowing for irregularities when the dimensions cannot be exactly divided), and then, for each given group, we find the element (centroid) that minimizes the total sum of DTW distances to that element. This partitioning is used as a baseline in our methodology to assess the adequacy of $k$-medoids better. This partitioning has no parameters besides the desired number of groups.
+	\item Regular or naive partitioning: The spatio-temporal domain is first divided into $k$ rectangles of the same shape (allowing for irregularities when the dimensions cannot be exactly divided), and then, for each given group, we find the element (centroid) that minimizes the total sum of DTW distances to that element. This grouping is used as a baseline in our methodology to assess the adequacy of $k$-medoids better. This partitioning has no parameters besides the desired number of groups.
 \end{itemize}
 
 % Representation of partition profile using the problem formalization
-Considering our formal representation in Section \ref{Sec:ProblemFormalization}, we can express the domain partitioning for the spatio-temporal domain $\mathcal{D}$ as follows:
+Considering our formal representation in Section \ref{Sec:ProblemFormalization}, we can express the domain grouping for the spatio-temporal domain $\mathcal{D}$ as follows:
 
 \begin{equation}
 \mathcal{D} = \bigcup_{i=1}^{n} \mathbf{S}_{i},
@@ -59,7 +59,7 @@ When using a clustering technique for high volumes of data and low variability o
 
 The average silhouette is another method that assesses the quality of clustering by measuring how similar a member is to its group compared to other groups \cite{Rousseeuw1987}. The silhouette index is a way to measure how close each point in a cluster is to the points in its neighboring clusters.  Silhouette values lie in the range of $[-1, 1]$. A value close to $+1$ indicate that the sample is far away from its neighboring cluster and very close to the cluster to which it is assigned, meaning it is `well-clustered'. In contrast, a value of $-1$ indicates that the sample is closer to a neighboring cluster than to the cluster to which it is assigned, meaning that it is `misclassified'. A value of $0$ means that it is not clear to which cluster the point should be assigned to. 
 
-In this work, we also consider a more refined procedure to find an optimal value for $k$ using the inflection point (zero second derivative). However, before calculating the second derivative, we apply a cubic smoothing spline to interpolate the values to reduce the noise in the WSS scores. Splines are a smooth and flexible way of fitting Non-linear Models and learning the Non-linear interactions from the data \cite{HastieTF2009}. This approach should give us another suitable value for $k$.
+In this work, we also consider a more refined procedure to find an optimal value for $k$ using the minimum value for the second derivative. However, before calculating the second derivative, we apply a cubic smoothing spline to interpolate the values to reduce the noise in the WSS scores. Splines are a smooth and flexible way of fitting Non-linear Models and learning the Non-linear interactions from the data \cite{HastieTF2009}. This approach should give us another suitable value for $k$.
 
 Comparing partitioning approaches, either with each other or with data, is a common requirement in cluster validation. For example, one might hope that different sub-samples of the same data set, or different methods applied to the data, would give similar results. It can also be considered as an aspect of robustness.
 
@@ -68,10 +68,10 @@ In order to assess the robustness of the $k$-medoids clustering algorithm for cr
 
 In the next section, we describe the methods adopted to build a predictive model for the representative element for every group.
 
-\section{Step 2: Identifying Models for Representatives}
+\section{Step 2: Model Representative Training}
 \label{Sec:ModelRepresentatives}
 
-The main objective in this step is to generate predictive models for the representative elements in a domain partitioning. Using these models, we can compose and select those that correspond to a region of interest.
+The main objective in this step is to generate predictive models for the representative elements in a domain grouping. Using these models, we can compose and select those that correspond to a region of interest.
 
 Predictive models can be generated when a forecasting method is applied over a time series in a spatio-temporal domain. In this work, we consider the following forecast methods: Auto-Regressive Integrated Moving Average (ARIMA) and $k$-Nearest Neighbor ($k$NN) models; these two methods are described in Section \ref{Sec:MethodsTSA}. Working with ARIMA model can offer a good trade-off between the predictive accuracy and computational resources to train and predict. The simpler $k$-Nearest Neighbor model will be used as a baseline for comparing predictive accuracy when we evaluate predictive queries.
 
@@ -92,10 +92,10 @@ Thus, the initial approach of having a generic set of models for a domain has be
 
 As an implementation detail of the offline process, the predictive models are saved to persistent storage with the appropriate metadata (domain, similarity measure, domain partitioning scheme, group index). It will allow us to recover previously generated predictive models when computing a forecast value for a time series. The result of applying a partitioning technique to a domain is also stored to speed up future computations.
 
-% \Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
-% OK 
 We describe the first two steps in the off-line phase in Algorithm \ref{alg:trainModelsAtMedoids}, assuming that more than one partitioning scheme will be used. As input, it receives the parameters for the domain partitioning ($\mathcal{D}$ and $k\_list$) and the number of pastime values as a parameter for model building ($t\_p$). The algorithm starts by performing the domain partitioning process. As a partial result, we obtain a list of medoids for each partitioning scheme. In the following step, the time series of each medoid $m$ is divided into two parts, training, and test (latter of size $t\_p$). A predictive model and the in-sample error are computed with this division, denoted by $model$ and $error$, respectively.
 
+% \Fab{Sugiro que vc inclua um algoritmo formalizando esses passos. A mesma coisa para a parte online. Vou incluir um draft.}
+% OK 
 \begin{algorithm}[h!]
 \caption{Apply a set of partitioning schemes and train models at medoids}\label{alg:trainModelsAtMedoids}
 \begin{algorithmic}[1] 
@@ -138,7 +138,7 @@ We describe the first two steps in the off-line phase in Algorithm \ref{alg:trai
 
 The output of the algorithm is the dataset $D\_out$, which contains the list of partitioning schemes, the positions of the corresponding medoids, along with their respective predictive models and in-sample errors. At a later time, this information can be retrieved by a model composition to use predictive models trained at representatives to create forecasts.
 
-\section{Step 3: Selecting a Model Representative}
+\section{Step 3: Time-Series Classifier Training}
 \label{Sec:KnowledgExtraction}
 
 For a given domain partitioning technique and its predictive models for the representatives, we define a ``model composition'' as the subset of representative models that can compute the prediction/forecast value of the elements in a region of interest on the domain. The model composition computes the RMSE of the forecast error $E_{g^{*}}$ calculated by the models in the intersection $R \cap \bigcup_{i=1}^{k} \mathbf{S}_{i}$ on each element of $R$. 
@@ -166,7 +166,9 @@ As discussed in the previous section, in our problem, we are not considering a u
 \subsection{Preparing a Classifier for Representative Models}
 \label{Sec:Classifier}
 
-In this section and the next, we seek to implement a process that can select predictive models using some intelligence to find a composition of models to predict a region of interest with increased accuracy. The need for this solution will be justified in the next Chapter when we analyze the results of the forecast error analysis for the predictive models trained on representatives. For now, the desired output of the classifier is expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
+In this section and the next, we seek to implement a process that can select predictive models using some intelligence to find a composition of models to predict a region of interest with increased accuracy. The justification to implement this step is based on the intrinsic properties of the spatio-temporal data, the consistency and auto-correlation on nearby points in the domain makes difficult the task of finding an 'optimal' number of groups ($k$). Even when we consider the elements only in the temporal dimension, this difficulty persists \cite{}. In this step, our hypothesis consists in assuming that, if the predictive models on the representatives manage to predict a group of elements (prediction with a certain degree of confidence), based on the similarity of temporal patterns, these models will allow us to reach a prediction for a region of interest of the domain, in which we have only limited information about its past. 
+
+For now, the desired output of the classifier is expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
 
 Here, it is necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past\cite{Chatfield2001}. Thus, to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest.
 

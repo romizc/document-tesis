@@ -7,8 +7,6 @@ Analyzing and studying space-time phenomena through data is a complex task \cite
 
 A predictive serving system \cite{Crankshaw2018} enables users to express queries that specify: a spatio-temporal region $R$, a target variable, and an evaluation metric; and asks about the predictions expected to be inside $R$ after time $t$ based on historical data (or previous knowledge). The common uses for spatio-temporal predictive queries in spatio-temporal data are the support for predictive analytics to answer complex questions involving missing or future values, correlations, and trends, which can be used to identify opportunities or threats \cite{Ghanta022019, Polyzotis2018}. The predictive functionality can help build introspective services that assist in various data and resource management and optimization tasks (offline or online predictive techniques) \cite{DeFilippo2018}.
 
-
-
 In this work, we propose a methodology to perform forecast at scale in a spatio-temporal domain represented by univariate time series. We integrate tools designed for three types of knowledge fields: i) time series clustering and classification; b) time series analysis and forecasting; and c) processing spatio-temporal predictive queries. In this chapter, we review the literature related to different methods and techniques for these tasks, also discussing their applicability which influenced our decisions to select among the available methods. Considering that many works have already been referenced in the previous chapter, these next sections are dedicated to exploring related works in each of these three research areas.
 
 \section{Time Series Clustering and Classification}
@@ -32,7 +30,7 @@ In the field of bioinformatics, the Dynamic Programming (DP) approach for sequen
 
 \subsection{On Time Series Classification}
 
-Time series classification (TSC) algorithms build a classifier from a collection of labeled time series data \cite{Bagnall2017a}. Earlier works on TSC involve classifiers such as the Support Vector Machines \cite{Kampouraki2008, Mitsa2010} and Decision Trees \cite{Douzal2012, Mitsa2010}. 
+Time series classification (TSC) algorithms build a classifier from a collection of labeled time series data \cite{Bagnall2017a}. Earlier works on TSC involve classifiers such as the Support Vector Machines \cite{Kampouraki2008, Mitsa2010} and Decision Trees \cite{Douzal2012, Mitsa2010}.
 
 The application of Neural Network algorithms to solve TSC is becoming very popular and one of its advantages is that it is resistant to noise. The input layer consists of the attributes used in the classification, and the output nodes correspond to the classes \cite{Mitsa2010}. In recent years, Deep learning \cite{Charniak2019, Goodfellow2016} has gained a lot of interest in the machine learning community. It has been very successful in many classification tasks such as computer vision \cite{Krizhevsky2017}, natural language processing (NLP) \cite{Bahdanau2015} and speech recognition \cite{Hinton2012}. These successes have sparked further interest in developing deep learning models for TSC \cite{Wang2017, Fawaz2019}. In fact, many of applications, such as speech recognition and NLP, have been determined to share similarities with TSC tasks \cite{Fawaz2019}.
 
@@ -83,4 +81,4 @@ The framework Clipper \cite{Crankshaw2017} is designed to serve trained models a
 
 Willump \cite{Kraft2019}, improves ML inference performance by leveraging differing query modalities. Assuming ML models are used in higher-level end-to-end user queries in an ML application (compute the top-K predictions for a recommendation model) a query-aware adaptive parallelization.
 
-While our work does not tackle directly all the considerations behind an implementation of a Predictive Serving System, we include some works that support these systems (such as Clipper, Rafiki, Prophet). As a result, we can better understand the requirements behind model composition and model selection, as well as sheding light on how our methodology can be implemented within a Predictive Serving System to serve these purposes in the future.
+While our work does not tackle directly all the considerations behind an implementation of a Predictive Serving System, we include some works that support these systems (such as Clipper, Rafiki, Prophet). As a result, we can better understand the requirements behind model composition and model selection, as well as shedding light on how our methodology can be implemented within a Predictive Serving System to serve these purposes in the future.
