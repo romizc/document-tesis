@@ -161,6 +161,7 @@
 \usepackage{caption}
 \usepackage{dirtree}
 \usepackage{mismath}
+\usepackage{pdfpages}
 \usepackage{tikz}
 \tikzset{hl/.style={
     set fill color=red!10,
@@ -204,7 +205,7 @@
 % Local
 \local{Petrópolis, RJ - Brasil}
 % Data
-\data{May, 2021}
+\data{June, 2021}
 % Instituição
 \instituicao{%
   Laboratório Nacional de Computação Científica
@@ -228,8 +229,8 @@
 %
 % Observação: Ao terminar de escrever sua tese/dissertação e a mesma for aprovada pela comissão de avaliação para a defesa, favor se dirigir a biblioteca.
 % ---
-\codebib{XXX.XXX}
-\codetese{XXXX}
+\codebib{515.243}
+\codetese{Z88s}
 % ---
 
 % ---
@@ -314,51 +315,52 @@
 % com o documento, salve-o como PDF no diretório do seu projeto e substitua todo
 % o conteúdo de implementação deste arquivo pelo comando abaixo:
 %
-% \begin{fichacatalografica}
-%     \includepdf{fig_ficha_catalografica.pdf}
-% \end{fichacatalografica}
-
 \begin{fichacatalografica}
-	\sffamily
-	\vspace*{\fill}					% Posição vertical
-	\begin{center}					% Minipage Centralizado
-	\fbox{
-	\begin{minipage}[c][5cm][t]{1.5cm}
-	\small
-	\imprimirCodeTese
-	\end{minipage}
-	\begin{minipage}[c][8cm][c]{13.5cm}		% Largura
-	\small
-	\imprimirUltimoSobrenome,{ }\imprimirNomeAutor
-	%Sobrenome, Nome do autor
-	
-	\hspace{0.5cm} \imprimirtitulo{ }/ \imprimirautor. --
-	\imprimirlocal, \imprimirdata-
-	
-	\hspace{0.5cm} \pageref{LastPage} p. : il. \pagColoridas ; 30 cm.\\
-	
-	\hspace{0.5cm} \imprimirOrientadoresRotulo~\imprimirorientador
-	{ e }\imprimircoorientador\\
-	
-	\hspace{0.5cm}
-	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
-	\imprimirdata.}\\
-	
-	\hspace{0.5cm}
-		1. Palavra-chave1.
-		2. Palavra-chave2.
-		2. Palavra-chave3.
-		I. \imprimirUltimoSobrenomeOrientador,{ }\imprimirNomeOrientador.
-		II. LNCC/MCTIC.
-		III. \labelTitulo
-
-	\begin{center}
-		CDD: \imprimirCodeBib	
-	\end{center}		
-	\end{minipage}}
-	
-	\end{center}
+    \includepdf{Figures/fichaCatalograficaRMZC}
 \end{fichacatalografica}
+
+% \begin{fichacatalografica}
+% 	\sffamily
+% 	\vspace*{\fill}					% Posição vertical
+% 	\begin{center}					% Minipage Centralizado
+% 	\fbox{
+% 	\begin{minipage}[c][5cm][t]{1.5cm}
+% 	\small
+% 	\imprimirCodeTese
+% 	\end{minipage}
+% 	\begin{minipage}[c][8cm][c]{13.5cm}		% Largura
+% 	\small
+% 	\imprimirUltimoSobrenome,{ }\imprimirNomeAutor
+% 	%Sobrenome, Nome do autor
+	
+% 	\hspace{0.5cm} \imprimirtitulo{ }/ \imprimirautor. --
+% 	\imprimirlocal, \imprimirdata-
+	
+% 	\hspace{0.5cm} \pageref{lastpage} p. : il. \pagColoridas ; 30 cm.\\
+	
+% 	\hspace{0.5cm} \imprimirOrientadoresRotulo~\imprimirorientador
+% 	{ e }\imprimircoorientador\\
+	
+% 	\hspace{0.5cm}
+% 	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
+% 	\imprimirdata.}\\
+	
+% 	\hspace{0.5cm}
+% 		1. Séries temporais.
+% 		2. Espaco-temporal.
+% 		3. Agrupamento de Series Temporais.
+% 		4. Modelos Autoregressivos.
+% 		I. \imprimirUltimoSobrenomeOrientador,{ }\imprimirNomeOrientador.
+% 		II. LNCC/MCTIC.
+% 		III. \labelTitulo
+
+% 	\begin{center}
+% 		CDD: \imprimirCodeBib	
+% 	\end{center}		
+% 	\end{minipage}}
+	
+% 	\end{center}
+% \end{fichacatalografica}
 % ---
 
 % ---
@@ -618,8 +620,7 @@ A Spatio-Temporal Predictive Serving System is a solution based on pre-trained m
 \texInclude{2_theoreticalFoundations}
 \texInclude{3_relatedWorks} 
 \texInclude{4_methodology}
-% \texInclude{5_implementation}
-\texInclude{6_experimentalResults}
+\texInclude{5_experimentalResults}
 %\texInclude{conclusions}
 % ---
 
@@ -634,7 +635,7 @@ A Spatio-Temporal Predictive Serving System is a solution based on pre-trained m
 % Conclusão
 % ---
 %\include{conclusao} % Inserir com o Makefile padrão
-\texInclude{7_conclusions} % Alternativa sem o uso do Makefile padrão
+\texInclude{6_conclusions} % Alternativa sem o uso do Makefile padrão
 % ---
 
 % ----------------------------------------------------------
@@ -678,7 +679,7 @@ A Spatio-Temporal Predictive Serving System is a solution based on pre-trained m
 
 % ---
 % Alternativa sem o uso do Makefile padrão
-\texInclude{5_implementation}
+\texInclude{apendiceA}
 % \texInclude{apendiceB}
 % \texInclude{apendiceC}
 % ---

@@ -6,7 +6,7 @@ This chapter is dedicated to describing the experimental validation of the metho
 \section{Case Study: Temperature Forecasting}
 
 % TODO Improve description of the dataset
-The case study considered is the forecast of surface temperature, and for that, we consider the CFSR (Climate Forecast System Reanalysis) dataset. It is described extensively in \cite{Saha2010}, here we provide a summary. It is a third-generation reanalysis product; it consists of a high-resolution, global surface system of the coupled ocean-atmosphere-terrestrial surface-sea ice system, covering the period from January 1979 to November 2015. The CFSR includes: (1) coupling of atmosphere and ocean during the generation of kick-off fields every 6 hours; (2) an interactive model of sea ice and; (3) assimilation of satellite radiance from the statistical interpolation scheme by grid points throughout the period. The resolution of the CFSR's global atmosphere is $\sim 38$ km. The global ocean is $0.25$\textdegree at the equator, extending to $0.5$\textdegree in the tropics. 
+The case study considered is the forecast of surface temperature, and for that, we consider a subset of the Climate Forecast System Reanalysis (CFSR) dataset, which contains air temperature observations from January 1979 to December 2015 covering the space between 8N-54S latitude and 80W-25W longitude \cite{Saha2010}. CFSR provides a homogeneous grid with four daily temperature observations. We subset this data to include one year of readings in the Brazilian territory, then transform each sequence into the tuple (latitude, longitude, temperature values), where each value corresponds to the average of four daily observations in a grid sequence. The dimensions of the resulting dataset are (90, 90, 365).
 
 In the next section, we describe the pre-processing of the dataset and the overall preparation for our proposed methodology. Then, we show how each of the steps is applied to the use case of temperature forecasting, with the corresponding presentation and analysis of the results of each step.
 
@@ -19,6 +19,8 @@ In total, there are 8100 time series representing the temperature variation for 
 
 All the time series are scaled to pre-process the data further, so the values are bounded in the $[0, 1]$ interval. This scaling process is done independently for each point: we find the minimum and maximum values, then apply a simple scaling function $ t_{scaled} = \frac{t-t_{min}}{t_{max}-t_{min}}$. There are many reasons to apply this scaling function. Most importantly is to allow for offsets when comparing similar temporal trends. It will be especially useful when using a predictor to estimate the future values of a predictive variable: this way, the same predictor can produce different predicted values for each point in the region after applying the inverse scaling function corresponding to each point, even though all the predictions come from the same scaled output.
 
+For all experiments we use a Dell PowerEdge R730 server with 2 Intel Xeon E5-2690 v3 \@ 2.60GHz CPUs, 768GB of RAM, and running Linux CentOS 7.7.1908. 
+
 \section{Calculating the DTW matrix}
 \label{Sec:Calculating_DTW}
 
@@ -29,7 +31,7 @@ Once the DTW matrix is computed, it is saved to persistent storage for later ret
 
 Here, we provide a couple of examples highlighting the need for computing the DTW matrix for efficiency by comparing execution times on the same reference hardware. Running our implementation of $k$-medoids without the DTW matrix involves calculating pair-wise DTW distances between candidate medoids and other points until the algorithm converges. Let us first consider a subset of the spatio-temporal region described in the previous section, with only $70$ time series ($7 \times 10$ spatial region). If the DTW matrix is used, running $k$-medoids with $k=8$ on this small region takes less than one second to execute three iterations with a total of $25$ swaps in the candidate medoids; as opposed to $292$ seconds when the DTW matrix is not used. The difference is more dramatic when running $k$-medoids with $k=24$ over the entire region of interest with $8100$ time series: with the DTW matrix, it takes $72.5$ seconds to execute six iterations with a total of $271$ swaps; without the DTW matrix only the first swap took over $4400$ seconds. We need not only to execute $k$-medoids once but many times with different partitioning schemes, and the execution times indicate that this would be unfeasible without the DTW matrix calculated beforehand.
 
-In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 0)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix and arrange the data to fit into a 2D grid representing the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} color map from the \texttt{matplotlib} Python package. With this color map, darker colors represent lower values of the DTW distance (black means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time series.
+In Figure \ref{Fig:DTW-Distance}, we can observe the variations in the DTW distances for the Brazilian region, using two plots. The DTW distances are actually calculated as a $[x\_len * y\_len, x\_len * y\_len]$ symmetric matrix. Here we use two plots to highlight the distances between the point $(0, 90)$ and all other points (left image), and between the center of the domain and all other points (right image). For the first plot, we retrieve the first row of the DTW matrix and arrange the data to fit into a 2D grid representing the region of interest using indices that match the spatial location of the time series. The distances are represented using colors obtained by applying the default \texttt{viridis} color map from the \texttt{matplotlib} Python package. With this color map, darker colors represent lower values of the DTW distance (dark blue means 0, which is the distance of a point with itself), and the maximum value of the DTW distance is displayed as a bright yellow. These maximum values were $3.19$ (left) and $3.80$ (right) for our dataset with the scaling of the time series.
 
 \begin{figure}[htb]
 	\centering
@@ -154,7 +156,7 @@ In general, we obtained low values for the silhouette score throughout the consi
 	%	\end{minipage}
 \end{figure}
 
-An additional method to find the optimal value for $k$, based on the inflection point, consists of fitting the values of the total sum of intra-cluster distances using a cubic smooth spline. We are interested in finding the point where the curvature of the fitted model is the maximum \cite{Akima1970}. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
+An additional method to find the optimal value for $k$, based on the the minimum value for the second derivative, consists of fitting the values of the total sum of intra-cluster distances using a cubic smooth spline. We are interested in finding the point where the curvature of the fitted model is the maximum \cite{Akima1970}. The results for our dataset are shown in Figure \ref{Fig:SmoothSpline-kMedoids}, and the computed value is $k = 66$.
 
 We argue that this method is more appropriate for our dataset, in contrast to the previous two methods, as it highlights the decreasing trend in the intra-cluster cost as $k$ increased. It was possible because the splines smoothed the small variations that were preventing the other methods from finding a higher value for $k$.
 
@@ -222,23 +224,23 @@ In the following section, we describe the process to generate predictive models 
 \section{Predictive Quality of Models on Representatives}
 \label{Sec:AnalyzePredictorRepresentatives}
 
-This section performs extensive experiments to evaluate the predictive quality of models trained on representative elements (medoid or centroid) for different domain partitioning schemes. One reason to adopt this approach is to accelerate the computationally intensive process involved when considering training models for every element in the domain. The evaluation of their efficiency is also a time consuming process \cite{Hyndman2018}.
+This section performs extensive experiments to evaluate the predictive quality of models trained on representative elements (medoid or centroid) for different domain partitioning sizes. One reason to adopt this approach is to accelerate the computationally intensive process involved when considering training models for every element in the domain. The evaluation of their efficiency is also a time consuming process \cite{Hyndman2018}.
 
 % Predictor ARIMA
 In Step Two of our proposed methodology (Section \ref{Sec:ModelRepresentatives}), we generate an ARIMA model for each representative obtained from the domain partitioning. Once an appropriate time series model has been fit, it may generate forecasts of future observations. To evaluate the forecast accuracy of these models, we consider the following experiments:
 
 \begin{enumerate}
     \item In-sample and forecast errors: we look at a single model and describe how we evaluate the forecast of future predictions by comparing with the actual observational values, using the sMAPE measure.
-    \item Forecast errors in partitioning schemes: we analyze the forecast errors when a predictive model trained in a representative is used to predict the time series of elements of its corresponding group; this is done for many partitioning schemes.
+    \item Forecast errors for a Domain Partitioning: we analyze the forecast errors when a predictive model trained in a representative is used to predict the time series of elements of its corresponding group; this is done for many domain partitioning sizes.
     \item Forecast errors in a Model Composition: we look at different ways to select the representative used to create the forecast of each element and aggregate errors using MSE. It is explored in detail in the next section.
 \end{enumerate}
 
-The calculation of the in-sample error corresponds to the `Evaluate In-Sample Error' item presented in Step Two of the methodology (Figure \ref{Fig:OverviewMethodology}). The additional experiments listed above (not included in Chapter \ref{Chapter:Methodology}) are not required to produce a model composition capable of processing predictive queries; but will allow us to assess the accuracy of the models and better justify aspects of the methodology. This analysis can be described as creating an intermediate process between Step Two and Step Three (see Figure \ref{Fig:MethodologyExperiments}). 
+The calculation of the in-sample error corresponds to the `Evaluate In-Sample Error' item presented in Step Two of the methodology (Figure \ref{Fig:OverviewMethodology}). The additional experiments listed above (not included in Chapter \ref{Chapter:Methodology}) are not required to produce a model composition capable of processing predictive queries; but will allow us to assess the accuracy of the models and better justify aspects of the methodology. This analysis can be described as creating an additional process after Step Two (see Figure \ref{Fig:MethodologyExperiments}). 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.18]{../Figures/Experiements_Methodology_Step2_Step3}
-	\caption{Intermediate Analysis between Steps Two and Three of the Methodology.}
+	\includegraphics[scale=0.18]{Figures/Experiments_Methodology_Step2_Step2.1_corrections}
+	\caption{Predictive Quality Analysis for Model Composition.}
 	\label{Fig:MethodologyExperiments}
 \end{figure}
 
@@ -280,7 +282,7 @@ In order to show this approach in action, we present Figures \ref{Fig:ModelFinal
 
 Given that the prediction intervals are available and the future values ($t_f = 8$) of the temporal series in the domain are known, it is possible to determine whether or not the future values of the series are contained within the prediction intervals, in this way we can qualify the effectiveness of the predictive model in a representative. It is shown in Figure \ref{Fig:ForecastElement1}: in addition to showing the time series of the representative in black and the prediction intervals calculated for the corresponding predictive model, we show the actual time series of a different element in the domain (attributed by the representative) in pink. We can see in this case that all the future values are contained within the prediction interval with $80\%$ level, while most of the time series is also contained inside the $95\%$ level. It gives us a reasonable level of confidence that the predictive model is functioning as a predictor for this element in the interval considered.
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=1]{../Figures/medoid_forecast_fitted}
 	\caption{Example of a fitted ARIMA forecast at a representative with out-of-sample prediction intervals.}
@@ -289,7 +291,7 @@ Given that the prediction intervals are available and the future values ($t_f = 
 \end{figure}
 
 % Add the forecast <
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=1]{../Figures/forecast_element1}
 	\caption{Example of a time series (in pink) and its prediction, using the ARIMA model at its representative from Figure \ref{Fig:ModelFinalToForecast}.}
@@ -501,7 +503,7 @@ In our methodology, we consider train models for $k$ representative elements. Th
 
 To further evaluate the forecast error of the `Model Composition of Representative Predictive Models’ approach, we consider the task of predicting the next $t_{f}=8$ for a region of the domain of a fixed size. The objective is to qualify the performance of our solution when faced with spatio-temporal predictive queries. For this, we split the domain using a mesh of size 10x10 (See Figure \ref{Fig:Query_10x10_whole_real_brazil}).
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.75]{../Figures/query_10x10_whole_real_brazil}
 	\caption{Mesh to consider Spatio-Temporal Predictive Queries with Region of size $10 \times 10$.}
@@ -581,6 +583,77 @@ Experimentally, we observe that for different values of $k$, the composition of 
 
 The advantage of an off-line process is maintaining various domain division schemes, consequently various predictive models. Their representatives are shown as generalizations of various regions in the domain. The next step is to develop a mechanism that considers the composition of models to predict the temperature in a region of interest, considering the entire set of representatives generated by more than one value of $k$.
 
+\subsection{Preparing a Classifier for Model Selection}
+\label{Sec:Classifier}
+
+In this section and the next, we seek to implement a process that can select models using some intelligence to find a composition of models to predict a region of interest with increased accuracy. The justification to implement this step is based on the intrinsic properties of the spatio-temporal data, the consistency and auto-correlation on nearby points in the domain makes difficult the task of finding an 'optimal' number of groups ($k$). Even when we consider the elements only in the temporal dimension, this difficulty persists \cite{Aghabozorgi2015}. In this step, our hypothesis consists in assuming that, if the predictive models on the representatives manage to predict a group of elements (prediction with a certain degree of confidence), based on the similarity of temporal patterns, these models will allow us to reach a prediction for a region of interest of the domain, in which we have only limited information about its past. 
+
+%Introducir la idea del clasificador o porque considero este 
+%For now, the desired output  of the classifier is expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
+For now, the desired output of this step could be expressed as follows: given a known time series, we want to find a representative among many different partitioning schemes, for which its predictive model can produce an adequate forecast.
+
+Here, it is necessary to remember that, when computing the future value of a variable for a time series, we have to consider a range of values in the immediate past\cite{Chatfield2001}. Thus, to create a process for selecting models, we need a mechanism that allows us to find and use relationships between the set of representatives and past temporal instances of every element in the region of interest (See Figure \ref{Fig:model_composition_classifier_diagram}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.15]{../Figures/Experiments_Methodology_Step3}
+	\caption{Model Composition using the Classifier Approach.}
+	\label{Fig:model_composition_classifier_diagram}
+\end{figure}
+
+We formulate this step as a univariate time series multi-class classification problem: Given an unlabeled univariate time series, assign it to one or more predefined classes. We consider the classes to be the identifiers of models computed at the representatives for each cluster. The time series takes part whenever multiple clustering is applied to the domain dataset. Thus, if a time series participates of two clusters, with $k_1$ and $k_2$ respectively, it would have associated two models $g_1$ and $g_2$ as labels. The label is composed with the value $k$ and the group index \texttt{cluster\_index} (c.i) where $0 \leq c.i <k$.
+
+In order to show how we can leverage domain partitioning schemes and their respective representatives, we use the formal representation of the problem (see Section \ref{Sec:ProblemFormalization}). With three different domain partitioning schemes as an example: Given three domain partitioning schemes for a spatio-temporal domain of sizes $m, n$ and $l$ and their respective representative sets, we have:
+\begin{eqnarray} 
+\nonumber
+\mathcal{D}	& = & \bigcup_{i=1}^{m} \mathbf{P_i} \,\,\textrm{and} \,\, \left\{\mathcal{P}_{1}, \ldots, \mathcal{P}_{m}\right\}, \\ \nonumber
+\mathcal{D} & = & \bigcup_{j=1}^{n} \mathbf{Q_j} \,\,\textrm{and} \,\, \left\{\mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}\right\}, \\ \nonumber 
+\mathcal{D} & = & \bigcup_{k=1}^{l} \mathbf{T_k} \,\,\textrm{and} \,\, \left\{\mathcal{T}_{1}, \ldots, \mathcal{T}_{l}\right\},
+\end{eqnarray}
+
+where $m, n, l < \textrm{card}(\mathcal{D})$. The set of representatives on the partitioning schemes considered is $\mathbf{R} = \left\{\mathcal{P}_{i}, \ldots, \mathcal{P}_{m}, \mathcal{Q}_{1}, \ldots, \mathcal{Q}_{n}, \mathcal{T}_{1}, \ldots \mathcal{T}_{l} \right\}$ , and $\mathcal{G}_{(\mathbf{R})}$ is the set of their correspondent models. Now, for an arbitrary element $\mathcal{S}$ in the domain, we want to find a representative $\mathcal{\hat{S}} \in \mathbf{R}$ of some group in a partitioning scheme, so that satisfies some optimization condition. Here we consider the representative $\mathcal{\hat{S}}$ such that has the minimum DTW distance with $\mathcal{S}$:
+
+\begin{equation}\label{eq:timeseries-representative}
+ \exists\, \mathcal{\hat{S}} \in \mathbf{R}, \,\, \textrm{such that}, \,\, \argminA_{\substack{\mathcal{\hat{S}} \in \mathbf{R}\\\mathcal{S} \in \mathcal{D}}} d_{DTW}(\mathcal{\hat{S}}, \mathcal{S}).
+\end{equation}
+
+In order to simplify the notation of the aforementioned relationship (\ref{eq:timeseries-representative}), we denote the representative with a label \texttt{[number\_of\_clusters, cluster\_index]}. Assuming that only the number of clusters is used as a parameter for partitioning schemes, this label can uniquely identify each of the representative models to extract a 'Time Series Classification Dataset ($TSCD$)`, similar to Table \ref{Tab:TSClassificationDataset}.
+
+\begin{table}[h]
+	\centering
+	%	\tiny
+	\begin{tabular}{|c|c|}
+		\hline
+		Time-Series & Label for the Representative Model\\ \hline
+		$\mathcal{S}_{1}$ & \texttt{[m, 1]} \\ \hline
+		$\mathcal{S}_{2}$ & \texttt{[l, l-1]} \\ \hline
+		$\mathcal{S}_{3}$ & \texttt{[n, n-2]} \\ \hline
+		$\mathcal{S}_{4}$ & \texttt{[l, 2]} \\ \hline
+		$\mathcal{S}_{5}$ & \texttt{[m, m-1]} \\ \hline
+		$\vdots$ & $\vdots$ \\ \hline
+	\end{tabular}
+	\caption{Dataset of time series and labels satisfying relationship (\ref{eq:timeseries-representative}) for domain partitioning sizes $(m,n,l)$.}
+	\label{Tab:TSClassificationDataset}
+\end{table}
+
+\subsection{Training a Classifier for Model Selection}
+\label{Sec:TrainingClassifier}
+
+% Idea of Classifier
+For the second part of the model selection process, we are interested in implementing a mechanism based on the knowledge acquired on an extracted dataset $TSCD$ (Table \ref{Tab:TSClassificationDataset}). The objective is, given a previously unseen time series, to infer a suitable label (and thus a predictive model on a representative) for it by recognizing patterns in the time series. It can be formulated as a time-series classification problem, which consists of training a classifier on a dataset $TSCD$ in order to map from the space of possible inputs to a probability distribution over the class variable values (labels).  
+
+With the proposed classification method, we will be able to learn from data about the membership relation between elements of the domain and representatives, and then use this learned knowledge to classify new time series. A dataset $TSCD=\{(\mathcal{S}_1,y_1),(\mathcal{S}_2,y_2), \ldots ,(\mathcal{S}_N,y_N)\}$ is a collection of pairs $(\mathcal{S}_i,y_i)$ where $\mathcal{S}_i$ is univariate time series with $y_i$ as its corresponding one-hot label vector of the labels \cite{Gulli2017}. For a dataset containing $m+n+l$ classes, the one-hot label vector $y_i$ is a vector of length $m+n+l$ where each element $j \in [1,(m+n+l)]$ is equal to 1 if the class of $X_i$ is $j$ and $0$ otherwise \cite{Mitsa2010}.
+
+% Multiclass classifier
+The task of time series classification is not a simple one. Considering the sequential aspect of time series data requires the development of algorithms that can harness this temporal property to select a class label from among a collection of candidates. While many neural network architectures can solve this problem, some work better than others \cite{Bagnall2017a}.
+
+In this work, we use Convolutional Neural Networks (CNNs). They typically fare very well on multiclass classification tasks, especially for images and text \cite{Goodfellow2016}. The powerful learning ability of deep CNN is primarily due to multiple feature extraction stages that can automatically learn representations from the data. Research has shown that using CNNs for time series classification has several advantages over other methods; they are highly noise-resistant models. They can extract very informative, deep features independent of time \cite{Wang2016, Bagnall2017a, Zhao2017}.
+
+% https://monkcage.github.io/blog/ai/2019/01/28/time_series_forecast.html
+% CNN-LSTM for Time Series Classification
+Another architecture is the Long-Short Term Memory Neural Networks (LSTM). The benefit of this model is that it can support very long input sequences. By implementing a hybrid CNN-LSTM Neural Network, we can integrate the capacity of process time series as blocks or sub-sequences by the CNN model, then pieced together by the LSTM model. Then the model will further divide each sample into further sub-sequences. The CNN model will interpret each sub-sequence, and the LSTM will piece together the interpretations from the sub-sequences. 
+
+% TODO we got what we wanted, a system that can receive a time series as input, and return a representative model as output.
 \section{Building a Classifier}
 \label{Sec:ExperimentsTrainingClassifier}
 
@@ -691,8 +764,6 @@ The results of training the classifier models with different architectures are s
 
 From now on, we will consider only the last model in table \ref{Table:DLModels} (CNN1D-LSTM hybrid model with 0.0001 learning rate) that presented the highest accuracy (metric to measure the performance of the model) among the models tested. 
 
-% \Fab{essas figuras estão invadindo a subseção 5.2.8. seria bom se pudessem ficar na anterior.}
-% OK. 
 \begin{figure}[!tbp]
   \centering
   \begin{minipage}[b]{0.45\textwidth}
@@ -736,15 +807,90 @@ This section shows the experiments and results for the online procedure implemen
 \subsection{Evaluating Spatio-Temporal Predictive Queries}
 \label{Sec:ExperimentsQueries}
 
-Recalling Figure \ref{Fig:OnLineQP}, the process to evaluate a spatio-temporal predictive query is composed of four steps: i) receive a query, ii) data validation, iii) perform model composition; and iv) retrieve query result. The data validation consists of extracting elements from the domain corresponding to the query region with the $t_p$ instances. We denote this as $[R \times t_{p}]$. Next, the model composition computes the MSE of the forecast for the $t_{f}$ future values over the region of interest $R$. The output of the query has the forecast and a numeric value representing the MSE of the forecast error (we use the approach in \ref{sec:InSampleForecastErrors} to calculate the error for each element). 
+The process to evaluate a spatio-temporal predictive query is composed of four steps: i) receive a query, ii) data validation, iii) perform model composition; and iv) retrieve query result. The previous section consider the implementation of a classifier for the model composition process, an updated version of the prediction query process is represented in Figure \ref{Fig:OnLineQP_Update} The data validation consists of extracting elements from the domain corresponding to the query region with the $t_p$ instances. We denote this as $[R \times t_{p}]$. Next, the model composition computes the MSE of the forecast for the $t_{f}$ future values over the region of interest $R$. The output of the query has the forecast and a numeric value representing the MSE of the forecast error (we use the approach in \ref{sec:InSampleForecastErrors} to calculate the error for each element). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{../Figures/Query_Processing}
+	\caption{Updated On-Line Processing Spatio-Temporal Predictive Query}
+	\label{Fig:OnLineQP_Update}
+\end{figure}
 
 As previously established in Section \ref{Sec:SpatioTemporalQueryProcessing}, we elaborate experiments for the following model compositions:
 
 \begin{itemize}
 	\item Model Composition with Point Predictive Model: this is the naive approach, in which we train an ARIMA model on each element. Here, we introduce $k$NN as an additional predictive model for comparisons of forecast accuracy, so we obtain two sets of experimental results.
 	\item Model Composition of Representative Predictive Models: for each element, we identify their respective representatives for the $k$-Medoids domain partitioning technique and use the model trained at the corresponding medoid to predict each element in the query region. We continue to consider the three partitioning schemes corresponding to $k=(8, 66, 132)$ like previous experiments.
-	\item Model Composition of Classifier for Predictive Models: for each element in $R$ of size $t_{p}$, the classifier implemented in Section \ref{Sec:ExperimentsTrainingClassifier} receives the time series of length $t_{p}$ as input; as output, we obtain a representative label that corresponds with the predictive model used to make a forecast for the element.
+	\item Model Composition of Classifier for Predictive Models: The solver that calculates the result of a prediction query using the outcome of the time series classifier developed in Section \ref{Sec:TrainingClassifier}. The classifier (implemented in Section \ref{Sec:ExperimentsTrainingClassifier}) is a function that, given an input series of size $t_{p}$, a predetermined suite of partitioning sizes, and a region, returns one of the representatives from any of the partitioning sizes available in the suite. Once the representative is determined, we follow the procedure for the `Model Composition of Representative Predictive Models' described in Section \ref{Sec:KnowledgExtraction}, but limited to the subset region $R$. As output, we obtain a representative label that corresponds with the predictive model used to make a forecast for the element.
+	%It is the main model composition that we wish to evaluate, while the other two are presented for comparisons.
+	%Model Composition of Classifier for Predictive Models: for each element in $R$ of size $t_{p}$, the classifier implemented in Section \ref{Sec:ExperimentsTrainingClassifier} receives the time series of length $t_{p}$ as input; as output, we obtain a representative label that corresponds with the predictive model used to make a forecast for the element.
 \end{itemize}
+
+In the same manner, the algorithm \ref{alg:modelcomp}, will consider the classifier as an option for the model composition process. The algorithm \ref{alg:modelcomp_update}, represents the process:
+
+\begin{algorithm}[h!]
+\caption{Load a Model Composition}\label{alg:modelcomp_update}
+\begin{algorithmic}[1] 
+\Function{load\_composition} {$D, comp\_id, t\_p$}
+
+\State {$model\_comp\ \gets \bot$}
+
+/* Model Composition with Point Predictive Models */
+\If {$is\_point\_composition(comp\_id)$}
+
+    
+    /* Let model at each element predict its own element */
+    \State{$model\_comp\ \gets load\_trained\_models\_each(D, t\_p)$}
+    
+\EndIf
+
+/* Model Composition of Representative Predictive Models */
+\If {$is\_representative\_composition(comp\_id)$}
+
+    /* User needs to supply value for k of partitioning scheme */
+    \State{$k\ \gets get\_k\_for\_request(comp\_id)$}
+    
+    /* Retrieve previously trained models at each representative */
+    \State {$(medoids\_with\_models, D\_part)\ \leftarrow\ load\_models\_at\_medoids(D, k, t\_p)$}
+    
+    \For{$m \in medoids\_with\_models$}
+    
+        /* Retrieve the elements associated to current representative */
+        \State {$cluster\ \gets elements\_represented\_by(m, D\_part)$}
+        
+        /* Let model at current representative predict these elements */
+        \State{$model\_comp\ \gets set\_predictor(cluster, m, model\_comp)$}
+    \EndFor
+
+\EndIf
+
+\If {$is\_classifier\_composition(comp\_id)$}
+
+    /* Retrieve previously trained classifier */
+    \State{$classifier\ \gets load\_trained\_classifier(comp\_id, t\_p)$}
+    
+    /* Classifier uses multiple partitioning schemes */
+    \For{$k \in classifier.k\_list$}
+    
+        /* Retrieve previously trained models at each representative of current k */
+        \State {$(medoids\_with\_models, D\_part)\ \leftarrow\ load\_models\_at\_medoids(D, k, t\_p)$}
+
+        \For{$m \in medoids\_with\_models$}
+        
+            /* Determine label associated to current representative */
+            \State {$medoid\_label\ \gets label\_for\_medoid(k, m, classifier)$}
+            
+            /* Let model at current representative predict elements that match label */
+            \State{$model\_comp\ \gets assign\_predictor(medoid\_label, m, model\_comp)$}
+        \EndFor
+
+    \EndFor
+\EndIf
+
+\State {$Return \ model\_comp$}
+\EndFunction 
+\end{algorithmic} 
+\end{algorithm}
 
 To evaluate the performance of the model compositions above, we consider a forecast with $t_{f} = 8$. It allows us to compute the forecast error because we have the actual values in the dataset (also considered in Section \ref{Sec:AnalyzeForecastErrors}). 
 

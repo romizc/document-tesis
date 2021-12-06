@@ -1,0 +1,92 @@
+\chapter{Using SPTA-TSA for Spatio-Temporal Temperature Dataset}
+\label{apendiceA}
+
+In Chapter \ref{chapter_Experimental_Results}, Section \ref{Sec:SPTA-TSA} we describe the diagrams of classes for the implementation of the SPTA-TSA. In this Appendix we describe the file structure and a user guide to use the SPTA-TSA for the Temperature dataset.
+
+\section{Package File Tree}
+
+As mentioned, the implementation of the package is entirely developed in Python 3 \footnote{Python 3: \url{http://www.python.org}}, the following is the file structure of the code.
+
+\dirtree{%
+	.1 spta-tsa.
+	.2 docs.
+	.3 source.
+	.2 experiments.
+	.3 arima.
+	.3 auto\_arima.
+	.3 baseline.
+	.3 classifier.
+	.3 clustering.
+	.3 metadata.
+	.3 region.
+	.2 lstm.
+%	.2 other.
+	.2 outputs.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd.
+	.4 dtw.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd\_scaled.
+	.4 dtw.
+    .5 regular\_k2.
+	.6 auto-arima-start\_p1-start\_q1-max\_p3-max\_q3-dNone-stepwiseTrue.
+	.5 regular\_k100.
+	.2 pickle.
+	.3 whole\_real\_brazil\_2014\_2014\_1spd\_scaled.
+	.4 dtw.
+	.5 kmedoids\_k100\_seed0\_lite.
+	.2 raw.
+	.2 scripts.
+	.2 spta.
+	.3 arima.
+	.3 classifier.
+	.3 clustering.
+	.3 dataset.
+	.3 dba.
+	.3 distance.
+	.3 kmedoids.
+	.3 model.
+	.3 region.
+	.3 solver.
+	.3 tests.
+	.4 arima.
+	.4 classifier.
+	.4 clustering.
+	.4 model.
+	.4 region.
+	.4 resources.
+	.4 stub.
+	.4 util.
+	.3 util.
+}					
+
+\section{Domain Dataset ETL Operations}
+\label{ap:dataset_extraction}
+
+The dataset provided for the use case, is a dataset in format HDF5 and contains temperature readings for South American continent from year 1975 to 2015. Our experiments and analysis are based on the dataset extracted for one year (2014). 
+
+In a metadata file in the path \texttt{experiments/metadata/region.py}, we make a specification of the region and years to extract from the original dataset:
+\begin{verbatim}
+    region.py
+    ---------
+    'whole_real_brazil_2014_2014_1spd': SpatioTemporalRegionMetadata(
+        'whole_real_brazil', Region(5, 95, 15, 105), year_start=2014, year_end=2014, 
+        spd=1, scaled=False),
+\end{verbatim}
+
+Then, execute the command 
+
+\section{Domain Partitioning}
+\label{ap:domain_partititonig}
+
+Commands to perform the domain partitioning
+
+\section{Generating Representative Predictive Models}
+
+
+\section{Model Composition on Domain Partitioning}
+
+
+\section{Generating Representative Predictive Model Classifier}
+
+
+\section{Spatio--Temporal Predictive Query Execution}
+

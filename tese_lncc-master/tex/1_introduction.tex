@@ -94,7 +94,7 @@ where:
 	\item $\varSigma$: implementation/execution quality metrics.
 \end{itemize}
 %\noindent In Figure \ref{fig:time-series}, we show the elements involved in the formalization of our problem:
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.25]{../Figures/RepresentationTimeSeries}
 	\caption{Predictive Spatio-Temporal Queries.}
@@ -110,15 +110,17 @@ where:
 	\item $R$: represents the size/shape/type of interest region,
 	\item $t_{p}$: $\{s_{T-t_p}, s_{T-t_{p}+1}\ldots, s_{T}\}$ number of steps used for prediction,
 	\item $t_{f}$: $\{s_{T+1}, \ldots, s_{T+t_f}\}$ number of steps to predict ($n\geq 1$),
-	\item $Q_{m}$: represent users quantitative measurements to evaluate the predictive output.
+	\item $Q_{m}$: represent users quantitative metrics to evaluate the predictive output.
 \end{itemize}
-We are interested in processing this query using the models $g$ in a way that guarantees a degree of accuracy. We formally define our problem: Let the spatio-temporal domain characterization $\mathcal{D} = \bigcup_{i=1}^{n} \mathbf{S_i}$ and $\mathcal{G}$ the set of temporal models for a single element of $\mathbf{S_i}$ that accounts for the in-sample error bounds for the elements in $\mathbf{S_i}$. Given $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$:
+We are interested in processing this query using the models $g$ in a way that guarantees a degree of accuracy. We formally define our problem: Let the spatio-temporal domain characterization $\mathcal{D} = \bigcup_{i=1}^{n} \mathbf{S_i}$ and $\mathcal{G}$ the set of temporal models for a single element of $\mathbf{S_i}$ that accounts for the in-sample error bounds for the elements in $\mathbf{S_i}$. 
 
+\newpage
+Given $Q = \langle R, t_{p}, t_{f}, Q_{m} \rangle$, then for each $\mathcal{S} \in R$:
 \begin{equation}
-\textrm{For all}\, \mathcal{S} \in R: \textrm{Find a\, } g \in \mathcal{G'} \,\,\textrm{such that} \,\, \argminA_{g\in\mathcal{G'}\\t_{train}, t_{eval} \in Q_{m}} \langle MSE \left\{E_{g}(R)\right\}, t_{train}, t_{eval}\rangle .
+\textrm{Find a\, } g \in \mathcal{G'} \,\textrm{such that} \, \argminA_{\substack{g\in\mathcal{G'} \\t_{train}, t_{eval} \in Q_{m}}} \langle MSE \left\{E_{g}(R)\right\}, t_{train}, t_{eval}\rangle .
 \end{equation}
 
-We assume $\langle MSE\left\{E_{g}; \mathit{s}\in R\right\}, t_{train}, t_{eval}\rangle$ as an evaluation metric, bounded by $Q_{m}$. This process can be integrated into a more general query processing framework that is outside the scope of this work. Moreover,  $\mathcal{D}$ is a dataset that is directly processed in \emph{raw} by queries in database systems like \cite{Karpathiotakis2014, Lustosa2020}. 
+We assume $\langle MSE\left\{E_{g}; \mathcal{S}\in R\right\}, t_{train}, t_{eval}\rangle$ as an evaluation metric, bounded by $Q_{m}$. This process can be integrated into a more general query processing framework that is outside the scope of this work. Moreover,  $\mathcal{D}$ is a dataset that is directly processed in \emph{raw} by queries in database systems like \cite{Karpathiotakis2014, Lustosa2020}. 
 %TODO Change the argmin 
 
 
